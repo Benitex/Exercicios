@@ -1,4 +1,5 @@
 //Estruturas Condicionais - if
+//Parte 1
 
 //1)	Faça um programa que leia um número e diga se ele é par ou ímpar.
 int x;
@@ -348,7 +349,7 @@ main(){
 	else
 		printf("Nao e possivel formar um triangulo com esses lados.");
 }
-22)	Faça um programa que leia 3 números e diga se eles podem ou não formar um triângulo, caso afirmativo, diga se o triângulo é equilátero, isósceles ou escaleno.
+//22)	Faça um programa que leia 3 números e diga se eles podem ou não formar um triângulo, caso afirmativo, diga se o triângulo é equilátero, isósceles ou escaleno.
 float lado1,lado2,lado3;
 main(){
 	printf("Diga os lados do triangulo.\n");
@@ -426,4 +427,319 @@ main(){
 	if((b%10)==0)
 		contador=contador+1;
 	printf("Sao %d zeros.",contador);
+}
+
+//Parte 2
+
+//1)	Dado três valores A, B e C, faça um programa que verifique se com esses valores é possível fazer um triângulo, e se for possível, diga se o triângulo retângulo = 90°, triângulo obtusângulo >90° ou triângulo acutângulo <90°.
+float A,B,C,maior,menor,meio;
+main(){
+	printf("Diga tres numeros para formar os lados do triangulo.\n");
+	scanf("%f%f%f",&A,&B,&C);
+	if((A>=(B+C))||(B>=(A+B))||(C>=(A+B)))
+		printf("Nao e possivel formar um triangulo com esses lados.");
+	else{
+		maior=A;
+		menor=A;
+		meio=A;
+		if((A!=B)&&(A!=C)&&(C!=B))
+			if(B>maior)
+				maior=B;
+			if(C>maior)
+				maior=C;
+			if(B<menor)
+				menor=B;
+			if(C<menor)
+				menor=C;
+			if((A!=maior)&&(A!=menor))
+				meio=A;
+			if((B!=maior)&&(B!=menor))
+				meio=B;
+			if((C!=maior)&&(C!=menor))
+				meio=C;
+		if((A==B)&&(A!=C))
+			if(C<A)
+				menor=C;
+			else
+				maior=C;
+		if((B==C)&&(B!=A))
+			if(B>A){
+				maior=B;
+				meio=C;
+			}
+			else{
+				meio=C;
+				menor=B;
+			}
+		if((C==A)&&(C!=B))
+			if(B<A)
+				menor=B;
+			else
+				maior=B;
+		if((maior*maior)==((menor*menor)+(meio*meio)))
+			printf("Triangulo retangulo %.2f %.2f %.2f.",maior,meio,menor);
+		else
+			if((maior*maior)<((menor*menor)+(meio*meio)))
+				printf("Triangulo acutangulo %.2f %.2f %.2f.",maior,meio,menor);
+			else
+				printf("Triangulo obtusangulo %.2f %.2f %.2f.",maior,meio,menor);
+	}
+}
+
+//2)	Dado três valores A, B e C, faça um programa que verifique se com esses valores é possível fazer um triângulo, e se um triângulo retângulo, determinar e imprimir seus ângulos internos.
+float A,B,C;
+main(){
+	printf("Diga tres numeros para formar os lados do triangulo.\n");
+	scanf("%f%f%f",&A,&B,&C);
+	if((A>(B+C))||(B>(A+B))||(C>(A+B)))
+		printf("Nao e possivel formar um triangulo com esses lados.");
+	else{
+		if((A>B)&&(A>C)&&(B>C))
+			if((A*A)==((B*B)+(C*C)))
+				printf("O angulo entre %.2f e %.2f vale 90°, entre %.2f e %.2f vale 30° e entre %.2f e %.2f vale 60°. ",B,C,A,B,A,C);
+			else
+				printf("Nao e triangulo retangulo.");
+		if((A>B)&&(A>C)&&(C>B))
+			if((A*A)==((B*B)+(C*C)))
+				printf("O angulo entre %.2f e %.2f vale 90°, entre %.2f e %.2f vale 30° e entre %.2f e %.2f vale 60°. ",B,C,A,C,A,B);
+			else
+				printf("Nao e triangulo retangulo.");
+		if((A>B)&&(A>C)&&(C==B))
+			if((A*A)==((B*B)+(C*C)))
+				printf("O triangulo tem um angulo de 90° entre %.2f e %.2f, e dois outros angulos de 45°",B,C);
+			else
+				printf("Nao e triangulo retangulo.");
+		if((B>A)&&(B>C)&&(A>C))
+			if((B*B)==((A*A)+(C*C)))
+				printf("O angulo entre %.2f e %.2f vale 90°, entre %.2f e %.2f vale 30° e entre %.2f e %.2f vale 60°. ",A,C,B,A,B,C);
+			else
+				printf("Nao e triangulo retangulo.");
+		if((B>A)&&(B>C)&&(C>A))
+			if((B*B)==((A*A)+(C*C)))
+				printf("O angulo entre %.2f e %.2f vale 90°, entre %.2f e %.2f vale 30° e entre %.2f e %.2f vale 60°. ",A,C,B,C,B,A);
+			else
+				printf("Nao e triangulo retangulo.");
+		if((B>A)&&(B>C)&&(A==C))
+			if((B*B)==((A*A)+(C*C)))
+				printf("O triangulo tem um angulo de 90° entre %.2f e %.2f, e dois outros angulos de 45°",A,C);	
+			else
+				printf("Nao e triangulo retangulo.");
+		if((C>A)&&(C>B)&&(A>B))
+			if((C*C)==((A*A)+(B*B)))
+				printf("O angulo entre %.2f e %.2f vale 90°, entre %.2f e %.2f vale 30° e entre %.2f e %.2f vale 60°. ",A,B,C,A,C,B);
+			else
+				printf("Nao e triangulo retangulo.");
+		if((C>A)&&(C>B)&&(B>A))
+			if((C*C)==((A*A)+(B*B)))
+				printf("O angulo entre %.2f e %.2f vale 90°, entre %.2f e %.2f vale 30° e entre %.2f e %.2f vale 60°. ",A,B,C,B,C,A);
+			else
+				printf("Nao e triangulo retangulo.");
+		if((C>A)&&(C>B)&&(A==B))
+			if((C*C)==((A*A)+(B*B)))
+				printf("O triangulo tem um angulo de 90° entre %.2f e %.2f, e dois outros angulos de 45°",A,B);	
+			else
+				printf("Nao e triangulo retangulo.");
+	}
+}
+
+//3)	Faça um programa que leia um número x e calcule e imprima o valor de f(x).
+int x;
+main(){
+	printf("Diga o valor de x.\n");
+	scanf("%d",&x);
+	if(x<=1)
+		printf("f(x)=1");
+	else
+		if(x<=2)
+			printf("f(x)=2");
+		else
+			if(x<=3)
+				printf("f(x)=%d",x*x);
+			else
+				printf("f(x)=%d",x*x*x);
+	
+}
+4)	Faça um programa que leia um número x e calcule e imprima o valor de f(x).
+float x;
+main(){
+	printf("Diga o valor de x.\n");
+	scanf("%f",&x);
+	x=((5*x)+3)/(pow((pow(x,2)-16),0.5));
+	printf("f(x)=%.2f",x);
+}
+ 
+//5)	Faça um programa que a partir da idade e peso do paciente, calcule a dosagem de determinado medicamento e imprima a receita informando quantas gotas do medicamento o paciente deve tomar por dose. Considere que o medicamento em questão possui 500mg por ml, e que cada ml corresponde a 20 gotas.
+int idade;
+float peso, dosagem;
+main(){
+	printf("Diga sua idade e seu peso.\n");
+	scanf("%d%f",&idade,&peso);
+	if((idade>=12)&&(peso>=60))
+		printf("40 gotas.");
+	else
+		if((idade>=12)&&(peso<60))
+			printf("35 gotas.");
+		else{
+			if((peso>=5)&&(peso<=9))
+				printf("5 gotas.");
+			if((peso>=9.1)&&(peso<=16))
+				printf("10 gotas.");
+			if((peso>=16.1)&&(peso<=24))
+				printf("15 gotas.");
+			if((peso>=24.1)&&(peso<=30))
+				printf("20 gotas.");
+			if(peso>30)
+				printf("30 gotas.");	
+		}
+}
+ 
+//6)	Faça um programa que informe o total de calorias de uma refeição a partir do usuário que irá informar o prato, a sobremesa e a bebida. Veja a tabela a seguir. Mostre todas essas opções na tela. 
+int prato, sobremesa, bebida,calorias;
+main(){
+	printf("Esses sao os pratos, sobremesas e bebidas disponiveis:\n================================================================================\n   Pratos: 1- Vegetariano. 2- Peixe. 3- Frango. 4- Carne.\n   Sobremesa: 1- Abacaxi. 2- Sorvete Diet. 3- Mouse Diet. 4- Mouse chocolate.\n   Bebida: 1- Cha. 2- Suco de laranja. 3- Suco de melao. 4- Refrigerante Diet.\n================================================================================\nEscolha seu pedido, informe a numeracao na ordem Prato, Sobremesa, Bebida e diremos as calorias da refeicao.\n");
+	scanf("%d%d%d",&prato,&sobremesa,&bebida);
+	if(prato==1)
+		calorias=calorias+180;
+	if(prato==2)
+		calorias=calorias+230;
+	if(prato==3)
+		calorias=calorias+250;
+	if(prato==4)
+		calorias=calorias+350;
+	if(sobremesa==1)
+		calorias=calorias+75;
+	if(sobremesa==2)
+		calorias=calorias+110;
+	if(sobremesa==3)
+		calorias=calorias+170;
+	if(sobremesa==4)
+		calorias=calorias+200;
+	if(bebida==1)
+		calorias=calorias+20;
+	if(bebida==2)
+		calorias=calorias+70;
+	if(bebida==3)
+		calorias=calorias+100;
+	if(bebida==4)
+		calorias=calorias+65;
+	printf("Seu prato tem %d calorias.",calorias);
+}
+
+//7)	Faça um programa que leia o número correspondente ao mês atual e os dígitos (somente os quatro números) de uma placa de veículo, e através do número finalizador da placa (algarismo da casa das unidades) determine se o IPVA do veículo já venceu, vence no mês corrente ou ainda irá vencer.
+int mes,placa;
+main(){
+	printf("Diga a o mes atual e a placa do seu veiculo.\n");
+	scanf("%d%d",&mes,&placa);
+	placa=placa%10;
+	if(mes>=11)
+		printf("Ja venceu rapa.");
+	else{
+		if(placa==0){
+			if(mes==10)
+				printf("E nesse mes, corre.");
+			if(mes<=9)
+				printf("Ainda falta, ta safe.");
+			if(mes>10)
+				printf("Ja venceu rapa.");
+		}
+		else{
+			if(mes<placa)
+				printf("Ainda falta, ta safe.");
+			if(mes==placa)
+				printf("E nesse mes, corre.");
+			if(mes>placa)
+				printf("Ja venceu rapa.");	
+		}
+	}
+}
+
+//8)	Faça um programa que verifique se um ano é bissexto. Anos divisíveis por 4 e não divisíveis por 100 são bissextos. Anos divisíveis por 400 são bissextos.
+int ano;
+main(){
+	printf("Diga qual e o ano.\n");
+	scanf("%d",&ano);
+	if(((ano%400)==0)||(((ano%4)==0)&&((ano%100)!=0)))
+		printf("E um ano bissexto.");
+	else
+		printf("Nao e um ano bissexto.");
+}
+
+//9)	Faça um programa que leia uma data no formato dd – mm – aaaa. E em seguida escreva qual será o próximo dia, mês e ano.
+int dia,mes,ano;
+main(){
+	printf("Diga qual e o dia, mes e ano, repectivamente.\n");
+	scanf("%d%d%d",&dia,&mes,&ano);
+	if((dia==31)&&(mes==12)){
+		dia=1;
+		mes=1;
+		ano=ano+1;
+	}
+	else
+		if((dia==28)&&(mes==2)&&(((ano%400)==0)||(((ano%4)==0)&&(ano%100)!=0))){
+			dia=29;
+		}
+		else
+			if(((dia==28)&&(mes==2)&&(!(((ano%400)==0)||(((ano%4)==0)&&(ano%100)!=0))))){
+				dia=1;
+				mes=3;
+			}
+			else{
+				if(((dia==31)&&((mes==1)||(mes==3)||(mes==5)||(mes==7)||(mes==8)||(mes==10)))||((dia==30)&&((mes==4)||(mes==6)||(mes==9)||(mes==11)))){
+					dia=1;
+					mes=mes+1;
+				}
+				else
+					dia=dia+1;
+			}
+	if((ano<1)||(mes>12)||(mes<1)||(dia>31)||(dia<1)||((dia==29)&&(mes==2)&&(!(((ano%400)==0)||(((ano%4)==0)&&(ano%100)!=0))))||((dia>=30)&&(mes==2))||((dia==31)&&((mes==4)||(mes==6)||(mes==9)||(mes==11))))
+		printf("Essa data nao existe seu pamonha.");
+	else
+		printf("Amanha e dia %d do mes %d do ano de %d.\n",dia,mes,ano);
+}
+ 
+//10)	Faça um programa que leia dois números binários de 3 dígitos e efetue a soma desses dois números binários.
+int n1,n2,resultado,s;
+main(){
+	printf("Diga os numeros binarios de tres digitos que serao somados.\n");
+	scanf("%d%d",&n1,&n2);
+	if(((n1%10)+(n2%10))==2){
+		resultado=0;
+		s=1;
+	}
+	else
+		if(((n1%10)+(n2%10))==1){
+			resultado=1;
+			s=0;
+		}
+		else{
+			resultado=0;
+			s=0;
+		}
+	if((((n1/10)%10)+((n2/10)%10)+s)==3){
+		resultado=resultado+10;
+		s=1;
+	}
+	else
+		if((((n1/10)%10)+((n2/10)%10)+s)==2)
+			s=1;
+		else
+			if((((n1/10)%10)+((n2/10)%10)+s)==1){
+				resultado=resultado+10;
+				s=0;
+			}
+			else{
+				s=0;
+			}
+	if(((n1/100)+(n2/100)+s)==3)
+		resultado=resultado+1100;
+	else
+		if(((n1/100)+(n2/100)+s)==2)
+			resultado=resultado+1000;
+		else
+			if(((n1/100)+(n2/100)+s)==1)
+				resultado=resultado+100;
+	if((n1>1000)||(n2>100))
+		printf("Esse numero tem mais de 3 casas decimais.");
+	else	
+		printf("%d e o resultado da soma",resultado);
 }
