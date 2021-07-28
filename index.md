@@ -1,11 +1,14 @@
 <html>
     <header>
-        <title>Site teste</title>
+        <title>Site brabo</title>
     </header>
     <body>
-        <h1>Site teste</h1>
+        <h1>Site brabo</h1>
         <p>
-            Site teste para descobrir se vai funcionar na internet.
+            Site na internet, incrível. Vou colocar um texto em latim pra não ficar vazio.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos animi commodi voluptate! Quidem iste incidunt consequatur doloremque magni similique velit obcaecati repudiandae rerum inventore ipsa molestiae sed quisquam, placeat quos.
         </p>
     </body>
 </html>
