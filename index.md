@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="pt-br">
     <header>
         <title>Classical Music</title>
