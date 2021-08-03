@@ -1,14 +1,14 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
     <header>
-        <title>Site brabo</title>
+        <title>Classical Music</title>
     </header>
     <body>
-        <h1>Site brabo</h1>
+        <h1>Classical Music</h1>
+		<h2>Mozart</h2>
         <p>
-            Site na internet, incrível. Vou colocar um texto em latim pra não ficar vazio.
+            Symphony No. 25 in G minor, first movement
         </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos animi commodi voluptate! Quidem iste incidunt consequatur doloremque magni similique velit obcaecati repudiandae rerum inventore ipsa molestiae sed quisquam, placeat quos.
-        </p>
+		<iframe width="560" height="315" src="https://www.youtube.com/embed/7lC1lRz5Z_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </body>
 </html>
