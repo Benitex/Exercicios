@@ -8,6 +8,12 @@ Exercício 1 – Crie uma classe chamada Gato
     B – crie um método chamado miar() que imprima no console: “Gato miando“
 */
 
-public class Exercício1 {
-    
+public class Gato {
+    boolean vivo;
+    String cor,nome;
+    int idade;
+
+    void miar (){
+        System.out.println("Gato miando");
+    }
 }
