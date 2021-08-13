@@ -24,7 +24,7 @@ public class GatoTeste {
         gato3.nome = "Litten";
 
         System.out.println("Nome: "+gato1.nome+"\tCor: "+gato1.cor+"\tIdade: "+gato1.idade+"\tVivo? "+gato1.vivo);
-        System.out.println("Nome: "+gato2.nome+"\tCor: "+gato2.cor+"\tIdade: "+gato1.idade+"\tVivo? "+gato2.vivo);
-        System.out.println("Nome: "+gato3.nome+"\tCor: "+gato3.cor+"\tIdade: "+gato1.idade+"\tVivo? "+gato3.vivo);
+        System.out.println("Nome: "+gato2.nome+"\tCor: "+gato2.cor+"\tIdade: "+gato2.idade+"\tVivo? "+gato2.vivo);
+        System.out.println("Nome: "+gato3.nome+"\tCor: "+gato3.cor+"\tIdade: "+gato3.idade+"\tVivo? "+gato3.vivo);
     }
 }
