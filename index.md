@@ -1,29 +1,35 @@
 <html lang="pt-br">
-    <header>
-        <title>Classical Music</title>
-    </header>
+    <head>
+		<meta charset="utf-8">
+        <title>Neo</title>
+    </head>
     <body>
-        <h1>Classical Music</h1>
-		<h2>Beethoven</h2>
-		<p>Ode an Die Freude (Ode To Joy), Symphony No. 9 in D minor, Op. 125 forth movement</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/-kcOpyM9cBg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<p>Symphony No. 9 in D minor, Op. 125</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/rOjHhS5MtvA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<h2>Mozart</h2>
-        <p>Symphony No. 25 in G minor, first movement</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/7lC1lRz5Z_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<h2>Vivaldi</h2>
-		<p>Four Seasons: Spring (La Primavera)</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/3LiztfE1X7E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<p>Four Seasons: Winter (L'Inverno)</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/ZPdk5GaIDjo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<h2>Tartini</h2>
-		<p>"Devil's Thrill Sonata" Violin Sonata in G minor</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/z7rxl5KsPjs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<h2>Paganini</h2>
-		<p>La campanella</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<p>God Save the King, Op.9</p>
-		<iframe width="560" height="315" src="https://www.youtube.com/embed/PCsiJ_fasDk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	</body>
+        <h1>Neo</h1>
+        <!--<h1> é feito para definir um título, segue a ordem h2, h3, até h6, diminuindo o tamanho da letra, criando um subtítulo.-->
+        <p>
+            <b>Lorem ipsum</b> dolor sit amet consectetur adipisicing elit. Eos animi commodi voluptate!<br>Quidem iste incidunt consequatur doloremque magni similique velit obcaecati repudiandae rerum inventore ipsa molestiae sed quisquam, <em>placeat quos</em>.
+		    <!--<strong> ou <b> podem ser utilizados para colocar o texto em negrito.
+                <em> e <i> podem ser utilizados para colocar o texto em itálico
+                <br> é utilizado como quebra de linha.-->
+        </p>
+        <p><pre>
+                Podemos usar o "pre"
+                para deixar a formatação
+                exatamente como estava 
+                no texto original.
+        </pre></p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <h1>Listas</h1>
+        <h2>Lista não ordenada</h2>
+        <ul>
+            <li>Item 1 &dollar;</li>
+            <li>Item 2 &yen;</li>
+            <!--Podemos utilizar & e um dos simbolos desse site https://dev.w3.org/html5/html-author/charref seguido de um ; para inserir um dos simbolos.-->
+        </ul>
+        <h2>Lista numerada</h2>
+        <ol start="1"><!--Podemos utilizar o start para definir o primeiro número da lista. Também é possível utilizar o reversed para colocar a lista em ordem reversa.-->
+            <li>Item 1</li>
+            <li>Item 2</li>
+        </ol>
+    </body>
 </html>
