@@ -1,12 +1,12 @@
-<!--Benito André Pepe - Página-tutorial de HTML -->
+<!--Página-tutorial de HTML-->
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-		<meta charset="utf-8">
+		<meta charset="utf-8"><!--Isso serve para adicionar caracteres em típicos do português ao site, como o "ç".-->
         <title>Neo</title>
     </head>
     <body>
-        <h1>Neo</h1>
+        <h1>Formatação de texto</h1>
         <!--<h1> é feito para definir um título, segue a ordem h2, h3, até h6, diminuindo o tamanho da letra, criando um subtítulo.-->
         <p>
             <b>Lorem ipsum</b> dolor sit amet consectetur adipisicing elit. Eos animi commodi voluptate!<br>Quidem iste incidunt consequatur doloremque magni similique velit obcaecati repudiandae rerum inventore ipsa molestiae sed quisquam, <em>placeat quos</em>.
@@ -19,13 +19,12 @@
                 para deixar a formatação
                 exatamente como estava 
                 no texto original.
-        </pre></p>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </pre></p>        
         <h1>Listas</h1>
         <h2>Lista não ordenada</h2>
         <ul>
-            <li>Item 1 &dollar;</li>
-            <li>Item 2 &yen;</li>
+            <li>Dólar &dollar;</li>
+            <li>Iene &yen;</li>
             <!--Podemos utilizar & e um dos simbolos desse site https://dev.w3.org/html5/html-author/charref seguido de um ; para inserir um dos simbolos.-->
         </ul>
         <h2>Lista numerada</h2>
@@ -33,5 +32,16 @@
             <li>Item 1</li>
             <li>Item 2</li>
         </ol>
+        <h1>Imagens e vídeos</h1>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!--É possível colocar vídeos do youtube ao entrar na página do vídeo, clicar em compartilhar e escolher "embebed".-->
+        <img src="images/Tijolão.png" alt="Imagem do bárbaro" height="" width="">
+        <!--A tag img é utilizada para inserir imagens na página.
+        O atributo src serve para indicar o local da imagem, o padrão é o mesmo da pasta do documento html.
+        Também é possível colocar imagens diretamente de uma página da internet ou imagens dentro pastas na página ao utilizar o nome da pasta e um /.
+        O atributo alt serve para mostrar um texto caso a imagem não possa ser mostrada adequadamente.
+        Já o atributo height serve para modificar a altura e width para modificar a largura da imagem.
+        -->
+        <img src="https://static1.thegamerimages.com/wordpress/wp-content/uploads/2021/07/Dungeons--Dragons-The-Best-Feats-For-A-Paladin.jpg?q=50&fit=contain&w=750&h=375&dpr=1.5">
     </body>
 </html>
