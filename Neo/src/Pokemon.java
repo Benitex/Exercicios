@@ -10,15 +10,14 @@ public class Pokemon {
         Scanner scanner = new Scanner(System.in);
         while(especieIncluida==false){
             nome=scanner.nextLine();
-            scanner.close();
             especieIncluida=true;
-            if(nome=="Turtwig"){
+            if(nome.equalsIgnoreCase("Turtwig")){
                 vida=55;
                 ataque=10;
                 speed=55;
                 golpe[0]="Tackle";
                 golpe[1]="Growl";
-            }else if(nome=="Bulbasaur"){
+            }else if(nome.equalsIgnoreCase("Bulbasaur")){
                 vida=45;
                 ataque=11;
                 speed=65;
@@ -29,6 +28,7 @@ public class Pokemon {
                 especieIncluida=false;
             }
         }
+        scanner.close();
     }
 
     public void ataque (int vida){
@@ -39,10 +39,10 @@ public class Pokemon {
         Scanner scanner = new Scanner(System.in);
         do{
             golpeEscolhido = scanner.nextInt()-1;
-            scanner.close();
             if (golpeEscolhido<1||golpeEscolhido>4)
                 System.out.println("Escolha um valor entre 1 e 4.");
         }while(golpeEscolhido<1||golpeEscolhido>4);
+        scanner.close();
         System.out.println(nome+" utilizou "+golpeEscolhido);
         if(golpe[golpeEscolhido]=="Tackle")
             vida-=ataque;
