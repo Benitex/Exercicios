@@ -5,9 +5,7 @@ public class Neo {
         boolean continuar = true;
         while(continuar == true){
             Pokemon p1 = new Pokemon();
-            p1.setPokemon();
             Pokemon p2 = new Pokemon();
-            p2.setPokemon();
             while (p1.getVida()>0||p2.getVida()>0){
                 if(p1.getSpeed()>p2.getSpeed()){
                     p1.ataque(p2.getVida());

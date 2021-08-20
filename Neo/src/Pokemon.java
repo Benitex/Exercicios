@@ -4,19 +4,7 @@ public class Pokemon {
     private int vida,ataque,speed;
     private String especie,golpe[]={"Splash","Splash","Splash","Splash"};
 
-    public int getSpeed(){
-        return speed;
-    }
-
-    public int getVida(){
-        return vida;
-    }
-
-    public String getEspecie(){
-        return especie;
-    }
-
-    public void setPokemon() {
+    public Pokemon(){
         boolean especieIncluida=false;
 
         System.out.println("Escolha o pokemon.");
@@ -48,6 +36,16 @@ public class Pokemon {
             golpe[0]="Tackle";
             golpe[1]="Withdraw";
         }
+    }
+
+    public int getSpeed(){
+        return speed;
+    }
+    public int getVida(){
+        return vida;
+    }
+    public String getEspecie(){
+        return especie;
     }
 
     public void ataque (int vida){
