@@ -1,6 +1,6 @@
 <html lang="pt-br">
     <head>
-		<meta charset="utf-8">
+		<meta charset="utf-8"><!--Isso serve para adicionar caracteres em típicos do português ao site, como o "ç".-->
         <title>Neo</title>
     </head>
     <body>
@@ -33,7 +33,7 @@
         <h1>Imagens e vídeos</h1>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <!--É possível colocar vídeos do youtube ao entrar na página do vídeo, clicar em compartilhar e escolher "embebed".-->
-        <img src="images/Tijolão.png" alt="Imagem do bárbaro" height="" width="">
+        <img src="images/Tijolão.png" alt="Imagem do bárbaro" height="426" width="400">
         <!--A tag img é utilizada para inserir imagens na página.
         O atributo src serve para indicar o local da imagem, o padrão é o mesmo da pasta do documento html.
         Também é possível colocar imagens diretamente de uma página da internet ou imagens dentro pastas na página ao utilizar o nome da pasta e um /.
