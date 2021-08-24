@@ -15,11 +15,12 @@
                 <br> é utilizado como quebra de linha.-->
         </p>
         <p><pre>
-                Podemos usar o "pre"
-                para deixar a formatação
-                exatamente como estava
-                no texto original.
+            Podemos usar o "pre"
+            para deixar a formatação
+            exatamente como estava
+            no texto original.
         </pre></p>
+
         <h1>Listas</h1>
         <h2>Lista não ordenada</h2>
         <ul>
@@ -31,11 +32,23 @@
         <ol start="1"><!--Podemos utilizar o start para definir o primeiro número da lista. Também é possível utilizar o reversed para colocar a lista em ordem reversa.-->
             <li>Item 1</li>
             <li>Item 2</li>
+            <ol><!--É possível criar listas dentor de listas-->
+                <li>Item 2.1</li>
+                <li>Item 2.2</li>
+            </ol>
         </ol>
+        <h2>Lista de definição</h2>
+        <dl>
+            <dt>Termo que será definido</dt><!--Aqui ficam os termos definidos, é possível colocar mais <dt>s para representar mais termos.-->
+            <dd>
+                Definição do termo.<!--Aqui ficam as definições dos termos, também é possível colocar mais de uma definição para cada termo.-->
+            </dd>
+        </dl>
+
         <h1>Imagens e vídeos</h1>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <!--É possível colocar vídeos do youtube ao entrar na página do vídeo, clicar em compartilhar e escolher "embebed".-->
-        <img src="images/Tijolão.png" alt="Imagem do bárbaro" height="426" width="400">
+        <img src="html/Images/Tijolão.png" alt="Imagem do bárbaro" height="426" width="400">
         <!--A tag img é utilizada para inserir imagens na página.
         O atributo src serve para indicar o local da imagem, o padrão é o mesmo da pasta do documento html.
         Também é possível colocar imagens diretamente de uma página da internet pelo link da página
