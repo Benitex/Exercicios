@@ -1,19 +1,9 @@
-/*
-Exercício 1 – Crie uma classe chamada Gato
-    A – crie 4 atributos:
-        vivo: boolean //identifica se o animal está vivo
-        cor: String
-        idade: int
-        nome: String
-    B – crie um método chamado miar() que imprima no console: “Gato miando“
-*/
-
-public class Gato {
+public class Cobra {
     boolean vivo;
     private String cor,nome;
     private int idade;
 
-    public Gato() {
+    public Cobra() {
     }
 
     public void setCor(String novaCor) {
@@ -35,7 +25,7 @@ public class Gato {
         return idade;
     }
 
-    public void miar() {
-        System.out.println("Gato miando");
+    public void sibilar() {
+        System.out.println("Cobra sibilando");
     }
 }

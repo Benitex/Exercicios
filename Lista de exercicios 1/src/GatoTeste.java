@@ -5,26 +5,26 @@ Exercício 2 – Crie uma classe chamada GatoTeste com o método main
 */
 public class GatoTeste {
     public static void main(String[] args) {
-        Gato gato1 = new Gato();
+        Leao gato1 = new Leao();
         gato1.vivo = true;
-        gato1.cor = "Branco";
-        gato1.idade = 10;
-        gato1.nome = "Meowth";
+        gato1.setCor("Branco");
+        gato1.setIdade(10);
+        gato1.setNome("Meowth");
 
-        Gato gato2 = new Gato();
+        Leao gato2 = new Leao();
         gato2.vivo = true;
-        gato2.cor = "Cinza";
-        gato2.idade = 7;
-        gato2.nome = "Glameow";
+        gato2.setCor("Cinza");
+        gato2.setIdade(7);
+        gato2.setNome("Glameow");
 
-        Gato gato3 = new Gato();
+        Leao gato3 = new Leao();
         gato3.vivo = false;
-        gato3.cor = "Preto";
-        gato3.idade = 5;
-        gato3.nome = "Litten";
+        gato3.setCor("Preto");
+        gato3.setIdade(5);
+        gato3.setNome("Litten");
 
-        System.out.println("Nome: "+gato1.nome+"\tCor: "+gato1.cor+"\tIdade: "+gato1.idade+"\tVivo? "+gato1.vivo);
-        System.out.println("Nome: "+gato2.nome+"\tCor: "+gato2.cor+"\tIdade: "+gato2.idade+"\tVivo? "+gato2.vivo);
-        System.out.println("Nome: "+gato3.nome+"\tCor: "+gato3.cor+"\tIdade: "+gato3.idade+"\tVivo? "+gato3.vivo);
+        System.out.println("Nome: "+gato1.getNome()+"\tCor: "+gato1.getCor()+"\tIdade: "+gato1.getIdade()+"\tVivo? "+gato1.vivo);
+        System.out.println("Nome: "+gato2.getNome()+"\tCor: "+gato2.getCor()+"\tIdade: "+gato2.getIdade()+"\tVivo? "+gato2.vivo);
+        System.out.println("Nome: "+gato3.getNome()+"\tCor: "+gato3.getCor()+"\tIdade: "+gato3.getIdade()+"\tVivo? "+gato3.vivo);
     }
 }
