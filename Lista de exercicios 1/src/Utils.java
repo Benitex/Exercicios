@@ -10,6 +10,7 @@ public class Utils{
     static double calculaMedia(double a, double b, double c, double d){
         return (a+b+c+d)/4;
     }
+
     static void bhaskara(float a, float b, float c) {
         float delta = ((b*b)-(4*a*c));
         if (delta<0)

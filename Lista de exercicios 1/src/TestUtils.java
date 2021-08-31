@@ -5,9 +5,17 @@ public class TestUtils {
         System.out.println("O que gostaria de fazer?");
         Scanner scanner = new Scanner(System.in);
         String operacao = scanner.nextLine();
-        if (operacao.equalsIgnoreCase("Bhaskara")){
 
+        if (operacao.equalsIgnoreCase("Bhaskara")){
+            System.out.println("Insira o valor de a.");
+            float a = scanner.nextFloat();
+            System.out.println("Insira o valor de b.");
+            float b = scanner.nextFloat();
+            System.out.println("Insira o valor de c.");
+            float c = scanner.nextFloat();
+            Utils.bhaskara(a, b, c);
         }
+
         else if (operacao.equalsIgnoreCase("Media")){
             double n[] = new double[6];
             int quantidade = 1;
@@ -26,6 +34,7 @@ public class TestUtils {
             else if (quantidade == 4)
                 Utils.calculaMedia(n[1], n[2], n[3], n[4]);
         }
+        
         scanner.close();
     }
 }
