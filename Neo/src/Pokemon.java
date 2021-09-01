@@ -4,40 +4,6 @@ public class Pokemon {
     private int vida,ataque,speed;
     private String especie,golpe[]={"Splash","Splash","Splash","Splash"};
 
-    public Pokemon(){
-        boolean especieIncluida=false;
-
-        System.out.println("Escolha o pokemon.");
-        Scanner scanner = new Scanner(System.in);
-        while(especieIncluida == false){
-            especie = scanner.nextLine();
-            if(especie.equalsIgnoreCase("Turtwig")||especie.equalsIgnoreCase("Bulbasaur")){
-                especieIncluida = true;
-                setAtributtes(especie);
-            }else{
-                System.out.println(especie+" não é um dos pokemon disponíveis, por favor insira outro.");
-                especieIncluida=false;
-            }
-        }
-        scanner.close();
-    }
-
-    public void setAtributtes (String nome){
-        if(nome.equalsIgnoreCase("Turtwig")){
-            vida=55;
-            ataque=10;
-            speed=55;
-            golpe[0]="Tackle";
-            golpe[1]="Growl";
-        }else if(nome.equalsIgnoreCase("Bulbasaur")){
-            vida=45;
-            ataque=11;
-            speed=65;
-            golpe[0]="Tackle";
-            golpe[1]="Withdraw";
-        }
-    }
-
     public int getSpeed(){
         return speed;
     }
@@ -46,6 +12,22 @@ public class Pokemon {
     }
     public String getEspecie(){
         return especie;
+    }
+
+    public void setAttributes(String especie){
+        if(especie.equalsIgnoreCase("Turtwig")){
+            vida=55;
+            ataque=10;
+            speed=55;
+            golpe[0]="Tackle";
+            golpe[1]="Growl";
+        }else if(especie.equalsIgnoreCase("Bulbasaur")){
+            vida=45;
+            ataque=11;
+            speed=65;
+            golpe[0]="Tackle";
+            golpe[1]="Withdraw";
+        }
     }
 
     public void ataque (int vida){
