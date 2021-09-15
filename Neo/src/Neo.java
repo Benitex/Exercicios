@@ -42,20 +42,20 @@ public class Neo {
     }
 
     public static void batalha(Pokemon p1, Pokemon p2, Scanner s) {
-        while (p1.vida>0||p2.vida>0){
+        while (p1.getVida()>0||p2.getVida()>0){
             if(p1.getSpeed()>p2.getSpeed()){
-                p1.ataque(p2.vida,s);
-                p2.ataque(p1.vida,s);
+                p2.setVida(p1.ataque(p2.getVida(),s));
+                p1.setVida(p2.ataque(p1.getVida(),s));
             }else{
-                p2.ataque(p1.vida,s);
-                p1.ataque(p2.vida,s);
+                p1.setVida(p2.ataque(p1.getVida(),s));
+                p2.setVida(p1.ataque(p2.getVida(),s));
             }
-            System.out.println("Vida de "+p1.getEspecie()+": "+p1.vida);
-            System.out.println("Vida de "+p2.getEspecie()+": "+p2.vida);
+            System.out.println("Vida de "+p1.getEspecie()+": "+p1.getVida());
+            System.out.println("Vida de "+p2.getEspecie()+": "+p2.getVida());
         }
-        if (p2.vida < 0)
-            System.out.println(p2.getEspecie()+" não consegue mais se mover!\n"+p1.getEspecie()+" venceu!");
+        if (p2.getVida() < 0)
+            System.out.println(p2.getEspecie()+" não consegue mais se mover!\n"+p1.getEspecie()+" venceu!\n");
         else
-            System.out.println(p1.getEspecie()+" não consegue mais se mover!\n"+p2.getEspecie()+" venceu!");
+            System.out.println(p1.getEspecie()+" não consegue mais se mover!\n"+p2.getEspecie()+" venceu!\n");
     }
 }
