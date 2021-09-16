@@ -6,10 +6,10 @@ public class Neo {
         Scanner s = new Scanner(System.in);
         do{
             Pokemon p1 = new Pokemon();
-            Neo.definirPokemon(p1,s);
+            definirPokemon(p1,s);
             Pokemon p2 = new Pokemon();
-            Neo.definirPokemon(p2,s);
-            Neo.batalha(p1, p2, s);
+            definirPokemon(p2,s);
+            batalha(p1, p2, s);
             System.out.println("Gostaria de continuar jogado? (s/n)");
             String resposta;
             do{
@@ -42,7 +42,7 @@ public class Neo {
     }
 
     public static void batalha(Pokemon p1, Pokemon p2, Scanner s) {
-        while (p1.getVida()>0||p2.getVida()>0){
+        while (p1.getVida()>0 && p2.getVida()>0){
             if(p1.getSpeed()>p2.getSpeed()){
                 p2.setVida(p1.ataque(p2.getVida(),s));
                 p1.setVida(p2.ataque(p1.getVida(),s));

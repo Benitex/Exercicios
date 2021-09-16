@@ -2,12 +2,13 @@ import java.util.Scanner;
 
 public class Pokemon {
     private int vida,ataque,speed;
-    private String especie,golpe[]={"Splash","Splash","Splash","Splash"};
+    private String especie,golpe[]={"-","-","-","-"};
+    private String tipo[] = new String[2];
 
-    public void setVida(int vida) {
+    public void setVida(int vida){
         this.vida = vida;
     }
-    public int getVida() {
+    public int getVida(){
         return vida;
     }
     public int getSpeed(){
@@ -17,18 +18,21 @@ public class Pokemon {
         return especie;
     }
 
-    public void setAttributes(String especieEscolhida){
-        especie = especieEscolhida;
-        if(especieEscolhida.equalsIgnoreCase("Turtwig")){
+    public void setAttributes(String especie){
+        this.especie = especie;
+        if(especie.equalsIgnoreCase("Turtwig")){
             vida = 55;
             ataque = 10;
             speed = 55;
+            tipo[0] = "Grass";
             golpe[0] = "Tackle";
             golpe[1] = "Growl";
-        }else if(especieEscolhida.equalsIgnoreCase("Bulbasaur")){
+        }else if(especie.equalsIgnoreCase("Bulbasaur")){
             vida = 45;
             ataque = 11;
             speed = 65;
+            tipo[0] = "Grass";
+            tipo[1] = "Poison";
             golpe[0] = "Tackle";
             golpe[1] = "Withdraw";
         }
