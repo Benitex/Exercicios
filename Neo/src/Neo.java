@@ -1,21 +1,21 @@
 import java.util.Scanner;
 
-public class Neo {
-    public static void main(String[] args) {
+public class Neo{
+    public static void main(String[] args){
         boolean continuar = true;
         Scanner s = new Scanner(System.in);
         do{
-            Pokemon p1 = new Pokemon(verificarEspecie(s));
-            Pokemon p2 = new Pokemon(verificarEspecie(s));
+            Pokemon p1 = new Pokemon(definirEspecie(s));
+            Pokemon p2 = new Pokemon(definirEspecie(s));
             batalha(p1, p2, s);
             System.out.println("Gostaria de continuar jogado? (s/n)");
             String resposta;
             do{
-                resposta =  s.nextLine();
-                if (resposta.equalsIgnoreCase("s")){
+                resposta = s.nextLine();
+                if(resposta.equalsIgnoreCase("s")){
                     System.out.println("Reiniciando.");
                     continuar=true;
-                }else if (resposta.equalsIgnoreCase("n")){
+                }else if(resposta.equalsIgnoreCase("n")){
                     System.out.println("Por favor, insira s para sim ou n para não.");
                     continuar=false;
                 }else
@@ -25,7 +25,7 @@ public class Neo {
         s.close();
     }
 
-    public static String verificarEspecie(Scanner s) {
+    public static String definirEspecie(Scanner s){
         boolean especieIncluida = false;
         String especie = null;
 
@@ -40,7 +40,7 @@ public class Neo {
         return especie;
     }
 
-    public static void batalha(Pokemon p1, Pokemon p2, Scanner s) {
+    public static void batalha(Pokemon p1, Pokemon p2, Scanner s){
         while (p1.getVida()>0 && p2.getVida()>0){
             if(p1.getSpeed()>p2.getSpeed()){
                 p2.setVida(p1.ataque(p2.getVida(),s));
