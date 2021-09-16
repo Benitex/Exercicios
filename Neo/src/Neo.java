@@ -5,10 +5,8 @@ public class Neo {
         boolean continuar = true;
         Scanner s = new Scanner(System.in);
         do{
-            Pokemon p1 = new Pokemon();
-            definirPokemon(p1,s);
-            Pokemon p2 = new Pokemon();
-            definirPokemon(p2,s);
+            Pokemon p1 = new Pokemon(verificarEspecie(s));
+            Pokemon p2 = new Pokemon(verificarEspecie(s));
             batalha(p1, p2, s);
             System.out.println("Gostaria de continuar jogado? (s/n)");
             String resposta;
@@ -27,18 +25,19 @@ public class Neo {
         s.close();
     }
 
-    public static void definirPokemon(Pokemon p, Scanner s){
+    public static String verificarEspecie(Scanner s) {
         boolean especieIncluida = false;
+        String especie = null;
 
         while(especieIncluida == false) {
             System.out.println("Escolha o pokemon.");
-            String especie = s.next();
-            if(especie.equalsIgnoreCase("Turtwig")||especie.equalsIgnoreCase("Bulbasaur")){
+            especie = s.next();
+            if(especie.equalsIgnoreCase("Turtwig")||especie.equalsIgnoreCase("Bulbasaur"))
                 especieIncluida = true;
-                p.setAttributes(especie);
-            }else
+            else
                 System.out.println(especie+" não é um dos pokemon disponíveis, por favor insira outro.");
         }
+        return especie;
     }
 
     public static void batalha(Pokemon p1, Pokemon p2, Scanner s) {

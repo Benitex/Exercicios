@@ -18,7 +18,7 @@ public class Pokemon {
         return especie;
     }
 
-    public void setAttributes(String especie){
+    public Pokemon(String especie){
         this.especie = especie;
         if(especie.equalsIgnoreCase("Turtwig")){
             vida = 55;
@@ -38,7 +38,7 @@ public class Pokemon {
         }
     }
 
-    public int ataque (int vida, Scanner s){
+    public int ataque(int vida, Scanner s){
         int golpeEscolhido;
         
         System.out.println("Escolha o golpe do "+especie+":");
