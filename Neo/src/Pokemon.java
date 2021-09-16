@@ -40,7 +40,7 @@ public class Pokemon {
 
     public int ataque(int vida, Scanner s){
         String golpeEscolhido;
-        int golpeEscolhidoNum = 0;
+        int golpeEscolhidoNum = 5;
         
         System.out.println("Escolha o golpe do "+especie+":");
         System.out.println("1 - "+golpe[0]+"\t2 - "+golpe[1]+"\t3 - "+golpe[2] + "\t4 - "+golpe[3]);
@@ -51,10 +51,11 @@ public class Pokemon {
                     golpeEscolhidoNum = tempo;
                 }
             }
-            if(golpeEscolhido.equalsIgnoreCase("1") || golpeEscolhido.equalsIgnoreCase("2") || golpeEscolhido.equalsIgnoreCase("3") || golpeEscolhido.equalsIgnoreCase("4"))
-                golpeEscolhidoNum = Integer.parseInt(golpeEscolhido) - 1;
-            else
-                System.out.println("Escolha um golpe válido.");
+            if(golpeEscolhidoNum == 5)
+                if(golpeEscolhido.equalsIgnoreCase("1") || golpeEscolhido.equalsIgnoreCase("2") || golpeEscolhido.equalsIgnoreCase("3") || golpeEscolhido.equalsIgnoreCase("4"))
+                    golpeEscolhidoNum = Integer.parseInt(golpeEscolhido) - 1;
+                else
+                    System.out.println("Escolha um golpe válido.");
         }while(golpeEscolhidoNum<0||golpeEscolhidoNum > 3);
         System.out.println(especie+" utilizou "+golpe[golpeEscolhidoNum]);
         if(golpe[golpeEscolhidoNum] == "Tackle")
