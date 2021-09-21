@@ -1,0 +1,12 @@
+/*Para utilizar estilos diferentes em uma página, escolhemos qual tipo de texto será editado colocando as opções entre "{}"*/
+body {
+    background-color: moccasin;/*"background-color" define a cor de fundo.*/
+}
+p {
+    color: saddlebrown;/*"color" define a cor do texto.*/
+    text-align: justify;/*"teext-align" define o alinhamento do texto, justificado, centralizado, etc.*/
+}
+h1, h2 {
+    color: maroon;
+    text-align: center;
+}

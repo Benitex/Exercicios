@@ -3,37 +3,20 @@
 <html lang="pt-br">
     <head>
 		<meta charset="utf-8"><!--Isso serve para adicionar caracteres em típicos do português ao site, como o "ç".-->
+        <link rel="stylesheet" href="css/estilos.css"><!--Para definir o estilo de um arquivo externo, é necessário utilizar a tag link rel definindo o tipo de arquivo e href com o endereço.-->
         <title>Neo</title><!--Título da página no navegador.-->
+        <style>/*Para utilizar estilos diferentes em uma página, utilizamos o <style e escolhemos qual tipo de texto será editado colocando as opções entre "{}"*/
+            table {
+                border: 2px solid maroon;/*"border" define uma borda, normalmente utilizada em tabelas, deve ser escolhida a largura da borda, 2px por exemplo, o tipo de borda e a cor.*/
+                margin-left: 5%;/*"margin" define o espaço antes do parágrafo.*/
+            }
+            th, td {
+                background-color: bisque;
+                border: 1px solid saddlebrown;
+                font-family: 'Arial';/*"font-family" define o tipo de fonte utilizada, Times New Roman e Arial são exemplos.*/
+            }
+        </style>
     </head>
-    
-    <!--Para utilizar estilos diferentes em uma página, utilizamos o <style e escolhemos qual tipo de texto será editado colocando as opções entre "{}""
-        "color" define a cor do texto.
-        "background-color" define a cor de fundo.
-        "teext-align" define o alinhamento do texto, justificado, centralizado, etc.
-        "font-family" define o tipo de fonte utilizada, Times New Roman e Arial são exemplos.
-        "border" define uma borda, normalmente utilizada em tabelas, deve ser escolhida a largura da borda, 2px por exemplo, o tipo de borda e a cor.
-        -->  
-    <style>
-        body {
-            background-color: moccasin;
-        }
-        p {
-            color: saddlebrown;
-            text-align: justify;
-        }
-        h1, h2 {
-            color: maroon;
-            text-align: center;
-        }
-        table {
-            border: 2px solid maroon;
-        }
-        th, td {
-            background-color: bisque;
-            border: 1px solid saddlebrown;
-            font-family: 'Arial';
-        }
-    </style>
 
     <body>
         <h1>Formatação de texto</h1>
@@ -61,6 +44,8 @@
             exatamente como estava
             no texto original.
         </pre></p>
+        
+        <p style="margin-left: 10px;color: red;">Podemos trocar o estilo na própria tag.</p>
 
         <h1>Listas</h1>
         <h2>Lista não ordenada</h2>
