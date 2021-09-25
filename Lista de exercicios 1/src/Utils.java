@@ -1,14 +1,13 @@
 import java.lang.Math;
 
 public class Utils{
-    static double calculaMedia(double x,double y){
-        return (x+y)/2;
-    }
-    static double calculaMedia(double x, double y, double z){
-        return (x+y+z)/3;
-    }
-    static double calculaMedia(double a, double b, double c, double d){
-        return (a+b+c+d)/4;
+    static double calculaMedia(double[] array){
+        int tempo;
+        double soma = 0;
+        for (tempo = 0; tempo < array.length; tempo++) {
+            soma += array[tempo];
+        }
+        return soma/tempo;
     }
 
     static void bhaskara(float a, float b, float c) {

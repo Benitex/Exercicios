@@ -17,22 +17,15 @@ public class TestUtils {
         }
 
         else if (operacao.equalsIgnoreCase("Media")){
-            double n[] = new double[6];
-            int quantidade = 1;
-            while(n[quantidade-1]!=0){
-                if(quantidade<=4){
-                    System.out.println("Insira o "+quantidade+"° número.");
-                    n[quantidade] = scanner.nextDouble();
-                    quantidade++;
-                }else
-                    n[quantidade] = 0;
+            int quantidade = 0;
+            System.out.println("Quantos elementos?");
+            quantidade = scanner.nextInt();
+            double n[] = new double[quantidade];
+            for (int tempo = 0; tempo < n.length; tempo++) {
+                System.out.println("Qual o valor do elemento "+tempo+"?");
+                n[tempo] = scanner.nextDouble();
             }
-            if (quantidade == 2)
-                Utils.calculaMedia(n[1], n[2]);
-            else if (quantidade == 3)
-                Utils.calculaMedia(n[1], n[2], n[3]);
-            else if (quantidade == 4)
-                Utils.calculaMedia(n[1], n[2], n[3], n[4]);
+            System.out.println(Utils.calculaMedia(n));
         }
         
         scanner.close();
