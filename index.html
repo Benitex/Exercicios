@@ -1,98 +1,124 @@
+<!--Página-tutorial de HTML-->
 <!DOCTYPE html>
 <html lang="pt-br">
-	<meta charset="utf-8">
-	<head>
-		<meta charset="utf-8">
-		<link rel="stylesheet" href="css/lobil.css">
-		<title>Lobil, o lobo solitário</title>
-	</head>
+    <head>
+        <meta charset="utf-8"><!--Isso serve para adicionar caracteres em típicos do português ao site, como o "ç".-->
+        <title>Página-tutorial de HTML</title><!--Título da página no navegador.-->
 
-	<body>
-		<audio src="Audio/The Wolven Storm by Fabio Lima.mp3" controls></audio>
-		<a name="Lobil"><h2>Lobil, o lobo solitário</h2></a>
-		
-		<p>
-			Em um lugar bem distante no universo, há um planeta chamado Rufenpor que é habitado por diversos lobos inteligentes (assim como os humanos na Terra) e é governado por um 
-			rei lobo. Eles vivem por lá um período tenso, onde há dois grupos de lobos com ideais diferentes que sempre entram em conflito. O grupos são chamados de: Os Langers que 
-			embora sejam tranquilos, acreditam firmemente em suas ideias de que Rufenpor tem que ter um rei para governar e cuidar de todos; e os Wolfers que são radicais geralmente 
-			mais agressivos e defendem a ideia da total liberdade e igualdade de vida para todos os lobos em Rufenpor sem a presença de um rei, mas sim com vários lobos no poder 
-			colaborando a favor da população. E no meio desse conflito, há um lobo diferente deles que não se identifica com nenhum dos lados e deseja que esses combates terminem. 
-			Seu nome é Lobil, e por se diferenciar dos demais, recebeu o apelido de <mark>o lobo solitário</mark>. Lobil é um lobo de pelagem escura e que usa um kimono preto e roxo, 
-			acompanhado sempre de seu charuto na boca.<br>
-		</p>
-		<img src="Images/Lobil.png" width="250" height="500" style="margin-left: 50%;">
+        <link rel="stylesheet" href="css/estilos.css"><!--Para definir o estilo de um arquivo externo, é necessário utilizar a tag link rel definindo o tipo de arquivo e href com o endereço.-->
+        <style>/*Para utilizar estilos diferentes em uma página, utilizamos o <style e escolhemos qual tipo de texto será editado colocando as opções entre "{}"*/
+            table {
+                border: 2px solid maroon;/*"border" define uma borda, normalmente utilizada em tabelas, deve ser escolhida a largura da borda, 2px por exemplo, o tipo de borda e a cor.*/
+                margin-left: 45px;/*"margin" define o espaço antes do parágrafo.*/
+            }
+            th, td {
+                background-color: bisque;
+                border: 1px solid saddlebrown;
+                font-family: 'Arial';/*"font-family" define o tipo de fonte utilizada, Times New Roman e Arial são exemplos.*/
+            }
+        </style>
+    </head>
 
-		<p>
-			Lobil vem de uma familía descente de um clã de guerreiros de artes marciais conhecido como Killuoi. O clã Killuoi sempre foi muito reservado e por tradição é conhecido por
-			criar laços familiares muito fortes entre si, permitindo a conexão espiritual entre os indivíduos que são importantes para eles. Desde criança, Lobil treinava com seu 
-			pai artes marciais e, escondido, artes misticas com seu irmão mais velho. Lobil cresceu e já adquiriu muita experiência e conhecimento em ambas as artes, até que decidiu
-			partir da casa de sua familia e da vila do clã Killuoi para que pudesse conhecer novos lugares e até mesmo ajudar aqueles que precisam de ajuda no mundo. Após 1 ano 
-			ausente Lobil retornou para o seu antigo lar, mas ninguem estava mais lá. A sua casa estava completamente vazia e calafrios assombravam Lobil naquela situação. Confuso, 
-			Lobil saiu de la e questionou um vendedor ambulante que estava proximo a vila. Antes que pudesse falar, o vendedor cortou Lobil e ofereceu alguns produtos:
-		</p>
+    <body>
+        <h1>Formatação de texto</h1>
+        <!--<h1> é feito para definir um título, segue a ordem h2, h3, até h6, diminuindo o tamanho da letra, criando um subtítulo.-->
+        <p>
+            <b>Lorem ipsum</b> <abbr title="Incrível">dolor</abbr> <kbd>sit</kbd> <samp>amet</samp> <del>consectetur</del> <mark>adipisicing</mark> <ins>elit</ins>. 
+            <small>Eos</small><sub>animi</sub> commodi <sup>voluptate</sup>!<br><q>Quidem iste incidunt consequatur doloremque magni similique velit obcaecati repudiandae 
+            rerum inventore ipsa molestiae sed quisquam</q>, <em>placeat quos</em>.
+		    <!--<strong> ou <b> podem ser utilizados para colocar o texto em negrito.
+                <em> e <i> podem ser utilizados para colocar o texto em itálico
+                <br> é utilizado como quebra de linha.
+                <small> diminui o tamanho da fonte.
+                <del> deixa o texto cortado, como o ~~ no whatsapp.
+                <mark> deixa as palavras marcadas como um marca texto.
+                <ins> é útilizado para palavras que foram recentemente adicionadas.
+                <sub> deixa o texto como de números de elementos de fórmulas químicas.
+                <sup> deixa o texto como números de potências em equações matemáticas.
+                <q> demarca uma citação de outra pessoa, <blockquote> faz o mesmo, mas para longas citações.
+                <kbd> mostra um texto como se fosse uma tecla do teclado.
+                <samp> mostra o texto como se fosse de um erro de computador.
+                <abbr title="descrição"> coloca pequenos pontos embaixo de uma palavra e mostra um texto definido em "title" na tela.
+            -->
+        </p>
+        <p><pre>
+            Podemos usar o "pre"
+            para deixar a formatação
+            exatamente como estava
+            no texto original.
+        </pre></p>
+        
 
-		<p>
-			-Olá jovem, seja muito bem vindo! Por favor, olhe alguns dos meus lanches a venda! Garanto que eles têm sabores únicos!
-			<table>
-				<tr>
-					<th>Nome da comida</th>
-					<th>Preço</th>
-					<th>Data de validade</th>
-				</tr>
-				<tr>
-					<td>Carne de Quimera cozida</td>
-					<td>&yen 830</td>
-					<td>Entre 30 dias</td>
-				</tr>
-				<tr>
-					<td>Salgadinhos sabor ambrosia</td>
-					<td>&yen 120</td>
-					<td>Entre 14 e 21 dias</td>
-				</tr>
-				<tr>
-					<td>Tentáculo de Kraken frito</td>
-					<td>&yen 1450</td>
-					<td>Entre 30 dias</td>
-				</tr>
-				<tr>
-					<td>Petiscos marinhos</td>
-					<td>&yen 420</td>
-					<td>Entre 7 e 12 dias</td>
-				</tr>
-			</table>
-		</p>
-		<p>
-			Após recusar as ofertas, Lobil perguntou ao vendedor se ele sabia onde estão as pessoas do clã Killuoi. Então, ele disse que todos os moradores dessa vila já
-			tinham saido daí a um tempo. O vendedor não sabe o porquê, mas suspeita que tenha relação com os Wolfers, que ficam ameaçando qualquer um que discorde deles.<br>
-		</p>
+        <h1>Listas</h1>
+        <h2>Lista não ordenada</h2>
+        <ul>
+            <li>Dólar &dollar;</li>
+            <li>Iene &yen;</li>
+            <!--Podemos utilizar & e um dos simbolos desse site https://dev.w3.org/html5/html-author/charref seguido de um ; para inserir um dos simbolos.-->
+        </ul>
+        <h2>Lista numerada</h2>
+        <ol start="1"><!--Podemos utilizar o start para definir o primeiro número da lista. Também é possível utilizar o reversed para colocar a lista em ordem reversa.-->
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <ol><!--É possível criar listas dentor de listas-->
+                <li>Item 2.1</li>
+                <li>Item 2.2</li>
+            </ol>
+        </ol>
+        <h2>Lista de definição</h2>
+        <dl>
+            <dt>Termo que será definido</dt><!--Aqui ficam os termos definidos, é possível colocar mais <dt>s para representar mais termos.-->
+            <dd>
+                Definição do termo.<!--Aqui ficam as definições dos termos, também é possível colocar mais de uma definição para cada termo.-->
+            </dd>
+        </dl>
 
-		<p>
-			Ainda sem acreditar, Lobil manteve a calma e decidiu fazer contanto espiritual com algum membro de sua familía. No centro da Vila, separou algumas velas, tulipas e fotos 
-			dos familiares para fortalecer o contato. Posicionou os objetos ao seu redor, sentou-se ao centro e começou a meditar de olhos fechados enquanto fazia sinais com as mãos.
-			De um em um Lobil tentou fazer contato (pai, mãe, avós, tios, primos) até que chegou na vez de seu irmão mais velho Kenphill. Quando começou a se concentrar no contato, 
-			percebeu algo diferente dos outros: Enquanto com os demais ele não encontrou ninguém, Lobil sentiu a presença de Kenphill por perto, talvez ele estivesse a alguns 
-			quilômetros da vila. Lobil pensou rápido e associou a direção da energia de seu irmão com o centro da cidade de Holfy, onde Kenphill gosta de visitar e deve estar lá 
-			nesse momento. Às pressas, se aprontou e partiu em direção ao centro de Holfy. Ao chegar mais perto de lá, Lobil começa a escutar alguns gritos de socorro e sente um 
-			forte cheiro de queimado. Enquanto se aproximava do centro, Lobil já imagina que tem algo de muito estranho acontecendo aqui. 
-			Ao chegar no <a href="https://i1.wp.com/orbedosdragoes.com/wp-content/uploads/2016/10/Greyhawk_Hommlet-em-chamas01.jpg?fit=640%2C455"target="_blank">Centro de Holfy</a>, 
-			Lobil prenseciou o caos na terra: O lugar estava sendo destruido por um ataque inimigo bem planejado.<br>
-		</p>
+        <h1>Imagens e vídeos</h1>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!--É possível colocar vídeos do youtube ao entrar na página do vídeo, clicar em compartilhar e escolher "embebed".-->
+        <img src="Images/CHARMANDERP.png" alt="Charmander do Pandemônio" height="426" width="400">
+        <!--A tag img é utilizada para inserir imagens na página.
+        O atributo src serve para indicar o local da imagem, o padrão é o mesmo da pasta do documento html.
+        Também é possível colocar imagens diretamente de uma página da internet pelo link da página
+        ou imagens dentro pastas ao utilizar o nome da pasta e um /, por exemplo "images/Tijolão.png", 
+        que buscaria a imagem em uma pasta dentro da pasta onde o documento foi criado.
+        O atributo alt serve para mostrar um texto caso a imagem não possa ser mostrada adequadamente.
+        Já o atributo height serve para modificar a altura e width para modificar a largura da imagem.-->
+        <img src="https://static1.thegamerimages.com/wordpress/wp-content/uploads/2021/07/Dungeons--Dragons-The-Best-Feats-For-A-Paladin.jpg?q=50&fit=contain&w=750&h=375&dpr=1.5">
 
-		<p>
-			Ele viu <strong><sup>edificios pegando fogo</sup></strong> por todo lado, lobos desesperados correndo pelas ruas e vários corpos violentamente 
-			<strong><sub>largados no chão das calçadas</sub></strong> mortos. Também viu outros lobos que vestiam um manto laranja e preto cobrindo boa parte de seu corpo com 
-			um símbolo bem característico nos ombros e uma mascara que cobria boa parte dos rostos, deixando claro que o centro foi atacado por Wolfers. Com raiva, Lobil atacou um 
-			Wolfer que estava prestes a matar um cidadão a sua frente. Deu uma corrida e acertou uma voadora em cima do Wolfer, jogando-o contra uma parede que racha com o forte 
-			impacto. Lobil conseguiu socorrer o cidadão, mas logo sofreu o contra-ataque do Wolfer derrubado. Ele fez o mesmo golpe no Lobil, que agiu de forma rapida desviando do 
-			ataque e devolvendo um soco na barriga do adversario. Os dois seguiram lutarando até que o Wolfer parou de lutar e preferiu recuar com seu grupo. Antes que pudesse 
-			recuar, Lobil segura o Wolfer pelo pescoço e acidentalmente tira a sua mascará, revelando para si mesmo que seu irmão Kenphill havia se tornado um Wolfer. Sem reação, 
-			Lobil apenas observa Kenphill e os Wolfers sumindo daquele lugar como um passo de magica pelas sombras. E foi a partir dali, que Lobil decide que irá acabar com esse 
-			conflito de uma vez por todas, para não ter mais vitimias e principalmente parar o seu irmão. Apenas ele contra o mundo. 
-			Apenas <mark><a href="#Lobil">Lobil, o lobo solitário</a></mark>.</p><br>
+        <h1>Âncora</h1>
+        <p>
+            Podemos criar links para outros sites com "a href", como por exemplo: <a href="https://github.com/Benitex/Exercicios-de-Desenvolvimento-para-Internet">esse link</a>.<br>
+            Também é possível abrir o link em uma nova página com "target="_blank"": <a href="https://github.com/Benitex/Exercicios-de-Desenvolvimento-para-Internet" target="_blank">Exemplo com target</a><br>
+            Mas também é possível criar um link para a própria página, por exemplo <a href="#fim">link para o fim da página</a>.
+        </p>
 
-		<p>
-			Feito por <a href="https://github.com/jeynog">jeynog</a>, revisão de texto por <a href="https://github.com/Benitex">Benitex</a>, 
-			música <a href="https://www.youtube.com/watch?v=x5LsX98T7FE&ab_channel=FabioLima">The Witcher 3 "The Wolven Storm" Priscilla's Song by Fabio Lima</a>.
-		</p>
-	</body>
+        <h1>Tabelas</h1>
+        <table style="width: 80%;"> <!--"width" serve para definir a largura da tabela.-->
+            <tr><!--Cada item fica em um "tr"-->
+                <th>Coluna 1</th>
+                <th>Coluna 2</th><!--"th" define os nomes das colunas.-->
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td><!--"td" representa cada elemento de cada linha, o primeiro fica na primeira coluna, o segundo na segunda e assim por diante.-->
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+        </table>
+
+        <h1>CSS</h1>
+        <p style="margin-left: 10px;color: red;">Podemos trocar o estilo na própria tag.</p>
+        <div class="fundoAzul"><!--Podemos utilizar a tag div para definir uma área da página com uma formatação diferente.-->
+            <p class="exemploClasse">Podemos modificar os atributos de CSS com classes criadas em folhas de estilo.</p>
+        </div>
+
+        <p><a name="fim">Fim da página.</a><!--Como pode ver, cada link precisa ser identificado por um "a name".--></p>
+    </body>
 </html>
