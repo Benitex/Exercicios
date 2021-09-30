@@ -1,3 +1,4 @@
+package listas.lista1.classes;
 /*
 Exercício 1 – Crie uma classe chamada Gato
     A – crie 4 atributos:

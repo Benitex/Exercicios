@@ -15,7 +15,7 @@ public class TestUtils {
             float c = scanner.nextFloat();
             Utils.bhaskara(a, b, c);
         }
-
+        
         else if (operacao.equalsIgnoreCase("Media")){
             int quantidade = 0;
             System.out.println("Quantos elementos?");

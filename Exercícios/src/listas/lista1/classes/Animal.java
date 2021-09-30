@@ -1,3 +1,4 @@
+package listas.lista1.classes;
 public class Animal {
     boolean vivo;
     private String cor,nome;

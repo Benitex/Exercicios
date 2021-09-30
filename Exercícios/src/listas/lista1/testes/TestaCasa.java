@@ -1,3 +1,7 @@
+package listas.lista1.testes;
+
+import listas.lista1.classes.Casa;
+
 /*
 Exercício 4 – Crie uma classe chamada TestaCasa com o método main
     A- crie dois objetos do tipo Casa.

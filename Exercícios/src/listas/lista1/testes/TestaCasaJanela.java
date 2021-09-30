@@ -1,3 +1,8 @@
+package listas.lista1.testes;
+
+import listas.lista1.classes.Casa;
+import listas.lista1.classes.Janela;
+
 /*
 Exercício 6 – Crie uma nova classe chamada TestaCasaJanela com o método main.
     A- Crie um novo objeto Janela e atribua valores a ele.
