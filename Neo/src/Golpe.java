@@ -1,7 +1,7 @@
 public class Golpe {
     private int poder, quantidadeStatus;
     private String status;
-    private boolean dano = false, oponente = false, itself = false, reducaoStatus = false, buffStatus = false;
+    private boolean dano = false, oponente = false, neleMesmo = false, reducaoStatus = false, buffStatus = false;
 
     public Golpe(String nome){
         if (nome.equalsIgnoreCase("Tackle")){
@@ -18,7 +18,7 @@ public class Golpe {
             buffStatus = true;
             status = "Defesa";
             quantidadeStatus = 1;
-            itself = true;
+            neleMesmo = true;
         }
     }
 
@@ -31,8 +31,8 @@ public class Golpe {
     public boolean getOponente(){
         return oponente;
     }
-    public boolean getItself(){
-        return itself;
+    public boolean getNeleMesmo(){
+        return neleMesmo;
     }
     public boolean getReducaoStatus(){
         return reducaoStatus;

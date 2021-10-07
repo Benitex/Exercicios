@@ -1,7 +1,7 @@
-package listas.lista1.testes;
+package lista1.testes;
 
-import listas.lista1.classes.Casa;
-import listas.lista1.classes.Janela;
+import lista1.classes.Casa;
+import lista1.classes.Janela;
 
 /*
 Exercício 6 – Crie uma nova classe chamada TestaCasaJanela com o método main.

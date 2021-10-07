@@ -28,11 +28,11 @@ public class Neo{
     public static void batalha(Pokemon p1, Pokemon p2, Scanner s){
         while (p1.getVida()>0 && p2.getVida()>0){
             if (p1.getSpeed()>p2.getSpeed()){
-                p1.ataque(p1,p2,definirGolpe(p1,s));
-                p2.ataque(p2,p1,definirGolpe(p2,s));
+                p1.atacar(p1,p2,definirGolpe(p1,s));
+                p2.atacar(p2,p1,definirGolpe(p2,s));
             }else{
-                p2.ataque(p2,p1,definirGolpe(p2,s));
-                p1.ataque(p1,p2,definirGolpe(p1,s));
+                p2.atacar(p2,p1,definirGolpe(p2,s));
+                p1.atacar(p1,p2,definirGolpe(p1,s));
             }
             System.out.println("Vida de "+p1.getEspecie()+": "+p1.getVida());
             System.out.println("Vida de "+p2.getEspecie()+": "+p2.getVida());

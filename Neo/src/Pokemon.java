@@ -49,18 +49,18 @@ public class Pokemon {
         }
     }
 
-    public void ataque(Pokemon atacante, Pokemon atacado, String golpeEscolhido){
+    public void atacar(Pokemon atacante, Pokemon atacado, String golpeEscolhido){
         Golpe definiçõesGolpe = new Golpe(golpeEscolhido);
-        System.out.println(atacante.especie+" utilizou "+golpeEscolhido);
+        System.out.println(especie+" utilizou "+golpeEscolhido);
         if (definiçõesGolpe.getDano() == true)
-            atacado.vida -= atacante.ataque + definiçõesGolpe.getPoder() - atacado.defesa;
+            atacado.vida -= ataque + definiçõesGolpe.getPoder() - atacado.defesa;
         if (definiçõesGolpe.getOponente() == true){
             if (definiçõesGolpe.getReducaoStatus() == true)
                 definiçõesGolpe.reducaoStatus(atacado,definiçõesGolpe);
             if (definiçõesGolpe.getBuffStatus() == true)
                 definiçõesGolpe.buffStatus(atacado,definiçõesGolpe);
         }
-        if (definiçõesGolpe.getItself() == true){
+        if (definiçõesGolpe.getNeleMesmo() == true){
             if (definiçõesGolpe.getReducaoStatus() == true)
                 definiçõesGolpe.reducaoStatus(atacante,definiçõesGolpe);
             if (definiçõesGolpe.getBuffStatus() == true)

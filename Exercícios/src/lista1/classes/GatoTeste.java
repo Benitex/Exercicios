@@ -1,4 +1,4 @@
-package listas.lista1.classes;
+package lista1.classes;
 /*
 Exercício 2 – Crie uma classe chamada GatoTeste com o método main
     A – crie 3 instâncias de Gato. Atribua a cada uma das instâncias valores para as variáveis vivo, cor, idade, nome de forma que cada instância tenha valores diferentes.

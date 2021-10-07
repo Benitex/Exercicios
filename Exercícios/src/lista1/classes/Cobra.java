@@ -1,4 +1,4 @@
-package listas.lista1.classes;
+package lista1.classes;
 public class Cobra extends Animal {
     public Cobra() {
     }

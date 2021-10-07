@@ -1,7 +1,7 @@
 import java.lang.Math;
 
 public class Utils{
-    static double calculaMedia(double[] array){
+    static double calculaMedia(double[] array) {
         int tempo;
         double soma = 0;
         for (tempo = 0; tempo < array.length; tempo++) {
