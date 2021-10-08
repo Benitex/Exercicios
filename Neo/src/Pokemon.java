@@ -1,7 +1,6 @@
 public class Pokemon {
     private int vida, ataque, defesa, speed;
-    private String especie, golpe[]={"-","-","-","-"};
-    private String tipo[] = new String[2];
+    private String especie, golpe[]={"-","-","-","-"},tipo[] = new String[2];
     
     public Pokemon(String especie){
         this.especie = especie;
@@ -43,10 +42,8 @@ public class Pokemon {
     public String getEspecie(){
         return especie;
     }
-    public void getGolpe(String golpe[]){
-        for (int tempo = 0; tempo < golpe.length; tempo++) {
-            golpe[tempo] = this.golpe[tempo];
-        }
+    public String[] getGolpe(){
+        return this.golpe;
     }
 
     public void atacar(Pokemon atacante, Pokemon atacado, String golpeEscolhido){

@@ -61,9 +61,8 @@ public class Neo{
     public static String definirGolpe(Pokemon p, Scanner s){
         String golpeEscolhido;
         int golpeEscolhidoNum = 5;
-        String golpe[] = new String[4];
+        String golpe[] = p.getGolpe();;
 
-        p.getGolpe(golpe);
         System.out.println("\nEscolha o golpe do "+p.getEspecie()+":");
         System.out.println("1 - "+golpe[0]+"\t2 - "+golpe[1]+"\t3 - "+golpe[2] + "\t4 - "+golpe[3]);
         do {
