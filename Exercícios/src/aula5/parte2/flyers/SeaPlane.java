@@ -1,4 +1,4 @@
-package aula5.flyers;
+package aula5.parte2.flyers;
 
 public class SeaPlane extends Airplane {
     public void takeOff() {

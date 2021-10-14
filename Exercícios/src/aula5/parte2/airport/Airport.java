@@ -1,5 +1,5 @@
-package aula5.airport;
-import aula5.flyers.*;
+package aula5.parte2.airport;
+import aula5.parte2.flyers.*;
 import java.lang.Math;
 
 public class Airport {
