@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Principal {
     public static void main(String args[]) {
-        ArrayList lista = new ArrayList();
+        ArrayList<Object> lista = new ArrayList<>();
         Urso ursaring = new Urso();
         Carro tesla = new Carro();
         Doce bala =  new Doce();
@@ -13,12 +13,10 @@ public class Principal {
         lista.add(bala);
         corre(lista);
     }
-    public static void corre(ArrayList lista){
-        Urso urso = new Urso();
-        Carro carro = new Carro();
+    public static void corre(ArrayList<Object> lista){
         for (int tempo = 0; tempo < lista.size(); tempo++) {
             Corredor corredor = (Corredor) lista.get(tempo);
-            if (corredor.equals(urso)||corredor.equals(carro)) {
+            if (corredor instanceof Urso||corredor instanceof Carro) {
                 corredor.correr();
             }
         }
