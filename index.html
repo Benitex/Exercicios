@@ -5,7 +5,8 @@
         <meta charset="utf-8"><!--Isso serve para adicionar caracteres em típicos do português ao site, como o "ç".-->
         <title>Página-tutorial de HTML</title><!--Título da página no navegador.-->
 
-        <link rel="stylesheet" href="css/estilos.css"><!--Para definir o estilo de um arquivo externo, é necessário utilizar a tag link rel definindo o tipo de arquivo e href com o endereço.-->
+        <!--Para definir o estilo de um arquivo externo, é necessário utilizar a tag link rel definindo o tipo de arquivo e href com o endereço.-->
+        <link rel="stylesheet" href="css/estilos.css">
         <style>/*Para utilizar estilos diferentes em uma página, utilizamos o <style e escolhemos qual tipo de texto será editado colocando as opções entre "{}"*/
             table {
                 border: 2px solid maroon;/*"border" define uma borda, normalmente utilizada em tabelas, deve ser escolhida a largura da borda, 2px por exemplo, o tipo de borda e a cor.*/
@@ -38,8 +39,7 @@
                 <q> demarca uma citação de outra pessoa, <blockquote> faz o mesmo, mas para longas citações.
                 <kbd> mostra um texto como se fosse uma tecla do teclado.
                 <samp> mostra o texto como se fosse de um erro de computador.
-                <abbr title="descrição"> coloca pequenos pontos embaixo de uma palavra e mostra um texto definido em "title" na tela.
-            -->
+                <abbr title="descrição"> coloca pequenos pontos embaixo de uma palavra e mostra um texto definido em "title" na tela.-->
         </p>
         <p><pre>
             Podemos usar o "pre"
@@ -75,7 +75,8 @@
 
         <h1>Imagem, áudio e vídeo</h1>
         <!--É possível colocar vídeos do youtube ao entrar na página do vídeo, clicar em compartilhar e escolher "embebed".-->
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jERzLseoAOM" title="YouTube video player" frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <br>
         <!--É possível colocar arquivos mp3 no site com a tag <audio>, src indica o local do arquivo, controls ativa opções de audio.-->
 		<audio src="Audio/Spectral Moon.mp3" controls></audio>
@@ -121,7 +122,66 @@
         <p style="margin-left: 10px;color: red;">Podemos trocar o estilo na própria tag.</p>
         <div class="fundoAzul"><!--Podemos utilizar a tag div para definir uma área da página com uma formatação diferente.-->
             <p class="exemploClasse">Podemos modificar os atributos de CSS com classes criadas em folhas de estilo.</p>
+            <p>Parágrafo normal para efeito de comparação.</p>
         </div>
+        <p id="exemploID">Basta colocar o id com o nome para utilizar um id.</p>
+
+        <h1>Formulários</h1>
+        <form><!--A tag form define o início de um formulário de entrada de valores pelo usuário.-->
+            <h2>Caixa de texto</h2>
+            Nome de usuário:
+            <br>
+            <!--A tag input é utilizada em várias formas diferentes de recebimento de informações.
+                O atributo "type" define o tipo de input recebido. text é a caixa de texto.
+                O atributo "name" serve para identificar o campo em um código como em um nome de variável.-->
+            <input type="text" name="usuário">
+            <br>
+            Senha:
+            <br>
+            <input type="password" name="senha"><!--Ao utilizar "password" no atributo "type", o texto digitado fica oculto automáticamente.-->
+            <br>
+            <h2></h2>
+            <!--A tag textarea define uma área de texto, para entrada de várias linhas de texto, diferentemente da caixa de texto.
+                O atributo "rows" define a quantidade de linhas e o atributo "cols" define a quantidade de colunas.-->
+            <textarea name="texto" rows="5" cols="100">Esse texto aparece dentro da área de texto.</textarea>
+            <h2>Checkbox</h2>
+            <!--Podemos criar checkboxes com "checkbox" no atributo type.
+                Também podemos definir valores para cada checkbox com o atributo "value", que podem ser utilizados posteriormente.-->
+            <input type="checkbox" name="Checkbox" value="Item 1">
+            Item 1
+            <br>
+            <input type="checkbox" name="Checkbox" value="Item 2">
+            Item 2
+            <br>
+            <input type="checkbox" name="Checkbox" value="Item 3">
+            Item 3
+            <!--Outro tipo de caixa de marcação é a de rádio, que permite apenas uma entrada, ela funciona de forma semelhante a uma checkbox além disso.-->
+            <h2>Radio</h2>
+            <input type="radio" name="Radio" value="Item 1">
+            Item 1
+            <br>
+            <input type="radio" name="Radio" value="Item 2">
+            Item 2
+            <br>
+            <input type="radio" name="Radio" value="Item 3">
+            Item 3
+            <!--Podemos criar um menu com várias opções utilizando a tag "select.
+                Cada opção do menu fica definida em uma tag "option", que possui um valor definido para ser utilizado posteriormente.-->
+            <h2>Menu</h2>
+            <select name="Menu">
+                <option value="Opção 1">Opção 1</option>
+                <option value="Opção 2" selected="selected">Opção 2</option><!--Selected define a opção selecionada por padrão.-->
+                <option value="Opção 3">Opção 3</option>
+                <option value="Opção 4">Opção 4</option>
+            </select>
+            <!--Podemos criar botões utilizando "button" no atributo type.
+                Utilizar "submit" resulta em um botão que envia dados.
+                Utilizar "reset" resulta em redefinir as opções selecionadas para o padrão.-->
+            <h2>Botão</h2>
+            <input type="button" name="Botão" value="Botão">
+            <input type="submit" name="Botão que transfere informações" value="Botão">
+            <input type="reset" name="Botão de reset">
+        </form>
 
         <p><a name="fim">Fim da página.</a><!--Como pode ver, cada link precisa ser identificado por um "a name".--></p>
     </body>

@@ -8,17 +8,24 @@ p {
     text-align: justify;/*"teext-align" define o alinhamento do texto, justificado, centralizado, etc.*/
     text-indent: 45px;/*"text-ident" adiciona um tab antes de cada parágrafo, 45px é o valor padrão.*/
 }
-h1, h2 {
+h1 {
     color: maroon;
-    text-align: center;
+    text-indent: 180px;
+}
+h2 {
+    color: maroon;
+    text-indent: 120px;
 }
 div.fundoAzul {
     background-color: midnightblue;
 }
 .exemploClasse {/*Ao colocar um ponto antes do nome, podemos criar uma classe.*/
     color: mediumturquoise;
-    text-indent: 45px;
 }
 p.exemploClasse {/*Ao colocar uma tag antes do nome da classe, podemos torná-la exclusiva para uma tag.*/
     text-indent: 90px;
+}
+#exemploID {/*Para usar um id, basta colocar o # antes do nome do id. Ele serve para */
+    color: white;
+    background-color: black;
 }
