@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Neo - </title>
+        <link rel="stylesheet" href="../../css/estilos.css">
+    </head>
+    <body>
+        <h1>Listas</h1>
+        <h2>Lista não ordenada</h2>
+        <ul>
+            <li>Dólar &dollar;</li>
+            <li>Iene &yen;</li>
+            <!--Podemos utilizar & e um dos simbolos desse site https://dev.w3.org/html5/html-author/charref seguido de um ; para inserir um dos simbolos.-->
+        </ul>
+        <h2>Lista numerada</h2>
+        <ol start="1"><!--Podemos utilizar o start para definir o primeiro número da lista. Também é possível utilizar o reversed para colocar a lista em ordem reversa.-->
+            <li>Item 1</li>
+            <li>Item 2</li>
+            <ol><!--É possível criar listas dentor de listas-->
+                <li>Item 2.1</li>
+                <li>Item 2.2</li>
+            </ol>
+        </ol>
+        <h2>Lista de definição</h2>
+        <dl>
+            <dt>Termo que será definido</dt><!--Aqui ficam os termos definidos, é possível colocar mais <dt>s para representar mais termos.-->
+            <dd>
+                Definição do termo.<!--Aqui ficam as definições dos termos, também é possível colocar mais de uma definição para cada termo.-->
+            </dd>
+        </dl>
+        <h2>Tabelas</h2>
+        <table style="width: 80%;"> <!--"width" serve para definir a largura da tabela.-->
+            <tr><!--Cada item fica em um "tr"-->
+                <th>Coluna 1</th>
+                <th>Coluna 2</th><!--"th" define os nomes das colunas.-->
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td><!--"td" representa cada elemento de cada linha, o primeiro fica na primeira coluna, o segundo na segunda e assim por diante.-->
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+        </table>
+    </body>
+</html>
