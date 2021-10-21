@@ -1,6 +1,6 @@
-package br.com.lojavirtual.main;
+package aula4.br.com.lojavirtual.main;
 
-import br.com.lojavirtual.informatica.Teclado;
+import aula4.br.com.lojavirtual.informatica.Teclado;
 
 public class TesteSistema {
     public static void main(String args[]){

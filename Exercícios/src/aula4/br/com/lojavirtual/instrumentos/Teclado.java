@@ -1,4 +1,4 @@
-package br.com.lojavirtual.instrumentos;
+package aula4.br.com.lojavirtual.instrumentos;
 
 public class Teclado {
     private int qtdTeclas;
