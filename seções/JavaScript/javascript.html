@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Neo - JavaScript</title>
+        <link rel="stylesheet" href="css/estilos.css">
+        <script type="text/javascript"></script><!--A tag script serve para chamar um script, se posta no início do documento, o script carrega antes da própria página.-->
+    </head>
+    <body>
+        <h1>JavaScript</h1>
+        <form>
+        <script type="text/javascript">
+            document.write("document.write para escrever um texto na tela, da mesma forma que funciona a tag p");
+            document.write("<h5>Também é possível utilizar tags dentro do document.write.</h5>");
+            window.alert("window.alert serve para mostrar um pop up na tela com uma determinada mensagem.");
+            //A função alert funciona da mesma forma que window.alert
+            window.prompt("Prompt serve para pedir um valor através de um pop up.");
+            variavel = window.prompt("Entretanto, precisamos definir a variável que vai receber esse valor antes.");
+            //Não é necessário definir o tipo de variável antes de declará-la em javascript, diferentemente de outras linguagens.
+            variavel = parseInt(variavel);//Podemon usar a função parseInt para mudar o tipo de uma variável.
+        </script>
+        </form>
+        <br/>
+        <a href="../../index.html"><input type="button" value="Voltar"/></a>
+    </body>
+</html>
