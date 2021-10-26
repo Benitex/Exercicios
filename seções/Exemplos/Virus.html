@@ -4,16 +4,19 @@
         <meta charset="utf-8">
         <title>Vírus</title>
         <script type="text/javascript">
-            window.alert("Seu computador foi infectado por 70 vírus!");
+            window.alert("Seu dispositivo foi infectado por 70 vírus!");
             desculpa = window.prompt("Peça desculpas para eu remover.");
+            remocao = false;
             do {
                 if (desculpa == "desculpa" || desculpa == "Desculpa" || desculpa == "desculpa " || desculpa == "foi mal" || desculpa == "perdão" || desculpa == "desculpas") {
+                    remocao = true;
                     window.alert("Muito bem, 50 vírus removidos, o resto fica.");
-                } else {
+                }
+                else {
                     window.alert("PEDE DESCULPA.");
                     desculpa = window.prompt("Pede desculpa direito.");
                 }
-            } while (desculpa != "desculpa" || desculpa != "Desculpa" || desculpa != "desculpa " || desculpa != "foi mal" || desculpa != "perdão" || desculpa != "desculpas");
+            } while (remocao == false);
         </script>
     </head>
     <body>
