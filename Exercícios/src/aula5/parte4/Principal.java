@@ -15,8 +15,8 @@ public class Principal {
     }
     public static void corre(ArrayList<Object> lista){
         for (int tempo = 0; tempo < lista.size(); tempo++) {
-            Corredor corredor = (Corredor) lista.get(tempo);
-            if (corredor instanceof Urso||corredor instanceof Carro) {
+            if (lista.get(tempo) instanceof Corredor){
+                Corredor corredor = (Corredor) lista.get(tempo);
                 corredor.correr();
             }
         }
