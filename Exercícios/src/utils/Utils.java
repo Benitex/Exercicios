@@ -1,3 +1,5 @@
+package utils;
+
 import java.lang.Math;
 
 public class Utils{

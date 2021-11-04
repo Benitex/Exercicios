@@ -20,8 +20,8 @@ public class Funcionario {
     public String getNome() {
         return nome;
     }
-    public void setSalario(String salario) {
-        this.salario = Double.parseDouble(salario);
+    public void setSalario(Double salario) {
+        this.salario = salario;
     }
     public double getSalario() {
         return salario;
@@ -36,8 +36,8 @@ public class Funcionario {
             return false;
         else {
             Funcionario f = (Funcionario) obj;
-            if (id.equals(f.id))
-                return true;
+            if (id == null)
+                return id.equals(f.id);
             else
                 return false;
         }

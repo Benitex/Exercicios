@@ -15,10 +15,7 @@ import java.util.ArrayList;
 
 public class Utils {
         public static boolean existe(List x, Funcionario y) {
-            if (x.contains(y))
-                return true;
-            else
-                return false;
+            return x.contains(y);
         }
 
         /*
@@ -39,15 +36,15 @@ public class Utils {
             ArrayList funcionarios = new ArrayList();
             for (int tempo = 0; tempo < arrayFuncionarios.length; tempo++) {
                 String[] dados = arrayFuncionarios[tempo].split("#");
-                if (dados[3].equals("A")) {
+                if (dados[3].equalsIgnoreCase("A")) {
                     AnalistaSistemas analista = new AnalistaSistemas(dados[0]);
                     analista.setNome(dados[1]);
-                    analista.setSalario(dados[2]);
+                    analista.setSalario(Double.parseDouble(dados[2]));
                     funcionarios.add(analista);
-                } else if (dados[3].equals("P")) {
+                } else if (dados[3].equalsIgnoreCase("P")) {
                     Programador programador = new Programador(dados[0]);
                     programador.setNome(dados[1]);
-                    programador.setSalario(dados[2]);
+                    programador.setSalario(Double.parseDouble(dados[2]));
                     funcionarios.add(programador);
                 }
             }

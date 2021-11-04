@@ -1,3 +1,5 @@
+package neo;
+
 public class Golpe {
     private int poder, quantidadeStatusAlterado;
     private String statusAlterado, nome;

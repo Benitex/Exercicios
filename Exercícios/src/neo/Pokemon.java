@@ -1,3 +1,5 @@
+package neo;
+
 import java.util.Scanner;
 
 public class Pokemon {
