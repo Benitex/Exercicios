@@ -4,6 +4,7 @@ Crie um método denominado correr que não retorne nada e que não tenha argumen
 Esse método, ao ser chamado, deve imprimir no console a placa e o ano do carro da seguinte maneira: 
 “O carro com a placa XXX e do ano YYY esta correndo...”, em que XXX corresponde à placa do carro e YYY ao ano.
 */
+package avaliacao1;
 
 public class Carro {
     String placa;

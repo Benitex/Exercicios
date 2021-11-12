@@ -3,6 +3,7 @@
 Preencha esse array com 1000 carros em que os dados são recebidos do console, 
 ou seja, insira a placa e ano dos carros a partir da entrada do teclado.
 */
+package avaliacao1;
 import java.util.Scanner;
 
 public class Principal {
