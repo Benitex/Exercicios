@@ -29,6 +29,19 @@ public class TestUtils {
             }
             System.out.println(Utils.calculaMedia(n));
         }
+
+        else if (operacao.equalsIgnoreCase("Número aleatório")) {
+            System.out.println("Insira o valor mínimo e máximo divididos por um espaço.");
+            String resposta = scanner.nextLine();
+            String[] valores = resposta.split(" ");
+            int valor1 = Integer.parseInt(valores[0]);
+            int valor2 = Integer.parseInt(valores[1]);
+            if (valor2 == 1) {
+                System.out.println(Utils.rolarNumeroAleatorio(valor2));
+            } else {
+                System.out.println(Utils.rolarNumeroAleatorio(valor1, valor2));
+            }
+        }
         
         scanner.close();
     }
