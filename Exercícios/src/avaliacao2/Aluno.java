@@ -22,6 +22,8 @@ Entre 4 e 5.9 “Em Recuperação”
 Abaixo de 4 "Reprovado"
 A partir de 6 "Aprovado"
 */
+package avaliacao2;
+
 public class Aluno {
     private String nome;
     private double nota1, nota2;
