@@ -25,7 +25,7 @@ div.fundoAzul {
 p.exemploClasse {/*Ao colocar uma tag antes do nome da classe, podemos torná-la exclusiva para uma tag.*/
     text-indent: 90px;
 }
-#exemploID {/*Para usar um id, basta colocar o # antes do nome do id. Ele serve para */
+#exemploID {/*Para usar um id, basta colocar o # antes do nome do id.*/
     color: white;
     background-color: black;
 }

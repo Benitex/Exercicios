@@ -18,6 +18,48 @@
             variavel = window.prompt("Entretanto, precisamos definir a variável que vai receber esse valor antes.");
             //Não é necessário definir o tipo de variável antes de declará-la em javascript, diferentemente de outras linguagens.
             variavel = parseInt(variavel);//Podemon usar a função parseInt para mudar o tipo de uma variável.
+
+            //Estruturas condicionais
+
+            if (/*aqui entra uma condição, por exemplo:*/variavel > 0) {
+                //Os comandos nesse bloco de código só vão ser executados se a condição for verdadeira.
+                document.write("Número positivo!");
+            } else {//else executa códigos caso a condição acima não seja aplicada, o else não é necessário.
+                document.write("Não é positivo. :/");
+            }
+            switch (/*Aqui entra a variável que será verificada.*/variavel) {
+                case 0://cada case indica um dos possíveis números digitados.
+                    document.write("Valor nulo!");
+                    break;//break serve para parar o código e não executar os outros casos.
+                case 1:
+                    document.write("Foi o número 1!");
+                    break;
+
+                default://default representa o que será executado se nenhuma das anteriores for.
+                    document.write("Não foi nem 0 nem 1.");
+                    break;
+            }
+
+            //Estruturas de repetição
+            //Servem para repetir um determinado trecho de código múltiplas vezes.
+
+            //cria a variável tempo e enquanto ela for menor que variável + 1, repete o trecho de código. A cada vez que é repetido, aumenta tempo em 1.
+            for (tempo = 1; tempo < variavel + 1; tempo++) {
+                document.write(variavel - tempo);
+            }
+            while (/*a condição vem aqui*/variavel > 0) {//while executa um trecho de código enquanto a condição for verdadeira.
+                document.write(variavel);
+            }
+            do {
+                if (variavel = 0) {
+                    continue;//continue faz com que o programa pule as instruções posteriores.
+                }
+                variavel++;
+                document.write(variavel + " é maior que 0.")
+                if (variavel = 5) {
+                    break;//break faz com que o programa saia da estrutura de repetição.
+                }
+            } while (/*A condição vem aqui*/variavel < 10);
         </script>
         </form>
         <br/>
