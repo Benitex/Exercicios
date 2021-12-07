@@ -52,6 +52,18 @@ public class TestUtils {
             System.out.println(Utils.maiorNumero(n) + " é o maior número do array.");
         }
 
+        else if (operacao.equalsIgnoreCase("Repeticoes")) {
+            System.out.println("Insira os valores do array.");
+            double[] n = new double[scanner.nextInt()];
+            for (int tempo = 0; tempo < n.length; tempo++) {
+                System.out.println("Insira o próximo valor.");
+                n[tempo] = scanner.nextDouble();
+            }
+            System.out.println("Qual é o valor que será contado na lista?");
+            double valor = scanner.nextDouble();
+            System.out.println("O numero " + valor + " aparece " + Utils.repeticoes(valor, n) + " vezes no array.");
+        }
+
         scanner.close();
     }
 }

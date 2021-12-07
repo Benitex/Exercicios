@@ -39,4 +39,14 @@ public class Utils{
         }
         return maior;
     }
+
+    public static int repeticoes(double numRepetido, double[] array) {
+        int repeticoes = 0;
+        for (int tempo = 0; tempo < array.length; tempo++) {
+            if (array[tempo] == numRepetido) {
+                repeticoes++;
+            }
+        }
+        return repeticoes;
+    }
 }
