@@ -14,7 +14,7 @@ public class PBS {
             batalha(p1, p2, s);
             System.out.println("Gostaria de continuar jogado? (s/n)");
             String resposta;
-            do{
+            do {
                 resposta = s.nextLine();
                 if (resposta.equalsIgnoreCase("s")) {
                     System.out.println("Reiniciando.");
@@ -25,8 +25,8 @@ public class PBS {
                 } else {
                     System.out.println("Por favor, insira s para sim ou n para não.");
                 }
-            }while (!resposta.equalsIgnoreCase("s") && !resposta.equalsIgnoreCase("n"));
-        }while(continuar == true);
+            } while (!resposta.equalsIgnoreCase("s") && !resposta.equalsIgnoreCase("n"));
+        } while(continuar == true);
         s.close();
     }
 
@@ -39,13 +39,13 @@ public class PBS {
                 p2.atacar(p2,s);
                 p1.atacar(p1,s);
             }
-            System.out.println("Vida de "+p1.getEspecie()+": "+p1.getVida());
-            System.out.println("Vida de "+p2.getEspecie()+": "+p2.getVida());
+            System.out.println("Vida de " + p1.getEspecie()+": " + p1.getVida());
+            System.out.println("Vida de " + p2.getEspecie()+": " + p2.getVida());
         }
         if (p2.getVida() < 0) {
-            System.out.println(p2.getEspecie()+" não consegue mais se mover!\n"+p1.getEspecie()+" venceu!\n");
+            System.out.println(p2.getEspecie() + " não consegue mais se mover!\n"+p1.getEspecie() + " venceu!\n");
         } else {
-            System.out.println(p1.getEspecie()+" não consegue mais se mover!\n"+p2.getEspecie()+" venceu!\n");
+            System.out.println(p1.getEspecie() + " não consegue mais se mover!\n"+p2.getEspecie() + " venceu!\n");
         }
     }
 }
