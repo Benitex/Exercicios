@@ -1,19 +1,17 @@
 /*Para utilizar estilos diferentes em uma página, escolhemos qual tipo de texto será editado colocando as opções entre "{}"
 A ordem em que os estilos são definidos é inline(junto com a tag), com a tag style no documento principal e numa folha de estilos separada, como essa, por fim.*/
 body {
-    background-color: moccasin;/*"background-color" define a cor de fundo.*/
+    background-color: #021122;/*"background-color" define a cor de fundo.*/
+    color: #e6ebf1;/*"color" define a cor do texto.*/
 }
 p {
-    color: saddlebrown;/*"color" define a cor do texto.*/
     text-align: justify;/*"teext-align" define o alinhamento do texto, justificado, centralizado, etc.*/
     text-indent: 45px;/*"text-ident" adiciona um tab antes de cada parágrafo, 45px é o valor padrão.*/
 }
 h1 {
-    color: maroon;
     text-indent: 180px;
 }
 h2 {
-    color: maroon;
     text-indent: 120px;
 }
 div.fundoAzul {

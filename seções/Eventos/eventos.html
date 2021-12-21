@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Eventos</title>
+        <link rel="stylesheet" href="../../css/estilos.css">
+        <style>
+            div.cliques {
+                background-color: aquamarine;
+                height: 10cm;
+                width: 10cm;
+            }
+        </style>
+        <script type="text/javascript">
+            function noclique(params) {
+                alert("onclick é chamado ao clicar em um botão com o mouse.");
+            }
+        </script>
+    </head>
+    <body>
+        <h2>Eventos</h2>
+        <h1>Mouse</h1>
+        <br/>
+        <div class="cliques" onclick="noclique()"></div><!--É possível chamar funções com eventos-->
+        <br/>
+        <div class="cliques" ondblclick="alert('ondblclick acontece quando ocorre um clique duplo com o mouse')"></div>
+        <br/>
+        <div class="cliques" onmouseup="alert('onmousedown só ativa depois que o botão do mouse for largado')"></div>
+        <br/>
+        <div class="cliques" onmouseover="alert('onmouseover ativa ao passar o mouse por cima')"></div>
+        <br/>
+        <div class="cliques" onmouseout="alert('onmouseover ativa ao passar o mouse por cima e sair da área')"></div>
+        <br/>
+        <!--onmousemove ativa quanndo o mouse se mover, independentemente de onde-->
+        <h1>Teclado</h1>
+        <br/>
+        <input type="text" onkeydown='alert("Esse evento ativa ao apertar qualquer telca.")'>
+        <br/>
+        <input type="text" onkeyup='alert("Esse evento é ativado quando o botão é largado.")'>
+        <br/>
+        <input type="text" onkeypress='alert("Esse evento ativa quando uma tecla diferente de alt, tab, etc é ativada.")'>
+        <br/><br/>
+        <a href="../../index.html"><input type="button" value="Voltar"/></a>
+    </body>
+</html>
