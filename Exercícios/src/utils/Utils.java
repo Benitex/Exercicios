@@ -2,7 +2,7 @@ package utils;
 
 import java.lang.Math;
 
-public class Utils{
+public class Utils {
     public static double calculaMedia(double[] array) {
         int tempo;
         double soma = 0;
