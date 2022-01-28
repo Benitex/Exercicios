@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Funcionario implements Serializable, Comparable<Funcionario> {
     private static final long serialVersionUID = 3L;
     private String nome;
-    private int salario;
+    private double salario;
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -13,20 +13,19 @@ public class Funcionario implements Serializable, Comparable<Funcionario> {
     public String getNome() {
         return nome;
     }
-    public void setSalario(int salario) {
+    public void setSalario(double salario) {
         this.salario = salario;
     }
-    public int getSalario() {
+    public double getSalario() {
         return salario;
     }
 
     @Override
     public String toString() {
-        return "Nome: " + this.nome + " - " + " Salário: " + this.salario;
+        return this.nome + " - " + this.salario;
     }
     @Override
     public int compareTo(Funcionario obj) {
-        Integer salario = new Integer(this.salario);
-        return salario.compareTo(obj.salario);
+        return Double.compare(salario, obj.salario);
     }
 }

@@ -1,5 +1,6 @@
 package aula8;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class Exercicio {
     /*
@@ -16,24 +18,31 @@ public class Exercicio {
     empresa a armazene em uma estrutura adequada. Serialize a lista de funcionários. 
     */
     public static void main(String[] args) throws Exception {
-        //ArrayList<Funcionario> lista = (ArrayList<Funcionario>) load("Exercícios/src/aula8/Arquivo.txt");
-        //System.out.println(lista);
-        
+        final int TAM = 2;
+        Scanner resposta = new Scanner(System.in);
+        File arquivo = new File("Exercícios/src/aula8/Arquivo.txt");
         ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>();
 
-        Funcionario func = new Funcionario();
-        func.setNome("João");
-        func.setSalario(500);
-        funcionarios.add(func);
+        if (arquivo.exists()) {
+            // Lê a lista de arquivos
+            funcionarios = (ArrayList<Funcionario>) load("Exercícios/src/aula8/Arquivo.txt");
+        } else {
+            // Registra uma lista de funcionários
+            for (int tempo = 0; tempo < TAM; tempo++) {
+                Funcionario func = new Funcionario();
+                System.out.println("Insira o nome do funcionário.");
+                func.setNome(resposta.next());
+                System.out.println("Insira o salário do funcionário.");
+                func.setSalario(resposta.nextDouble());
+                funcionarios.add(func);
+            }
 
-        Funcionario func2 = new Funcionario();
-        func2.setNome("Enzo");
-        func2.setSalario(20);
-        funcionarios.add(func2);
-
-        ordenarPorSalario(funcionarios);
+            ordenarPorSalario(funcionarios);
+            save(funcionarios);
+        }
         System.out.println(funcionarios);
-        save(funcionarios);
+
+        resposta.close();
     }
 
     public static void save(Object obj) throws IOException {
