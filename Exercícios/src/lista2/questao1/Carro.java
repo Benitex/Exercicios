@@ -5,7 +5,7 @@ necessário (não precisa reescrever a classe carro toda, só a declaração da 
 a mais, além do que já aparece na figura).
 */
 
-package lista2;
+package lista2.questao1;
 
 import java.util.ArrayList;
 

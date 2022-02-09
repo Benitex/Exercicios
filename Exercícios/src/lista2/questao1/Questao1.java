@@ -4,7 +4,7 @@ carros e insira na lista. Em cada carro, adicione um Acessorio Som e um Acessori
 VidroEletrico. 
 */
 
-package lista2;
+package lista2.questao1;
 
 import java.util.ArrayList;
 

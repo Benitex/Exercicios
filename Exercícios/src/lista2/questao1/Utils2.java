@@ -5,7 +5,7 @@ acessórios de todos os carros e o total de imposto de renda de todos os acessó
 os carros.
 */
 
-package lista2;
+package lista2.questao1;
 
 import java.util.List;
 import java.util.ArrayList;

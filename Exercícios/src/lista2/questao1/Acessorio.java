@@ -7,7 +7,7 @@ subclasses  de  Acessorio  sejam  obrigadas  a  implementar  esse  método.  Cri
 em Acessorio. Esse construtor deve receber a marca e o preço.
 */
 
-package lista2;
+package lista2.questao1;
 
 public abstract class Acessorio {
     private double preco;
