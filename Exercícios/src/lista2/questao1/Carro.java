@@ -1,9 +1,7 @@
-/*
-1.3 – Modifique a classe Carro adicionando uma lista de acessórios. A lista DEVE ser privada. 
+/* 1.3 – Modifique a classe Carro adicionando uma lista de acessórios. A lista DEVE ser privada. 
 Essa  lista  conterá  os  acessórios  que  o  carro  vai  ter.  Não  amarre  o  sistema.  Crie  mais  métodos  se 
 necessário (não precisa reescrever a classe carro toda, só a declaração da classe e o que for inserir 
-a mais, além do que já aparece na figura).
-*/
+a mais, além do que já aparece na figura). */
 
 package lista2.questao1;
 
@@ -28,7 +26,8 @@ public class Carro {
     }
     public void setRenavan(String renavan) {
         this.renavan = renavan;
-    }public String getRenavan() {
+    }
+    public String getRenavan() {
         return renavan;
     }
     public void setAno(int ano) {
@@ -37,14 +36,16 @@ public class Carro {
     public int getAno() {
         return ano;
     }
-    public void setAcessorios(ArrayList<Acessorio> acessorios) {
-        this.acessorios = acessorios;
+
+    public void adicionarAcessorio(Acessorio acessorio) {
+        acessorios.add(acessorio);
     }
     public ArrayList<Acessorio> getAcessorios() {
         return acessorios;
     }
 
-    public void adicionarAcessorio(Acessorio acessorio) {
-        acessorios.add(acessorio);
+    @Override
+    public String toString() {
+        return placa + " - Acessórios: " + acessorios;
     }
 }

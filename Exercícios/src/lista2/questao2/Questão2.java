@@ -1,7 +1,5 @@
-/*
-Crie um programa que receba do console (entrada do teclado) uma frase. Em seguida, esse 
-programa deve chamar o método Utils.verifica(String texto).
-*/
+/* Crie um programa que receba do console (entrada do teclado) uma frase. Em seguida, esse 
+programa deve chamar o método Utils.verifica(String texto). */
 
 package lista2.questao2;
 
