@@ -10,7 +10,11 @@ public class Questão2 {
         Scanner resposta = new Scanner(System.in);
         System.out.println("Insira a frase.");
         String frase = resposta.nextLine();
-        Utils.verifica(frase);
+        try {
+            Utils.verifica(frase);
+        } catch (TextoCurtoException e) {
+            System.out.println("Frase muito curta.");
+        }
         System.out.println(Utils.moderar(frase));
         resposta.close();
     }

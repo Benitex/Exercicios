@@ -1,11 +1,16 @@
 package lista2.questao2;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Utilidades {
-    public static List<String> getPalavroes() {
-        List<String> palavroes = new ArrayList<String>();
+    public static Set<String> getPalavroes() {
+        HashSet<String> palavroes = new HashSet<String>();
+
+        palavroes.add("palavrao1");
+        palavroes.add("palavrao2");
+        palavroes.add("palavrao3");
+
         return palavroes;
     }
 }

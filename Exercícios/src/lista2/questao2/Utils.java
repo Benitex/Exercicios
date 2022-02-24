@@ -1,17 +1,13 @@
 package lista2.questao2;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Utils {
     /* Esse método é responsável por verificar se o texto (variável “texto“) tem menos de 10 caracteres 
     e, caso tenha, deve lançar uma  exceção  checked  denominada  TextoCurtoException. */
-    public static void verifica(String texto) {
-        if (texto.length() < 10) {
-            try {
-                throw new TextoCurtoException(texto.length());
-            } catch (TextoCurtoException e) {
-                System.out.println("Texto inserido com " + texto.length() +  " caracteres");
-            }
+    public static void verifica(String texto) throws TextoCurtoException {
+        if (texto == null || texto.length() < 10) {
+            throw new TextoCurtoException("Texto inserido com " + texto.length() +  " caracteres");
         }
     }
 
@@ -20,23 +16,28 @@ public class Utils {
     substituído por um caractere #. Ou seja, se o palavrão tiver 6 caracteres, o palavrão no texto 
     deverá ser substituído por ######. */
     public static String moderar(String texto) {
+        HashSet<String> palavroes = (HashSet<String>) Utilidades.getPalavroes();
         String[] palavras = texto.split(" ");
-        ArrayList<String> palavroes = (ArrayList<String>) Utilidades.getPalavroes();
+        texto = "";
+
         for (String palavra : palavras) {
-            for (String palavrao : palavroes) {
-                if (palavra.equalsIgnoreCase(palavrao)) {
-                    char[] letras = palavra.toCharArray();
-                    for (char letra : letras) {
-                        letra = '#';
-                    }
+            if (palavroes.contains(palavra.toLowerCase())) {
+                char[] letras = palavra.toCharArray();
+                palavra = "";
+
+                for (char letra : letras) {
+                    letra = '#';
+                    palavra += letra;
                 }
+            }
+
+            if (texto.length() == 0) {
+                texto += palavra;
+            } else {
+                texto += " " + palavra;
             }
         }
 
-        String textoModerado = "";
-        for (String palavra : palavras) {
-            textoModerado += palavra;
-        }
-        return textoModerado;
+        return texto;
     }
 }
