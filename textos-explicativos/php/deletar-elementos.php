@@ -1,5 +1,7 @@
 <?php
 
+// Delete
+
 include "config.php";
 $conexao = mysqli_connect($host, $usuario, $senha, "rpg");// também é possível escolher um banco aqui
 if (!$conexao) {
