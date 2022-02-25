@@ -1,4 +1,4 @@
-package pbs;
+package miniprojetos.pbs;
 
 public class Golpe {
     private int poder, quantidadeStatusAlterado;

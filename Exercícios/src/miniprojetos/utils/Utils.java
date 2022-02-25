@@ -1,4 +1,4 @@
-package utils;
+package miniprojetos.utils;
 
 import java.lang.Math;
 

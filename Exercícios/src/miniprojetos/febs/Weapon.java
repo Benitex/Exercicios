@@ -1,4 +1,4 @@
-package febs;
+package miniprojetos.febs;
 
 public class Weapon {
     private int damage, accuracy;

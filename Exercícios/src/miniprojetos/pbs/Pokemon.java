@@ -1,4 +1,4 @@
-package pbs;
+package miniprojetos.pbs;
 
 import java.util.Scanner;
 

@@ -1,8 +1,8 @@
-package febs;
-import utils.Utils;
+package miniprojetos.febs;
+import miniprojetos.utils.Utils;
 
 public class Character {
-    private int HP, strength, magic, defense, resistence, speed, skill, luck;
+    private int HP, strength, magic, defense, resistence, speed, luck;
     private boolean alive;
     private Weapon weapon;
 
