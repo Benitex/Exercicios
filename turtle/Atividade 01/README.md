@@ -1,7 +1,5 @@
 # Enunciado - Atividade Individual 01
 
-Exercícios usando a biblioteca turtle e uma [calculadora](calculator.py) que fiz para testar algumas funções do python. A seguir, o enunciado dos exercícios:
-
 ## PRINCIPAL
 
 * Desenhar o plano cartesiano

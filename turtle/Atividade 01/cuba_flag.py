@@ -5,7 +5,7 @@ from turtle import *
 turtle = Turtle()
 colormode(255)
 
-def main():
+def draw_cuba_flag():
   # Fundo azul
   go_to_without_writing(-400, 280)
   turtle.fillcolor(0, 42, 143)
@@ -77,4 +77,4 @@ def draw_star(turtle: Turtle):
   turtle.goto(x - 25, y + 25)
   turtle.goto(x, y + 95)
 
-main()
+draw_cuba_flag()
