@@ -9,19 +9,18 @@ turtle.speed(8)
 def draw_flag():
   flag = textinput(
     "Escolha uma bandeira",
-    'Qual bandeira vai ser desenhada? (escreva "brazil", "japan" ou "cuba")'
+    'Qual bandeira vai ser desenhada?\n(Opções: brazil, japan, cuba, belgium, cameroon, france, ireland, italy, nigeria, romenia)'
   )
   flag = flag.lower()
 
   exec(open(f"{flag}.py").read())
 
 def draw_function(turtle: NeoTurtle):
-  GRAPHIC_AMPLIFIER = 50
+  GRAPHIC_AMPLIFIER = 10
 
-  turtle.go_to_without_writing(-PLANE_SIZE, PLANE_SIZE)
+  turtle.go_to_without_writing(-PLANE_SIZE, 0)
 
   for x in range(-10, 10):
-    print(2 ** x)
     turtle.goto(
       x // GRAPHIC_AMPLIFIER if x < 0 else x * GRAPHIC_AMPLIFIER,
       (2 ** x) * GRAPHIC_AMPLIFIER

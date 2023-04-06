@@ -56,6 +56,19 @@ class NeoTurtle(Turtle):
 
     self.end_fill()
 
+  def draw_rectangle(self, x: int, y: int, height: int, width: int, color: str | None = None):
+    if color != None:
+      self.fillcolor(color)
+      self.begin_fill()
+
+    self.go_to_without_writing(x, y)
+    self.goto(self.xcor() + width, self.ycor())
+    self.goto(self.xcor(), self.ycor() - height)
+    self.goto(self.xcor() - width, self.ycor())
+    self.goto(self.xcor(), self.ycor() + height)
+
+    if color != None: self.end_fill()
+
   def circle(self, radius: float, x: int, y: int, color = "white", extent: float | None = None, steps: int | None = None) -> None:
     self.fillcolor(color)
     self.begin_fill()

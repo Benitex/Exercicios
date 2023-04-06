@@ -9,13 +9,15 @@
 * A espiral também deve ser implementada através de função podendo alterar a sua "abertura";
 * Cada bandeira deve ter uma função separada para ela;
 * As cores das figuras desenhadas no plano cartesiano devem vir através de textinput;
-* Deve ser desenhada uma das seguintes funções matemáticas:
+* Devem ser desenhadas as seguintes funções matemáticas:
   * y = √x
   * y = 1/x
   * y = 2^x
   * y = 5 - x^2
   * y = x^2 - 5x + 6
   * y = x^3 - x^2 - x + 1
+* Alterem as funções para criar as bandeiras usando funções genéricas criadas para formas geométricas
+* Criar mais 7 bandeiras (sem problema de dificuldade) usando a estratégia acima
 
 ## EXTRA (200XP)
 
