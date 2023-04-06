@@ -2,9 +2,8 @@ from turtle import *
 import random
 from neo_turtle import NeoTurtle
 
-PLANE_SIZE = 230
+QUADRANT_SIZE = 230
 turtle = NeoTurtle()
-turtle.speed(8)
 
 def draw_flag():
   flag = textinput(
@@ -15,18 +14,7 @@ def draw_flag():
 
   exec(open(f"{flag}.py").read())
 
-def draw_function(turtle: NeoTurtle):
-  GRAPHIC_AMPLIFIER = 10
-
-  turtle.go_to_without_writing(-PLANE_SIZE, 0)
-
-  for x in range(-10, 10):
-    turtle.goto(
-      x // GRAPHIC_AMPLIFIER if x < 0 else x * GRAPHIC_AMPLIFIER,
-      (2 ** x) * GRAPHIC_AMPLIFIER
-    )
-
-turtle.draw_cartesian_plane(PLANE_SIZE)
+turtle.draw_cartesian_plane(QUADRANT_SIZE)
 
 selected_color = textinput(
   "Escolha uma cor",
@@ -37,50 +25,49 @@ selected_color = textinput(
 turtle.draw_polygon(
   number_of_sides = 3,
   side_size = 60,
-  x = -random.randint(60, PLANE_SIZE),
-  y = random.randint(60, PLANE_SIZE),
+  x = -random.randint(60, QUADRANT_SIZE),
+  y = random.randint(60, QUADRANT_SIZE),
   color = selected_color
 )
 # Quadrado
 turtle.draw_polygon(
   number_of_sides = 4,
   side_size = 60,
-  x = random.randint(0, PLANE_SIZE - 60),
-  y = random.randint(60, PLANE_SIZE),
+  x = random.randint(0, QUADRANT_SIZE - 60),
+  y = random.randint(60, QUADRANT_SIZE),
   color = selected_color
 )
 # Hexágono
 turtle.draw_polygon(
   number_of_sides = 6,
   side_size = 60,
-  x = -random.randint(100, PLANE_SIZE - 60),
-  y = -random.randint(0, PLANE_SIZE - 100),
+  x = -random.randint(100, QUADRANT_SIZE - 60),
+  y = -random.randint(0, QUADRANT_SIZE - 100),
   color = selected_color
 )
 # Octógono
 turtle.draw_polygon(
   number_of_sides = 8,
   side_size = 60,
-  x = random.randint(50, PLANE_SIZE - 150),
-  y = -random.randint(0, PLANE_SIZE - 150),
+  x = random.randint(50, QUADRANT_SIZE - 150),
+  y = -random.randint(0, QUADRANT_SIZE - 150),
   color = selected_color
 )
 
 for quadrant_number in range(1, 5):
-  turtle.erase_quadrant(quadrant_number, PLANE_SIZE)
+  turtle.erase_quadrant(quadrant_number, QUADRANT_SIZE)
 
 # Círculo
 turtle.circle(
   radius = 30,
-  x = -random.randint(60, PLANE_SIZE - 30),
-  y = random.randint(60, PLANE_SIZE - 30),
+  x = -random.randint(60, QUADRANT_SIZE - 30),
+  y = random.randint(60, QUADRANT_SIZE - 30),
   color = selected_color
 )
 
 turtle.spiral(x = 100, y = 100, opening = 25)
 
 for quadrant_number in range(1, 5):
-  turtle.erase_quadrant(quadrant_number, PLANE_SIZE)
+  turtle.erase_quadrant(quadrant_number, QUADRANT_SIZE)
 
-draw_function(turtle)
 draw_flag()

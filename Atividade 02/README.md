@@ -1,6 +1,6 @@
 # Enunciado - Atividade 02
 
-## PRINCIPAL (900XP)
+## PRINCIPAL
 
 * Utilizar o código da semana anterior e estender com os requisitos abaixo;
 * Cada forma geométrica deve ter uma função genérica para desenhá-la, passando posição (x, y), tamanho e cor;
@@ -19,11 +19,11 @@
 * Alterem as funções para criar as bandeiras usando funções genéricas criadas para formas geométricas
 * Criar mais 7 bandeiras (sem problema de dificuldade) usando a estratégia acima
 
-## EXTRA (200XP)
+## EXTRA
 
 * Implementar uma função genérica que crie qualquer forma geométrica e chamar ela dentro das outras;
 * Escolher a bandeira que vai ser desenhada pelo textinput, usando a função exec (o nome do arquivo python deve ser o nome do país).
 
-## EXTRA DO EXTRA (400XP)
+## EXTRA DO EXTRA
 
 * Fazer a corrida das tartarugas, usando uma função que recebe o total de tartarugas (2 no mínimo e 6 no máximo).
