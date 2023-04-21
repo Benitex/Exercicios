@@ -11,6 +11,7 @@ class Sun:
   __screen = None
   __RADIUS = 20
   __mouse_mode = False
+  time = 0
 
   def move(self, keys: pygame.key.ScancodeWrapper, mouse_y: int, dt: int):
     # Trocar os controles
@@ -32,6 +33,10 @@ class Sun:
       self.__y = 0 + self.__RADIUS
     if self.__y + self.__RADIUS >= self.__screen.get_height():
       self.__y = self.__screen.get_height() - self.__RADIUS
+
+  def update_time(self):
+    PIXELS_PER_HOUR = 13
+    self.time = self.__y // PIXELS_PER_HOUR
 
   def draw(self):
     pygame.draw.circle(
@@ -58,15 +63,3 @@ class Sun:
       start_pos = points[0],
       end_pos = points[1]
     )
-
-  def get_time(self):
-    DAY_POSITION = 150
-    AFTERNOON_POSITION = 250
-    NIGHT_POSITION = 300
-
-    if self.__y <= DAY_POSITION:
-      return "day"
-    elif self.__y <= AFTERNOON_POSITION:
-      return "afternoon"
-    elif self.__y <= NIGHT_POSITION:
-      return "night"

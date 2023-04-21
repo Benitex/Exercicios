@@ -28,9 +28,10 @@ def update():
   mouse_x, mouse_y = pygame.mouse.get_pos()
 
   if pygame.mouse.get_pressed()[0]:
-    load_music(sun.get_time())
+    load_music(sun.time)
 
   sun.move(keys, mouse_y, dt)
+  sun.update_time()
   cloud.move(dt)
 
 def draw():
@@ -62,13 +63,13 @@ def draw():
 
   pygame.display.update()
 
-def load_music(time: str):
+def load_music(time: int):
   global music
-  if time == "day":
+  if time <= 12:
     music = pygame.mixer.music.load("assets/music/ai_piano_solo.mp3")
-  elif time == "afternoon":
+  elif time <= 18:
     music = pygame.mixer.music.load("assets/music/ai_piano_jazz.mp3")
-  elif time == "night":
+  else:
     music = pygame.mixer.music.load("assets/music/ai_jazz.mp3")
   pygame.mixer.music.play(loops = -1)
 
