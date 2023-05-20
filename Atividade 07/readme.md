@@ -21,4 +21,4 @@
 
 ![imagem](https://i.pinimg.com/564x/b7/2f/76/b72f767f389321e4b6f0656c584424d7.jpg)
 
-OBS.: O tamanho das palavras têm relação com quanto elas se repetem na lista. Além disso, a disposição delas não precisa ter uma lógica específica e uma pode sobrepor a outra por pouca coisa. Mas nada que impeça a leitura das palavras!
+OBS.: O tamanho das palavras têm relação com quanto elas se repetem na lista. Além disso, a disposição delas não precisa ter uma lógica específica e uma pode sobrepor a outra por pouca coisa. Mas nada que impeça a leitura das palavras! OBS2.: Pode usar a WordCloud da biblioteca MatplotLib, porém ainda tem que extrair as palavras de uma lista fixa, e não escrever o dicionário diretamente.
