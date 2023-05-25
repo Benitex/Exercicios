@@ -28,10 +28,17 @@ def update(mouse_buttons):
 def draw():
   screen.fill("black")
 
-  player.draw(screen)
   enemy.draw(screen)
+  player.draw(screen)
   for fly in flies:
     fly.draw(screen)
+
+  # Chão
+  pygame.draw.rect(
+    surface = screen,
+    color = "white",
+    rect = (0, 246, screen.get_width(), screen.get_height() - 246)
+  )
 
   pygame.display.update()
 

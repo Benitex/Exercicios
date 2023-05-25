@@ -8,6 +8,8 @@ class Player:
   __x, __y = 0, 0
   __speed = 10
   __is_facing_right = True
+  __max_time_jumping = 6 * 60
+  __time_jumping = 0
   is_on_the_ground = True
 
   __sprite_sheet = pygame.image.load("assets/player.png")
@@ -15,6 +17,21 @@ class Player:
   __animation_time = 0
 
   def update(self, dt: int, pressed_keys):
+    if self.__time_jumping < self.__max_time_jumping:
+      self.__time_jumping += dt
+      if (pressed_keys[pygame.K_UP] or pressed_keys[pygame.K_w] or pressed_keys[pygame.K_SPACE]):
+        self.is_on_the_ground = False
+        self.__y -= 12 * dt/60
+      else:
+        self.__time_jumping = self.__max_time_jumping
+
+    else:
+      self.__y += 8 * dt/60
+      if self.__y >= 230:
+        self.is_on_the_ground = True
+        self.__time_jumping = 0
+        self.__y = 230
+
     if pressed_keys[pygame.K_LEFT] or pressed_keys[pygame.K_a]:
       self.__is_facing_right = False
       self.__x -= self.__speed * dt/60
@@ -26,10 +43,10 @@ class Player:
       self.__walking_animation(dt)
 
     else:
-      if self.is_on_the_ground:
-        self.__animation_frame = 0
-      else:
-        self.__animation_frame = 3
+      self.__animation_frame = 0
+
+    if not self.is_on_the_ground:
+      self.__animation_frame = 3
 
   def __walking_animation(self, dt: int):
     self.__animation_time += dt
