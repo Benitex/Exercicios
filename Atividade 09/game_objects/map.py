@@ -7,9 +7,22 @@ class Map:
     self.__width = width
     self.__tileset = tileset
 
+    for layer in self.__map_layers:
+      for tile_number, tile in enumerate(layer):
+        if self.__tileset.is_tile_collisionable(tile):
+          rect = pygame.Rect(
+            (tile_number % self.__width) * self.__tileset.tile_size,
+            (tile_number // self.__width) * self.__tileset.tile_size,
+            self.__tileset.tile_size,
+            self.__tileset.tile_size,
+          )
+          if rect not in self.colliders:
+            self.colliders.append(rect)
+
   __map_layers = []
   __tileset = Tileset
   __width = 0
+  colliders = []
 
   def draw(self, screen: pygame.Surface):
     for layer in self.__map_layers:
@@ -29,4 +42,3 @@ class Map:
             self.__tileset.tile_size,
           ),
         )
-

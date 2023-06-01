@@ -9,19 +9,29 @@ class Player:
   __speed = 7
   __direction = 0   # 1: baixo, 2: esquerda, 3: direita, 4: cima
 
+  collider = pygame.Rect(0, 0, 0, 0)
+
   __sprite_sheet = pygame.image.load("graphics/Player Tileset.png")
   __FRAME_SIZE = 64
   __animation_frame = 0
   __animation_time = 0
 
-  def update(self, dt: int, keys_pressed):
-    self.__collider = pygame.Rect(
-      self.x,
-      self.y,
-      self.__FRAME_SIZE,
-      self.__FRAME_SIZE,
-    )
+  def update(self, dt: int, keys_pressed, colliders: list[pygame.Rect]):
+    x_before_collisions = self.x
+    y_before_collisions = self.y
     self.move(dt, keys_pressed)
+
+    self.collider = pygame.Rect(
+      self.x + 20,
+      self.y + 35,
+      26,
+      26,
+    )
+    for collider in colliders:
+      if self.collider.colliderect(collider):
+        self.x = x_before_collisions
+        self.y = y_before_collisions
+        break
 
   def move(self, dt: int, keys_pressed):
     if keys_pressed[pygame.K_s] or keys_pressed[pygame.K_DOWN]:

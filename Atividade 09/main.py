@@ -8,11 +8,9 @@ def update():
   dt = clock.get_time()
 
   keys_pressed = pygame.key.get_pressed()
-  player.update(dt, keys_pressed)
+  player.update(dt, keys_pressed, village_map.colliders)
 
 def draw():
-  screen.fill("black") # TODO remover isso quando adicionar o mapa
-
   village_map.draw(screen)
   player.draw(screen)
 
@@ -40,7 +38,9 @@ village_map = Map(
     image_name = "Bushido Outdoor Tileset",
     tiles_in_a_row = 8,
     tile_size = 32,
-    collisionable_tiles = [],
+    non_collisionable_tiles = [
+      -1, 0, 3, 944, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1014, 1022, 1030, 1038, 1046,
+    ],
   ),
   map_layers = [
     convert_CSV_to_map_layer("maps/oriental village/oriental village - layer 1.csv"),
