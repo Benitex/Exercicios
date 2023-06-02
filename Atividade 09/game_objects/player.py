@@ -1,4 +1,5 @@
 import pygame
+from game_objects.camera import Camera
 
 class Player:
   def __init__(self, x: int, y: int) -> None:
@@ -16,10 +17,12 @@ class Player:
   __animation_frame = 0
   __animation_time = 0
 
-  def update(self, dt: int, keys_pressed, colliders: list[pygame.Rect]):
+  def update(self, dt: int, keys_pressed, colliders: list[pygame.Rect], camera: Camera):
     x_before_collisions = self.x
     y_before_collisions = self.y
-    self.move(dt, keys_pressed)
+    x_offset_before_collisions = camera.x_offset
+    y_offset_before_collisions = camera.y_offset
+    self.move(dt, keys_pressed, camera)
 
     self.collider = pygame.Rect(
       self.x + 20,
@@ -31,26 +34,32 @@ class Player:
       if self.collider.colliderect(collider):
         self.x = x_before_collisions
         self.y = y_before_collisions
+        camera.x_offset = x_offset_before_collisions
+        camera.y_offset = y_offset_before_collisions 
         break
 
-  def move(self, dt: int, keys_pressed):
+  def move(self, dt: int, keys_pressed, camera: Camera):
     if keys_pressed[pygame.K_s] or keys_pressed[pygame.K_DOWN]:
       self.y += self.__speed * dt/60
+      camera.y_offset += self.__speed * dt/60
       self.__direction = 0
       self.__walking_animation(dt)
 
     elif keys_pressed[pygame.K_a] or keys_pressed[pygame.K_LEFT]:
       self.x -= self.__speed * dt/60
+      camera.x_offset -= self.__speed * dt/60
       self.__direction = 1
       self.__walking_animation(dt)
 
     elif keys_pressed[pygame.K_d] or keys_pressed[pygame.K_RIGHT]:
       self.x += self.__speed * dt/60
+      camera.x_offset += self.__speed * dt/60
       self.__direction = 2
       self.__walking_animation(dt)
 
     elif keys_pressed[pygame.K_w] or keys_pressed[pygame.K_UP]:
       self.y -= self.__speed * dt/60
+      camera.y_offset -= self.__speed * dt/60
       self.__direction = 3
       self.__walking_animation(dt)
 
@@ -69,7 +78,7 @@ class Player:
   def draw(self, screen: pygame.Surface):
     screen.blit(
       source = self.__sprite_sheet,
-      dest = (self.x, self.y),
+      dest = (168, 118),
       area = (
         self.__animation_frame * self.__FRAME_SIZE,
         self.__direction * self.__FRAME_SIZE,

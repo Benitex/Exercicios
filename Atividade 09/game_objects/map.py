@@ -1,5 +1,6 @@
 import pygame
 from game_objects.tileset import Tileset
+from game_objects.camera import Camera
 
 class Map:
   def __init__(self, map_layers: list, width: int, tileset: Tileset) -> None:
@@ -24,7 +25,7 @@ class Map:
   __width = 0
   colliders = []
 
-  def draw(self, screen: pygame.Surface):
+  def draw(self, screen: pygame.Surface, camera: Camera):
     for layer in self.__map_layers:
       for tile_number, tile in enumerate(layer):
         if tile == -1: continue
@@ -32,8 +33,8 @@ class Map:
         screen.blit(
           source = self.__tileset.image,
           dest = (
-            (tile_number % self.__width) * self.__tileset.tile_size,
-            (tile_number // self.__width) * self.__tileset.tile_size,
+            (tile_number % self.__width) * self.__tileset.tile_size - camera.x_offset,
+            (tile_number // self.__width) * self.__tileset.tile_size - camera.y_offset,
           ),
           area = (
             (tile % self.__tileset.tiles_in_a_row) * self.__tileset.tile_size,

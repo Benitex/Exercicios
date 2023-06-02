@@ -1,4 +1,5 @@
 import pygame
+from game_objects.camera import Camera
 from game_objects.player import Player
 from game_objects.map import Map
 from game_objects.tileset import Tileset
@@ -8,10 +9,10 @@ def update():
   dt = clock.get_time()
 
   keys_pressed = pygame.key.get_pressed()
-  player.update(dt, keys_pressed, village_map.colliders)
+  player.update(dt, keys_pressed, village_map.colliders, camera)
 
 def draw():
-  village_map.draw(screen)
+  village_map.draw(screen, camera)
   player.draw(screen)
 
   pygame.display.update()
@@ -30,6 +31,7 @@ pygame.init()
 
 screen = pygame.display.set_mode((400, 300))
 clock = pygame.time.Clock()
+camera = Camera(104, 86)
 
 player = Player(270, 200)
 village_map = Map(
@@ -39,7 +41,11 @@ village_map = Map(
     tiles_in_a_row = 8,
     tile_size = 32,
     non_collisionable_tiles = [
-      -1, 0, 3, 944, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1014, 1022, 1030, 1038, 1046,
+      -1, 0, 3,
+      944, 960, 977,
+      1000, 1001, 1002, 1003, 1004, 1005, 1006,
+      1014, 1022, 1030, 1038, 1046,
+      2584, 2585, 2588, 2589, 2597, 2605, 2613, 2621, 2592, 2600, 2608, 2617, 2620,
     ],
   ),
   map_layers = [
