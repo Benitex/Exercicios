@@ -1,7 +1,3 @@
-# Essa calculadora não tenta resolver a questão proposta, 
-# na verdade eu tinha feito ela para treinar e resolvi deixar aqui por ser um pouco parecida
-# espero que ajude de alguma forma.
-
 OPERATORS = ['+', '-', '*', '/']
 
 parts = []
