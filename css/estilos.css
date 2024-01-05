@@ -1,0 +1,29 @@
+/*Para utilizar estilos diferentes em uma página, escolhemos qual tipo de texto será editado colocando as opções entre "{}"
+A ordem em que os estilos são definidos é inline(junto com a tag), com a tag style no documento principal e numa folha de estilos separada, como essa, por fim.*/
+body {
+    background-color: #021122;/*"background-color" define a cor de fundo.*/
+    color: #e6ebf1;/*"color" define a cor do texto.*/
+}
+p {
+    text-align: justify;/*"teext-align" define o alinhamento do texto, justificado, centralizado, etc.*/
+    text-indent: 45px;/*"text-ident" adiciona um tab antes de cada parágrafo, 45px é o valor padrão.*/
+}
+h1 {
+    text-indent: 180px;
+}
+h2 {
+    text-indent: 120px;
+}
+div.fundoAzul {
+    background-color: midnightblue;
+}
+.exemploClasse {/*Ao colocar um ponto antes do nome, podemos criar uma classe.*/
+    color: mediumturquoise;
+}
+p.exemploClasse {/*Ao colocar uma tag antes do nome da classe, podemos torná-la exclusiva para uma tag.*/
+    text-indent: 90px;
+}
+#exemploID {/*Para usar um id, basta colocar o # antes do nome do id.*/
+    color: white;
+    background-color: black;
+}

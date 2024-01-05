@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Vírus</title>
+        <script type="text/javascript">
+            window.alert("Seu dispositivo foi infectado por 70 vírus!");
+            desculpa = window.prompt("Peça desculpas para eu remover.");
+            remocao = false;
+            do {
+                desculpa = desculpa.toLowerCase();
+                desculpa = desculpa.trim();
+                if (desculpa == "desculpa" || desculpa == "desculpas"|| desculpa == "desculpe" || desculpa == "foi mal" || desculpa == "perdão") {
+                    remocao = true;
+                    window.alert("Muito bem, 50 vírus removidos, o resto fica.");
+                } else {
+                    window.alert("PEDE DESCULPA.");
+                    desculpa = window.prompt("Pede desculpa direito.");
+                }
+            } while (remocao == false);
+        </script>
+    </head>
+    <body>
+        <p>É brincadeira, não vá acreditar nesse tipo de coisa pelo amor de Deus.</p>
+    </body>
+</html>

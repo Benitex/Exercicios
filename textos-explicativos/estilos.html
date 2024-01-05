@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Estilos</title>
+
+        <!--Para definir o estilo de um arquivo externo, é necessário utilizar a tag link rel definindo o tipo de arquivo e href com o endereço.-->
+        <link rel="stylesheet" href="../css/estilos.css">
+        <style>/*Para utilizar estilos diferentes em uma página, utilizamos o <style e escolhemos qual tipo de texto será editado colocando as opções entre "{}"*/
+            table {
+                border: 2px solid ;/*"border" define uma borda, normalmente utilizada em tabelas, deve ser escolhida a largura da borda, 2px por exemplo, o tipo de borda e a cor.*/
+                margin-left: 45px;/*"margin" define o espaço antes do parágrafo.*/
+            }
+            th, td {
+                background-color: brown;
+                border: 1px solid saddlebrown;
+                font-family: 'Arial';/*"font-family" define o tipo de fonte utilizada, Times New Roman e Arial são exemplos.*/
+            }
+        </style>
+    </head>
+    <body>
+        <h1>CSS</h1>
+            <p style="margin-left: 10px;color: red;">Podemos trocar o estilo na própria tag.</p>
+            <div class="fundoAzul"><!--Podemos utilizar a tag div para definir uma área da página com uma formatação diferente.-->
+                <p class="exemploClasse">Podemos modificar os atributos de CSS com classes criadas em folhas de estilo.</p>
+                <p>Parágrafo normal para efeito de comparação.</p>
+            </div>
+            <p id="exemploID">Basta colocar o id com o nome para utilizar um id.</p>
+        <br/>
+        <p>Exemplo de tabela com formatação alterada:</p>
+        <table style="width: 80%;"><!--Podemos utilizar style em um elemento específico.-->
+            <tr>
+                <th>Coluna 1</th>
+                <th>Coluna 2</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+        </table>
+    </body>
+</html>

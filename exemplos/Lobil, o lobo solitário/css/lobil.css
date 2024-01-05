@@ -1,0 +1,26 @@
+body {
+    background-color: rgb(49, 42, 49);
+    color: #dfcedf;
+}
+p {
+    text-align: justify;
+    text-indent: 45px;
+}
+h2 {
+    margin-left: 90px;
+    color: #dfcedf;
+}
+a {
+    color: #993456;
+}
+table {
+    width: 40%;
+    margin-left: 45px;
+    border: 2px solid #9b5d9e;
+}
+th {
+    border: 2px solid #9b5d9eb7;
+}
+td {
+    border: 1px solid #9b5d9ea1;
+}
