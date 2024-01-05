@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Formulários</title>
+        <link rel="stylesheet" href="../css/estilos.css">
+        <script type="text/javascript">//veja a parte de javascript antes para entender como acessar os dados e utilizá-los
+            function getUsuario() {
+                nome = document.registro.usuário.value;
+                window.alert(nome);
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Formulários</h1>
+        <form name="registro" style="color: #e6ebf1;"><!--A tag form define o início de um formulário de entrada de valores pelo usuário.-->
+            <h2>Caixa de texto</h2>
+            Nome de usuário:
+            <br>
+            <!--A tag input é utilizada em várias formas diferentes de recebimento de informações.
+                O atributo "type" define o tipo de input recebido. text é a caixa de texto.
+                O atributo "name" serve para identificar o campo em um código como em um nome de variável.-->
+            <input type="text" name="usuário"/>
+            <br/><br/>
+            <!--placeholder permite colocar um texto que será apagado ao digitar algo.
+                informações só podem ser enviadas se todos os campos required forem preenchidos.-->
+            <input type="text" name="usuário" placeholder="texto na tela" required/>
+            <br/>
+            Senha:
+            <br/>
+            <input type="password" name="senha"><!--Ao utilizar "password" no atributo "type", o texto digitado fica oculto automáticamente.-->
+            <br/>
+            <h2></h2>
+            <!--A tag textarea define uma área de texto, para entrada de várias linhas de texto, diferentemente da caixa de texto.
+                O atributo "rows" define a quantidade de linhas e o atributo "cols" define a quantidade de colunas.-->
+            <textarea name="texto" rows="5" cols="100">Esse texto aparece dentro da área de texto.</textarea>
+            <!--number cria uma área de texto que pode ser modificada com operadores de incremento e decremento.
+                min definie o número minímo e max define o número mínimo, step define a quantidade de valores incrementados ou decrementados.
+            -->
+            <input type="number" name="numero" min="1" max="20" step="2"/>
+
+            <h2>Checkbox</h2>
+            <!--Podemos criar checkboxes com "checkbox" no atributo type.
+                Também podemos definir valores para cada checkbox com o atributo "value", que podem ser utilizados posteriormente.-->
+            <input type="checkbox" name="Checkbox" value="Item 1"/>
+            Item 1
+            <br/>
+            <input type="checkbox" name="Checkbox" value="Item 2"/>
+            Item 2
+            <br/>
+            <input type="checkbox" name="Checkbox" value="Item 3"/>
+            Item 3
+            <!--Outro tipo de caixa de marcação é a de rádio, que permite apenas uma entrada, ela funciona de forma semelhante a uma checkbox além disso.-->
+
+            <h2>Radio</h2>
+            <input type="radio" name="Radio" value="Item 1"/>
+            Item 1
+            <br/>
+            <input type="radio" name="Radio" value="Item 2"/>
+            Item 2
+            <br/>
+            <input type="radio" name="Radio" value="Item 3"/>
+            Item 3
+            <!--Podemos criar um menu com várias opções utilizando a tag "select.
+                Cada opção do menu fica definida em uma tag "option", que possui um valor definido para ser utilizado posteriormente.-->
+            
+            <h2>Menu</h2>
+            <select name="Menu">
+                <option value="Opção 1">Opção 1</option>
+                <option value="Opção 2" selected="selected">Opção 2</option><!--Selected define a opção selecionada por padrão.-->
+                <option value="Opção 3">Opção 3</option>
+                <option value="Opção 4">Opção 4</option>
+            </select>
+            <!--Podemos criar botões utilizando "button" no atributo type.
+                Utilizar "submit" resulta em um botão que envia dados.
+                Utilizar "reset" resulta em redefinir as opções selecionadas para o padrão.-->
+            
+            <h2>Botão</h2>
+            <input type="button" value="Botão com linha de código" onclick="alert(document.registro.usuário.value)"><!--onclick define o que acontece ao clicar no botão-->
+            <input type="button" value="Botão com função" onclick="getUsuario()"><!--é possível utilizar trechos de código ou funções.-->
+            <input type="submit" name="Botão que transfere informações" value="Botão"/>
+            <input type="reset" name="Botão de reset"/>
+        </form>
+    </body>
+</html>

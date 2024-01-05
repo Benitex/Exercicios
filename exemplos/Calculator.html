@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>Calculator</title>
+        <script type="text/javascript">
+            function calculator() {
+                x = parseFloat(document.answers.x.value)
+                y = parseFloat(document.answers.y.value)
+                operator = document.answers.operator.value
+                if (operator == "+") {
+                    resultado = x + y;
+                } else if (operator == '-') {
+                    resultado = x - y;
+                } else if (operator == "*") {
+                    resultado = x * y;
+                } else if (operator == "/") {
+                    resultado = x / y;
+                }
+                document.answers.resposta.value = resultado;
+            }
+        </script>
+    </head>
+    <body>
+        <h1 style="text-indent: 0%;">Calculator</h1>
+        <br/>
+        <form name="answers">
+            <input type="text" name="x"/>
+            <select name="operator">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">x</option>
+                <option value="/">/</option>
+            </select>
+            <input type="text" name="y"/>
+            <input type="button" value="=" onclick="calculator()"/>
+            <input type="text" name="resposta" readonly/>
+        </form>
+    </body>
+</html>
