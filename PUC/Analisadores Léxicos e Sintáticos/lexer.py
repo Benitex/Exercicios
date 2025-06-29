@@ -8,14 +8,13 @@ class ObsActLexer(Lexer):
     "TURN_ON", "TURN_OFF",
     "ALERT", "TO_ALL",
     "IF", "ELSE", "THEN", "AND",
-    "NUMBER", "BOOL", "STRING",
-    "EQUALS", "NOT_EQUALS",
-    "LESS_THEN", "LESS_THEN_OR_EQUAL",
-    "GREATER_THEN", "GREATER_THEN_OR_EQUAL",
+    "INT", "BOOL", "STRING",
+    "LOGICAL_OPERATOR",
   }
 
   literals = {
     '=',
+    '(', ')',
     '{', '}',
     '.', ',',
   }
@@ -40,15 +39,10 @@ class ObsActLexer(Lexer):
   ID_PLUS = r"[a-zA-Z_][a-zA-Z0-9_]*"
 
   # Logical operators
-  LESS_THEN_OR_EQUAL = '<='
-  GREATER_THEN_OR_EQUAL = '>='
-  LESS_THEN = '<'
-  GREATER_THEN = '>'
-  EQUALS = '=='
-  NOT_EQUALS = '!='
+  LOGICAL_OPERATOR = r'<=|>=|<|>|==|!='
 
   @_(r'\d+')
-  def NUMBER(self, token: Token) -> Token:
+  def INT(self, token: Token) -> Token:
     token.value = int(token.value)
     return token
 

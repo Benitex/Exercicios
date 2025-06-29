@@ -1,0 +1,2 @@
+dispositivo: {ArCondicionado, temperatura}
+set temperatura = 23.

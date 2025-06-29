@@ -1,0 +1,4 @@
+dispositivo: {ArCondicionado, temperatura}
+dispositivo: {Lampada}
+dispositivo: {TV}
+enviar alerta ("Mudando a temperatura para", temperatura) para todos: ArCondicionado, Lampada, TV.

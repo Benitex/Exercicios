@@ -1,0 +1,4 @@
+dispositivo: {Geladeira, temFiltroDeAgua, temChip}
+set temFiltroDeAgua = True.
+set temChip = True.
+se temFiltroDeAgua && temChip entao enviar alerta ("teste") Celular.

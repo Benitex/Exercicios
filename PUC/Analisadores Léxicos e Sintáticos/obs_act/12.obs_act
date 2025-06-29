@@ -1,0 +1,4 @@
+dispositivo: {Sensor, umidade}
+dispositivo: {Lampada, estaLigada}
+set estaLigada = True.
+se estaLigada && umidade < 40 entao desligar Lampada.

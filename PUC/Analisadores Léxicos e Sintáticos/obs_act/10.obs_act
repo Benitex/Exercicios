@@ -1,0 +1,3 @@
+dispositivo: {ArCondicionado, temperatura}
+dispositivo: {Sensor, umidade}
+se umidade < 40 && temperatura >= 25 entao desligar ArCondicionado.

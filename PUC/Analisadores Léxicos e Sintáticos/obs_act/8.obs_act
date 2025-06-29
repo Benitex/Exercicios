@@ -1,0 +1,2 @@
+dispositivo: {ArCondicionado, temperatura}
+enviar alerta ("Mudando a temperatura para", temperatura) ArCondicionado.

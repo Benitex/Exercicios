@@ -6,7 +6,7 @@ void desligar(String namedevice) {
   print("$namedevice desligado!");
 }
 
-void alerta(String namedevice, String msg, {String? observation}) {
+void alerta(String namedevice, String msg, [String? observation]) {
   print("$namedevice recebeu o alerta:");
   if (observation == null) {
     print(msg);

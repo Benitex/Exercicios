@@ -1,0 +1,3 @@
+dispositivo: {TV, estaLigada}
+set estaLigada = True.
+se estaLigada entao desligar TV.
