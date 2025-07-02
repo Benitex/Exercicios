@@ -1,0 +1,238 @@
+1) Faça um programa para criar dois processos 
+que se comunicam via pipe. O Pai lê do pipe 
+enquanto o filho escreve no pipe. Exiba o resultado 
+do que foi escrito e lido. 
+#include <stdio.h> 
+#include <string.h> 
+#include <stdlib.h> 
+#include <unistd.h>
+
+#define TEXT_MAXIMUM_LENGTH 10
+
+int main(void) {
+    int channel[2];
+    pipe(channel);
+
+    if (fork() == 0) {
+        char text[TEXT_MAXIMUM_LENGTH] = "test";
+
+        close(channel[0]);
+        write(channel[1], text, TEXT_MAXIMUM_LENGTH);
+
+        printf("Sent text: %s\n", text);
+        close(channel[1]);
+    } else {
+        char text[TEXT_MAXIMUM_LENGTH];
+
+        close(channel[1]);
+        read(channel[0], text, TEXT_MAXIMUM_LENGTH);
+
+        printf("Received text: %s\n", text);
+        close(channel[0]);
+    }
+
+    return 0;
+}
+
+gcc -Wall -o ex1 ex1.c
+./ex1
+
+Saída:
+Sent text: test
+Received text: test
+
+O programa cria um pipe e um processo filho. No processo filho, o canal de leitura é fechado,
+e a string "test" é criada e colocada no pipe com a função write, então a string é impressa e
+o canal de escrita é fechado. No processo pai, o canal de escrita é fechado, a string é lida
+através do read, e é impressa na tela e o canal de leitura é fechado.
+
+2) Faça um programa para redirecionar a entrada e 
+a saída, lendo os dados de um arquivo e gerando 
+a saída em outro. 
+
+#include <stdio.h> 
+#include <string.h> 
+#include <stdlib.h> 
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+
+#define TEXT_MAXIMUM_LENGTH 2000
+
+int main(void) {
+    int file1 = open("file1.txt", O_RDONLY);
+    dup2(file1, STDIN_FILENO);
+
+    int file2 = open("file2.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+    dup2(file2, STDOUT_FILENO);
+
+    char fileContent[TEXT_MAXIMUM_LENGTH];
+    read(STDIN_FILENO, fileContent, TEXT_MAXIMUM_LENGTH);
+    write(STDOUT_FILENO, fileContent, strlen(fileContent) - 1);
+
+    close(file1);
+    close(file2);
+    return 0;
+}
+
+Arquivo de entrada (file1.txt):
+test data
+data 2
+
+gcc -Wall -o ex2 ex2.c
+./ex2
+
+O programa inicia abrindo os dois arquivos, file1.txt como leitura e file2.txt (criando um 
+novo se não existir) como escrita, e duplicando file1 em STDIN_FILENO e file2 em STDOUT_FILENO,
+redirecionando a entrada e saída. Depois disso, o programa lê o conteúdo do arquivo através do 
+pipe duplicado usando a stdin, e escreve no outro arquivo usando a stdout.
+
+3) Faça um programa para criar um pipe e 
+executar dois processos que são utilitários do Unix 
+que se comuniquem através do pipe criado, assim 
+como a shell faz.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main(void) {
+    int channel[2];
+    pipe(channel);
+
+    if (fork() == 0) {
+        dup2(channel[1], STDOUT_FILENO);
+        close(channel[0]);
+        close(channel[1]);
+        execlp("ps", "ps", NULL);
+    }
+
+    if (fork() == 0) {
+        dup2(channel[0], STDIN_FILENO);
+        close(channel[0]);
+        close(channel[1]);
+        execlp("wc", "wc", NULL);
+    }
+
+    close(channel[0]);
+    close(channel[1]);
+
+    return 0;
+}
+
+gcc -Wall -o ex3 ex3.c
+./ex3
+
+Saída:
+       4      16     119
+
+O código cria dois processos, um para ps e outro para wc. No
+primeiro processo, o código redireciona a saída para o canal
+de escrita do pipe e executa ps. No segundo, o código redireciona
+o canal de entrada padrão para para o canal de saída do pipe. Assim,
+a posterior chamada ao processo wc tem os dados do comando ps executado
+pelo primeiro processo. 
+
+4) Faça um programa que cria dois processos 
+leitores e um processo escritor em uma mesma 
+pipe. Faça o escritor dormir metade do tempo 
+dos leitores, e mostre como os leitores 
+consomem os dados produzidos pelo escritor.
+
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <unistd.h>
+#include <sys/wait.h> 
+
+int main(void) {
+    int channel[2];
+    pipe(channel);
+
+    if (fork() == 0) {
+        close(channel[0]);
+
+        int *number = malloc(sizeof(int));
+        *number = 0;
+
+        while (*number < 10) {
+            write(channel[1], number, sizeof(int));
+            printf("Wrote number: %d\n", *number);
+            sleep(1);
+            *number += 1;
+        }
+
+        close(channel[1]);
+        free(number);
+        exit(0);
+    }
+
+    if (fork() == 0) {
+        close(channel[1]);
+        int *number = malloc(sizeof(int));;
+
+        while (*number < 8) {
+            read(channel[0], number, sizeof(int));
+            printf("Read number in 1: %d\n", *number);
+            sleep(2);
+        }
+
+        close(channel[0]);
+        free(number);
+        exit(0);
+    }
+
+    if (fork() == 0) {
+        close(channel[1]);
+        int *number = malloc(sizeof(int));;
+
+        while (*number < 8) {
+            read(channel[0], number, sizeof(int));
+            printf("Read number in 2: %d\n", *number);
+            sleep(2);
+        }
+
+        close(channel[0]);
+        free(number);
+        exit(0);
+    }
+
+    wait(NULL);
+
+    close(channel[0]);
+    close(channel[1]);
+    return 0;
+}
+
+gcc -Wall -o ex4 ex4.c
+./ex4
+
+Saída:
+Wrote number: 0
+Read number in 2: 0
+Wrote number: 1
+Read number in 1: 1
+Wrote number: 2
+Read number in 2: 2
+Wrote number: 3
+Read number in 1: 3
+Wrote number: 4
+Read number in 2: 4
+Wrote number: 5
+Read number in 1: 5
+Wrote number: 6
+Read number in 2: 6
+Wrote number: 7
+Read number in 1: 7
+Wrote number: 8
+Read number in 2: 8
+Wrote number: 9
+Read number in 1: 9
+
+O código é separado em três processos. O primeiro escreve um número na
+pipe a cada 1 terceiro, o segundo e o terceiro são iguais, eles leem um
+número a cada 2 segundos. Na prática, o que acontece é que o primeiro
+processo escreve um número, o terceiro lê e o segundo, sem ter o que ler,
+espera até que o primeiro escreva o próximo. Depois de mais um segundo, o
+primeiro já vai poder escrever mais um número, o terceiro lê ele
+imediatamente e o segundo precisa esperar de novo. O loop continua até
+todos os números serem lidos (a partir do limite hard coded).

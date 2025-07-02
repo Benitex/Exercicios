@@ -1,0 +1,332 @@
+1) Faça um programa para somar matrizes de acordo 
+com o seguinte algoritmo
+O primeiro processo irá criar duas matrizes 
+preenchidas e uma terceira vazia em 3 áreas de 
+memória compartilhada.
+Para cada linha da matriz solução, o seu 
+programa deverá gerar um processo para o seu 
+cálculo.
+OBS: implemente as matrizes como vetores de tamanho 
+(linha x coluna) e aloque a shared memory para os vetores 
+correspondentes, pois acessar os elementos (i,j) é 
+complexo.  
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h> 
+#include <sys/stat.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+#define ROWS_AMOUNT 3
+#define COLUMNS_AMOUNT 3
+#define MATRIX_SIZE (ROWS_AMOUNT * COLUMNS_AMOUNT)
+
+int main() {
+    int sharedMemory = shmget(IPC_PRIVATE, sizeof(int) * MATRIX_SIZE, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    int *matrix1 = (int *) shmat(sharedMemory, 0, 0);
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        matrix1[i] = i + 1;
+    }
+
+    int sharedMemory2 = shmget(IPC_PRIVATE, sizeof(int) * MATRIX_SIZE, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    int *matrix2 = (int *) shmat(sharedMemory2, 0, 0);
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        matrix2[i] = 9 - i;
+    }
+
+    int sharedMemory3 = shmget(IPC_PRIVATE, sizeof(int) * MATRIX_SIZE, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    int *result = (int *) shmat(sharedMemory3, 0, 0);
+
+    for (int row = 0; row < ROWS_AMOUNT; row++) {
+        int childId = fork();
+        if (childId < 0) exit(1);
+
+        if (childId == 0) {
+            for (int column = 0; column < COLUMNS_AMOUNT; column++) {
+                int position = column + row * COLUMNS_AMOUNT;
+                result[position] = matrix1[position] + matrix2[position];
+            }
+            exit(0);
+        } else {
+            waitpid(-1, NULL, 0);
+        }
+    }
+
+    for (int i = 0; i < COLUMNS_AMOUNT; i++) {
+        for (int i = 0; i < ROWS_AMOUNT; i++) {
+            printf("%d ", result[i]);
+        }
+        printf("\n");
+    }
+
+    shmdt(matrix1);
+    shmctl(sharedMemory, IPC_RMID, 0); 
+    shmdt(matrix2);
+    shmctl(sharedMemory2, IPC_RMID, 0); 
+
+    return 0;
+}
+
+gcc -Wall -o t ex1.c
+.\t
+
+Saída:
+10 10 10 
+10 10 10 
+10 10 10
+
+Primeiro, o programa aloca espaço na shared memory para as três matrizes, com o tamanho de um int vezes a quantidade de elementos do array,
+usando a função shmget para alocar a memória e shmat para associar aos ponteiros dos arrays, depois preenche as matrizes com valores arbitrários.
+Então o código cria um processo para cada linha da matriz e, nos processos filhos, faz a somatória dos elementos e adiciona na matriz de resultado.
+Por fim, o programa imprime os valores da matriz e libera a memória compartilhada.
+
+2) Mensagem do Dia
+Faça um programa que:
+Leia uma mensagem do dia do stdin (ou arquivo)
+Crie uma memória compartilhada com a chave 8752
+Salve a mensagem na memória
+Faça um outro programa “cliente” que utilize 
+a mesma chave (8752) e exiba a mensagem 
+do dia para o usuário
+
+Parte que lê a mensagem:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h> 
+#include <sys/stat.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+#include <string.h>
+
+#define MESSAGE_SIZE 32
+
+int main() {
+    char* inputMessage = (char *) malloc(sizeof(char) * MESSAGE_SIZE);
+    printf("Enter the message of the day:\n");
+    scanf("%31s", inputMessage);
+    inputMessage[MESSAGE_SIZE - 1] = '\0';
+
+    int sharedMemory = shmget(8752, sizeof(char) * MESSAGE_SIZE, 0);
+    char* memoryMessage = (char *) shmat(sharedMemory, 0, 0);
+    strcpy(memoryMessage, inputMessage);
+
+    free(inputMessage);
+    return 0;
+}
+
+gcc -Wall -o t ex1.c
+.\t
+
+Saída:
+Enter the message of the day:
+teste
+
+Parte que imprime a mensagem:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h> 
+#include <sys/stat.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+#define MESSAGE_SIZE 32
+
+int main() {
+    int sharedMemory = shmget(8752, sizeof(char) * MESSAGE_SIZE, 0);
+    char* memoryMessage = (char *) shmat(sharedMemory, 0, 0);
+    printf("%s\n", memoryMessage);
+}
+
+gcc -Wall -o t ex2_1.c
+./t
+
+Saída
+teste
+
+O primeiro programa aloca espaço para a mensagem do usuário e lê usando scanf.
+Depois disso, aloca espaço igual ao máximo de caracteres possível na shared memory e copia a string para o endereço.
+O programa que imprime simplesmente acessa o endereço com shmget e shmat, usando o tamanho máximo da mensagem e
+sem usar tags e imprime a mensagem registrada.
+
+3) Busca paralela em vetor
+Faça um programa paralelo (com pelo menos 
+4 processos) para localizar uma chave em 
+um vetor.
+Crie uma memória compartilhada com dados 
+numéricos inteiros e desordenados e a divida 
+pelo número de processos
+Cada processo deve procurar o dado na sua área 
+de memória e informar a posição onde o dado foi 
+localizado. 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h> 
+#include <sys/stat.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+#define PROCESS_AMOUNT 4
+#define ARRAY_SIZE 200
+
+int main() {
+    int sharedMemory = shmget(IPC_PRIVATE, sizeof(int) * ARRAY_SIZE, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    int *array = (int *) shmat(sharedMemory, 0, 0);
+    for (int i = 0; i < ARRAY_SIZE; i++) {
+        array[i] = i;
+    }
+
+    int lookingFor = 199;
+
+    for (int process = 0; process < PROCESS_AMOUNT; process++) {
+        int child = fork();
+        if (child < 0) exit(1);
+
+        if (child == 0) {
+            int startingIndex = process * (ARRAY_SIZE / PROCESS_AMOUNT);
+            for (int i = 0; i < ARRAY_SIZE / PROCESS_AMOUNT; i++) {
+                if (array[startingIndex + i] == lookingFor) {
+                    printf("Found %d in process %d at index %d\n", lookingFor, process, startingIndex + i);
+                    exit(0);
+                }
+            }
+            exit(0);
+        } else {
+            waitpid(-1, NULL, 0);
+        }
+    }
+
+    shmdt(array);
+    shmctl(sharedMemory, IPC_RMID, 0);
+}
+
+gcc -Wall -o t ex3.c
+./t
+
+Saída
+Found 199 in process 3 at index 199
+
+O código acessa um espaço de memória compartilhado com shmget do tamanho do array e inicia com valores arbitrários
+depois de chamar shmat. Para buscar o número, o programa cria 4 processos com loops que repetem pelo do tamanho do
+array dividido pelo número de processos, e começa a procurar a partir de startingIndex. No processo em que encontra,
+o processo imprime o número, em qual indíce estava e qual processo encontrou. No exemplo, foi encontrado o número 199 no processo com índice 3.
+
+4) Multiplicação multi-processo
+Faça um programa que:
+Tenha um processo pai que abre dois blocos de memória 
+compartilhada, m1 e m2.
+cria dois processos filho (use exec), P1 e P2: estes 
+também fazem attach em m1 ou m2 respectivamente
+Cada um dá um sleep() randômico e escreve um valor int 
+na área compartilhada dele, e avisa o processo pai que um 
+novo valor foi gerado, escrevendo tb um nr de sequencia
+O pai fica em loop verificando se houve um novo valor. 
+Apenas quando ambos P1 e P2 geraram um novo valor, o 
+pai imprime o produto dos valores gerados por P1 e P2
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h> 
+#include <sys/stat.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+int main() {
+    int m1 = shmget(8852, sizeof(int), IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    int *value1 = (int *) shmat(m1, NULL, 0);
+    *value1 = 0;
+    int m2 = shmget(8952, sizeof(int), IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    int *value2 = (int *) shmat(m2, NULL, 0);
+    *value2 = 0;
+
+    char *argv[] = {NULL};
+
+    int child1 = fork();
+    if (child1 == 0) {
+        execv("./p1", argv);
+        exit(0);
+    }
+
+    int child2 = fork();
+    if (child2 == 0) {
+        execv("./p2", argv);
+        exit(0);
+    }
+
+    while (1 < 2) {
+        if (*value1 != 0 && *value2 != 0) {
+            printf("%d\n", *value1 * *value2);
+            break;
+        }
+    }
+
+    shmdt(value1);
+    shmctl(m1, IPC_RMID, 0);
+    shmdt(value2);
+    shmctl(m2, IPC_RMID, 0);
+    return 0;
+}
+
+gcc -Wall -o t ex4.c
+./t
+
+Saída:
+Value 3 set to m1
+Value 2 set to m2
+6
+
+P1:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h> 
+#include <sys/stat.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+int main() {
+    int m1 = shmget(8852, sizeof(int), 0);
+    int *value1 = (int *) shmat(m1, NULL, 0);
+    sleep(rand() % 3);
+    *value1 = 3;
+    printf("Value 3 set to m1\n");
+    return 0;
+}
+
+gcc -Wall -o p1 p1.c
+
+P2:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/shm.h> 
+#include <sys/stat.h> 
+#include <unistd.h> 
+#include <sys/wait.h>
+
+int main() {
+    int m1 = shmget(8952, sizeof(int), 0);
+    int *value1 = (int *) shmat(m1, NULL, 0);
+    sleep(rand() % 3);
+    *value1 = 2;
+    printf("Value 2 set to m2\n");
+    return 0;
+}
+
+gcc -Wall -o p2 p2.c
+
+O código inicia as variáveis e acessa os endereços da memória compartilhada novamente, e
+cria dois processos para chamar o exec para os arquivos gerados por P1 e P2.
+Os processos de P1 e P2 simplesmente acessam a memória compartilhada no endereço da key,
+esperam entre 1 e 3 segundos, atribuem um valor fixo, e imprimem que foi feito.
+Voltando ao processo pai, o loop acontece enquanto os outros processos esperam e, quando
+o número é associado, o processo imprime a multiplicação e quebra o loop.

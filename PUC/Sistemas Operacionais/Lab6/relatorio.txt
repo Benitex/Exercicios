@@ -1,0 +1,297 @@
+1. Abra duas seções de terminais 
+Na primeira, execute um programa que fica em 
+loop lendo de uma FIFO para depois escrever na 
+saída padrão (tela) 
+Na segunda, execute um programa que fica lendo 
+da entrada padrão (teclado) e depois escreve na 
+mesma FIFO 
+
+ex1_saida.c:
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+int main(void) {
+    int fifo = open("ex1FIFO", O_RDONLY);
+    if (fifo < 0) perror("Error when opening fifo for reading.\n");
+
+    int data;
+    while (1 < 2) {
+        read(fifo, &data, sizeof(int));
+        printf("%d\n", data);
+    }
+
+    close(fifo);
+    return 0;
+}
+
+ex1_entrada.c:
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+#define FIFO_NAME "ex1FIFO"
+
+int main(void) {
+    if (access(FIFO_NAME, F_OK) != 0) {
+        if (mkfifo(FIFO_NAME, S_IRUSR | S_IWUSR) != 0) {
+            printf("Error when creating fifo.\n");
+        }
+    } else {
+        printf("FIFO accessed with success.\n");
+    }
+
+    int fifo = open(FIFO_NAME, O_WRONLY);
+    if (fifo < 0) perror("Error when opening fifo for writing.\n");
+
+    int data;
+    while (1 < 2) {
+        scanf("%d", &data);
+        write(fifo, &data, sizeof(int));
+    }
+
+    close(fifo);
+    return 0;
+}
+
+
+gcc -Wall -o ex1_e ex1_entrada.c
+gcc -Wall -o ex1_s ex1_saida.c
+./ex1_e
+
+Saída (e entrada):
+1
+2
+3
+5
+6
+7
+
+O programa que lê a fifo simplesmente abre no modo de leitura,
+e, em um loop infinito, lẽ dados da fifo com read e imprime. Já
+o programa que escreve na fifo primeiro tenta acessar ela com access
+e se não existir cria com mkfifo, depois abre ela em modo de leitura
+e começa a escrever os dados lidos com scanf usando write. O resultado
+da execução do programa é um terminal que lê os números e outro que
+escreve assim que são enviados pelo primeiro.
+
+2. Escreva um programa que primeiro cria 
+uma FIFO e em seguida cria dois processos 
+filho que escrevem uma string na FIFO. 
+ O pai dá um waitpid em seguida lê as 
+ strings desse FIFO e exibe na tela 
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+
+#define STRING_MAX_LENGTH 500
+#define FIFO_NAME "ex2FIFO"
+
+int main(void) {
+    int fifo;
+
+    if (access(FIFO_NAME, F_OK) != 0) {
+        if (mkfifo(FIFO_NAME, S_IRUSR | S_IWUSR) != 0) {
+            printf("Error when creating fifo.\n");
+        }
+    } else {
+        printf("FIFO accessed with success.\n");
+    }
+
+    if (fork() == 0) {
+        if (fork() == 0) {
+            fifo = open(FIFO_NAME, O_WRONLY);
+            if (fifo < 0) perror("Error when opening fifo for writing.\n");
+
+            char string[STRING_MAX_LENGTH] = "teste2";
+            write(fifo, string, sizeof(char) * STRING_MAX_LENGTH);
+        } else {
+            fifo = open(FIFO_NAME, O_WRONLY);
+            if (fifo < 0) perror("Error when opening fifo for writing.\n");
+
+            char string[STRING_MAX_LENGTH] = "teste1";
+            write(fifo, string, sizeof(char) * STRING_MAX_LENGTH);
+        }
+        close(fifo);
+        exit(0);
+    } else {
+        fifo = open(FIFO_NAME, O_RDONLY);
+        if (fifo < 0) perror("Error when opening fifo for reading.\n");
+
+        waitpid(-1, 0, 0);
+
+        char *string = (char*) malloc(sizeof(char) * STRING_MAX_LENGTH);
+        while (read(fifo, string, sizeof(char) * STRING_MAX_LENGTH) > 0) {
+            printf("%s\n", string);
+        }
+        close(fifo);
+        free(string);
+    }
+
+    return 0;
+}
+
+gcc -Wall -o ex2 ex2.c
+./ex2
+
+Saída:
+FIFO accessed with success.
+teste1
+teste2
+
+O código tenta acessar a fifo com access e, se não existir, cria
+ela com mkfifo. Depois disso, cria um processo filho, que cria outro
+o primeiro escreve teste1 e o segundo teste2 na fifo. Enquanto isso,
+o processo pai abre a fifo para leitura e espera os filhos para começar
+a ler as strings da fifo em um loop que imprime elas. Depois disso, fecha
+a fifo e encerra.
+
+3. Escreva um servidor e um cliente usando duas 
+FIFOs: uma para enviar strings para o servidor, 
+e outra para transmitir as respostas de volta 
+para os clientes. O servidor deverá rodar em 
+background e transformar cada palavra 
+recebida de minusculas para maiúsculas. 
+Obs: execute os seus clientes em terminais diferentes. 
+
+ex3_server.c:
+
+#include <stdio.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+#define STRING_MAX_LENGTH 500
+#define CLIENT_FIFO_NAME "clientFIFO"
+#define SERVER_FIFO_NAME "serverFIFO"
+
+int main(void) {
+    if (access(SERVER_FIFO_NAME, F_OK) != 0) {
+        if (mkfifo(SERVER_FIFO_NAME, S_IRUSR | S_IWUSR) != 0) {
+            printf("Error when creating server fifo.\n");
+        }
+    }
+
+    if (access(CLIENT_FIFO_NAME, F_OK) != 0) {
+        if (mkfifo(CLIENT_FIFO_NAME, S_IRUSR | S_IWUSR) != 0) {
+            printf("Error when creating client fifo.\n");
+        }
+    }
+
+    int server_fifo = open(SERVER_FIFO_NAME, O_RDONLY);
+    if (server_fifo < 0) {
+        perror("Error when opening server fifo for writing.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int client_fifo = open(CLIENT_FIFO_NAME, O_WRONLY);
+    if (client_fifo < 0) {
+        perror("Error when opening client fifo for reading.\n");
+        close(server_fifo);
+        exit(EXIT_FAILURE);
+    }
+
+    char string[STRING_MAX_LENGTH];
+    while (1 < 2) {
+        read(server_fifo, string, STRING_MAX_LENGTH);
+
+        for (int i = 0; string[i] != '\0' && i < STRING_MAX_LENGTH; i++) {
+            string[i] = toupper(string[i]);
+        }
+
+        write(client_fifo, string, STRING_MAX_LENGTH);
+    }
+
+    close(server_fifo);
+    close(client_fifo);
+    return 0;
+}
+
+ex3_client.c:
+
+#include <stdio.h> 
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+#define STRING_MAX_LENGTH 500
+#define CLIENT_FIFO_NAME "clientFIFO"
+#define SERVER_FIFO_NAME "serverFIFO"
+
+int main(void) {
+    if (access(SERVER_FIFO_NAME, F_OK) != 0) {
+        if (mkfifo(SERVER_FIFO_NAME, S_IRUSR | S_IWUSR) != 0) {
+            printf("Error when creating server fifo.\n");
+        }
+    }
+
+    if (access(CLIENT_FIFO_NAME, F_OK) != 0) {
+        if (mkfifo(CLIENT_FIFO_NAME, S_IRUSR | S_IWUSR) != 0) {
+            printf("Error when creating client fifo.\n");
+        }
+    }
+
+    int server_fifo = open(SERVER_FIFO_NAME, O_WRONLY);
+    if (server_fifo < 0) {
+        perror("Error when opening server fifo for reading.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int client_fifo = open(CLIENT_FIFO_NAME, O_RDONLY);
+    if (client_fifo < 0) {
+        perror("Error when opening client fifo for writing.\n");
+        close(server_fifo);
+        exit(EXIT_FAILURE);
+    }
+
+    char string[STRING_MAX_LENGTH];
+    while (1 < 2) {
+        scanf("%s", string);
+        write(server_fifo, string, STRING_MAX_LENGTH);
+
+        read(client_fifo, string, STRING_MAX_LENGTH);
+        printf("Received from server: %s\n", string);
+    }
+
+    close(client_fifo);
+    close(server_fifo);
+    return 0;
+}
+
+gcc -Wall -o ex3_server ex3_server.c
+gcc -Wall -o ex3 ex3_client.c
+./ex3
+./ex3_server &
+
+Saída:
+test 
+Received from server: TEST
+wow
+Received from server: WOW
+
+(Em outro terminal)
+testtest 
+Received from server: TESTTEST
+
+Os dois programas começam tentando acessar as duas fifos
+e criando novas se não existirem, depois, o server abre a
+fifo server para leitura e fifo cliente para escrita e vice
+verso para os clientes. A fifo server é usada para armazenar
+a versão enviada pelos clientes e a fifo client é usada para
+armazenar as versões em maiúsculo. Depois de abertas, os clientes
+escrevem o dado que leem com scanf na fifo do server e esperam
+pela resposta no fifo client e escreve quando chega. Já o server
+constantemente lê as strings na fifo server, converte para
+maiúsculo e escreve na fifo client. O resultado são conversões
+de strings independentes nos dois terminais.

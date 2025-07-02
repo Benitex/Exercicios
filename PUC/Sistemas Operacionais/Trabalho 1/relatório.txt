@@ -1,0 +1,192 @@
+Benito André Pepe - 2311720
+
+Para executar o código, basta compilar com gcc -Wall -o test main.c,
+e executar usando o nome do executável, o número de aviões e a duração
+das mensagens de aviso sobre mudanças importantes de estado do avião
+com turno presente no escalonamento.
+Para pausar e resumir a execução, basta pressionar ctrl + z. E para
+fechar o programa durante a execução, basta pressionar ctrl + c.
+
+Por exemplo:
+./test 5 2
+Para um controle de 5 aviões com mensagens aparecendo por 2 segundos.
+
+Sobre a implementação, foram criadas 10 funções, sendo que 4 são handlers
+para sinais e 4 são funções auxiliares para melhorar a organização do código.
+Além disso, foram definidos alguns enums para aumentar a legibilidade do código
+e um struct para armazenar as informações sobre aviões de forma organizada.
+
+A função main simplesmente lê os parâmetros de execução, associa nas variáveis
+e cria um processo filho que fica responsável pelo controle dos aviões o processo
+pai segue criando os aviões com a função loadAirspace.
+
+A função loadAirspace é responsável por criar e associar informações aos aviões,
+colocar essas informações na memória compartilhada e criar processos para simular
+o voo deles (também salvando seus pids na memória compartilhada).
+
+Essa função faz uso da função auxiliar getYSpeed, que define, antes do início do
+"voo", a velocidade que vão precisar manter para alcançar o aeroporto ao mesmo
+tempo nos eixos x e y. A ideia base é que o número de passos para chegar no aeroporto
+na coordenada x é constante, porque a velocidade é constante. Então basta dividir a
+distancia no eixo y pela quantidade de passos para conseguir a velocidade.
+
+A função loadAirspace associa o handler reduceSpeed ao sinal SIGUSR1 dos processos
+dos aviões. Esse sinal, ao ser chamado durante a função manageAirplanes, lê qual é o
+processo corrente e descobre o índice do avião correspondente ao processo através da
+memória compartilhada. Tendo acesso a essa informação, é possível alternar entre os
+valores de velocidade do avião, entre 0 e a velocidade padrão.
+
+Já o sinal SIGUSR2 é associado ao handler changeStrip, que, usando exatamente o mesmo
+algoritmo da loadAirspace para identificar o avião, troca a pista de preferência do
+avião do processo corrente do escalonamento para a outra alternativa na mesma direção,
+através de condicionais simples.
+
+A função manageAirplanes é a principal função que faz o escalonamento dos processos 
+e que controla os aviões no espaço aéreo. Ela acessa os aviões e os pids dos processos
+na memória compartilhada e começa o escalonamento.
+Para controlar se um avião pode entrar em colisão com outro, são comparados todos os
+aviões com índices maiores que o do avião do processo escalonado corrente, dessa forma,
+os aviões com índices mais baixos dão prioridade para os aviões com índices mais baixos,
+criando uma "fila". Quando a função checa por aviões que podem colidir, ela primeiro
+considera os que já estão próximos demais para mandar um sinal SIGKILL e cancelar a
+aterrissagem, e manda os sinais SIGUSR2 se o avião poderia mudar de pista para evitar
+a colisão, ou SIGUSR1 para desacelerar. Sempre dando prioridade para o avião com maior índice.
+Se nenhum dos casos anteriores foi necessário, a função permite que o processo continue
+executando com SIGCONT, e para o processo anterior.
+Para definir o próximo processo a ser executado, a função tenta associar o próximo índice
+e verifica se o avião correspondente ao processo está no ar ou ainda vai entrar no espaço
+aéreo.
+Além disso, nesse momento também é verificado se todos os aviões já pousaram para
+encerrar o programa. Se o loop passar por todos os índices e voltar para o inicial sem
+encontrar outro avião disponível, isso quer dizer que todos os aviões foram controlados.
+A função finaliza desassociando e liberando a memória compartilhada dos processos e aviões.
+
+A função areAirplanesInCollisionRoute é a função auxiliar usada para verificar se dois
+aviões podem bater (ou se estão em distância suficiente para cancelar uma aterrissagem,
+se o parâmetro é checkIfTheyAreColliding for true). Ela define uma distância mínima para
+uma colisão, considerando que o processo do outro avião ainda não somou a distância do voo
+do seu turno no escalonamento, e checa: 1. Se algum dos aviões não está no ar (se já
+tiverem pousado ou se ainda não chegaram no espaço aéreo, por exemplo), se tem pistas
+de preferência diferentes, a colisão é evitada. Se não, é calculada a distância entre eles
+e se for menor que a distância mínima no eixo x e y, eles estão em rota de colisão.
+
+canAvoidCollisionByChangingStrip é uma função auxiliar usada pela função manageAirplanes
+para definir se uma troca de pistas seria suficiente para evitar uma colisão. A ideia é
+que uma troca de pistas poderia evitar uma redução de velocidade, desde que só tenham dois
+aviões próximos. Para verificar isso, a função usa a função areAirplanesInCollisionRoute
+com o parâmetro considerStrips falso (afinal, a ideia é trocar pistas, é necessário levar
+em conta os aviões que estão em qualquer pista da mesma direção) para descobrir a
+quantidade de aviões próximos demais.
+
+A função printAirplanesStatus é a função que mostra o status dos aviões na tela.
+Ela checa o landingStatus e mostra se ainda não chegou no espaço aéreo, se teve que
+cancelar o pouso, se já chegou e onde pousou, ou se ainda está chegando, dizendo seu
+índice, posição, direção e pista de preferência. system("clear"); serve para limpar
+o terminal antes de imprimir as informações.
+
+O handler quitProgram, associado na função main ao processo que executa manageAirplanes,
+simplesmente libera os espaços de memória compartilhada que armazenam a lista de aviões
+e de processos que controlam eles, informa que o programa está sendo encerrado e fecha.
+
+O handler pauseProgram, associado junto com quitProgram, simplesmente notifica que o
+programa vai ser pausado ou continuado, e modifica o valor da variável global isPaused,
+para que, no processo da função manageAirplanes, depois que ela termine de executar as
+operações sobre o processo corrente, entre em um loop em que nada acontece até que o
+sinal seja enviado de novo, "despausando" o processo.
+
+Para os testes, foram testados casos comuns através de valores aleatórios,
+para 5, 10 e 20 aviões.
+O programa executa corretamente uma troca de pistas quando apenas dois aviões
+estão em risco de colisão.
+Caso sejam mais de dois aviões, o programa reduz a velocidade dos aviões com menores índices
+corretamente e o avião com maior índice segue normalmente até que tenha distância suficiente.
+Os demais aviões fazem uma "fila", até sobrarem dois e uma troca de pista resolver a situação.
+O programa executou corretamente o caso de dois aviões chegarem no espaço aéreo
+em posições com distância menor que 1, causando a retirada do espaço aéreo do
+avião com menor índice quando ele recebe a prioridade do escalonador.
+O programa também cancelou múltiplos aviões nesse caso corretamente.
+Apesar disso, o programa apresenta comportamentos inesperados de tempos em tempos,
+com retiradas do espáço aéreo repentinas. Algumas vezes os aviões também chegam na
+posição do aeroporto, mas precisam de mais uma "rodada" do escalonamento para aterrisarem. 
+
+Exemplo de entrada de 5 aviões:
+
+Airplane 0 - position: (0.00, 0.17), coming from: WEST, strip: W18
+Airplane 1 - position: (0.05, 0.92), coming from: WEST, strip: W18
+Airplane 2 - position: (1.00, 0.56), coming from: EAST, strip: E6
+Airplane 3 - position: (0.00, 0.69), coming from: WEST, strip: W3
+Airplane 4 - position: (0.95, 0.06), coming from: EAST, strip: E6
+
+Airplane 0 - landed at W18
+Airplane 1 - landed at W18
+Airplane 2 - landed at E27
+Airplane 3 - landed at W3
+Airplane 4 - landed at E6
+
+Exemplo de entrada de 10 aviões, mostrando aviões que chegam muito próximos cancelando a aterrissagem:
+
+Airplane 0 - position: (0.00, 0.83), coming from: WEST, strip: W3
+Airplane 1 - position: (0.00, 0.86), coming from: WEST, strip: W18
+Airplane 2 - position: (0.00, 0.89), coming from: WEST, strip: W3
+Airplane 3 - position: (0.00, 0.33), coming from: WEST, strip: W3
+Airplane 4 - position: (0.00, 1.00), coming from: WEST, strip: W18
+Airplane 5 - position: (0.00, 0.86), coming from: WEST, strip: W3
+Airplane 6 - position: (1.00, 0.37), coming from: EAST, strip: E6
+Airplane 7 - position: (0.00, 0.74), coming from: WEST, strip: W18
+Airplane 8 - position: (0.00, 0.33), coming from: WEST, strip: W18
+Airplane 9 - position: (0.95, 0.49), coming from: EAST, strip: E27
+
+Airplane 0 - had to cancel landing
+Airplane 1 - had to cancel landing
+Airplane 2 - had to cancel landing
+Airplane 3 - position: (0.10, 0.36), coming from: WEST, strip: W3
+Airplane 4 - position: (0.10, 0.90), coming from: WEST, strip: W18
+Airplane 5 - position: (0.10, 0.79), coming from: WEST, strip: W3
+Airplane 6 - position: (0.95, 0.38), coming from: EAST, strip: E6
+Airplane 7 - position: (0.05, 0.72), coming from: WEST, strip: W18
+Airplane 8 - position: (0.05, 0.35), coming from: WEST, strip: W18
+Airplane 9 - position: (0.90, 0.49), coming from: EAST, strip: E27
+
+Exemplo com 20 aviões (alguns também entraram próximos demais):
+
+Airplane 0 - had to cancel landing
+Airplane 1 - had to cancel landing
+Airplane 2 - position: (0.15, 0.24), coming from: WEST, strip: W3
+Airplane 3 - had to cancel landing
+Airplane 4 - had to cancel landing
+Airplane 5 - had to cancel landing
+Airplane 6 - had to cancel landing
+Airplane 7 - position: (0.95, 0.81), coming from: EAST, strip: E6
+Airplane 8 - position: (1.00, 0.36), coming from: EAST, strip: E27
+Airplane 9 - position: (1.00, 0.92), coming from: EAST, strip: E27
+Airplane 10 - position: (1.00, 0.66), coming from: EAST, strip: E27
+Airplane 11 - position: (0.95, 0.13), coming from: EAST, strip: E27
+Airplane 12 - position: (1.00, 0.38), coming from: EAST, strip: E6
+Airplane 13 - position: (0.95, 0.78), coming from: EAST, strip: E27
+Airplane 14 - position: (0.95, 0.61), coming from: EAST, strip: E6
+Airplane 15 - position: (0.95, 0.47), coming from: EAST, strip: E27
+Airplane 16 - position: (0.05, 0.56), coming from: WEST, strip: W18
+Airplane 17 - position: (0.05, 0.81), coming from: WEST, strip: W3
+Airplane 18 - position: (0.05, 0.80), coming from: WEST, strip: W18
+Airplane 19 - position: (0.90, 0.26), coming from: EAST, strip: E6
+
+Airplane 0 - had to cancel landing
+Airplane 1 - had to cancel landing
+Airplane 2 - had to cancel landing
+Airplane 3 - had to cancel landing
+Airplane 4 - had to cancel landing
+Airplane 5 - had to cancel landing
+Airplane 6 - had to cancel landing
+Airplane 7 - landed at E6
+Airplane 8 - landed at E6
+Airplane 9 - landed at E27
+Airplane 10 - landed at E27
+Airplane 11 - landed at E27
+Airplane 12 - landed at E6
+Airplane 13 - landed at E27
+Airplane 14 - landed at E6
+Airplane 15 - landed at E27
+Airplane 16 - landed at W18
+Airplane 17 - landed at W3
+Airplane 18 - landed at W18
+Airplane 19 - landed at E6

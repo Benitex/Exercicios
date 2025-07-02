@@ -1,0 +1,253 @@
+1) Execute o programa “ctrl-c.c”. 
+Digite Ctrl-C e Ctrl-\. Analise o resultado.
+Neste mesmo programa, remova os 
+comandos signal( ) e repita o teste anterior 
+observando os resultados.
+
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+#define EVER ;;
+
+void intHandler(int sinal);
+void quitHandler(int sinal);
+
+int main(void) {
+    void (*p) (int); // ponteiro para função que recebe int como 
+    // parâmetro
+    // p = signal(SIGINT, intHandler);
+    printf("Endereco do manipulador anterior %p\n", p);
+    // p = signal(SIGQUIT, quitHandler);
+    printf("Endereco do manipulador anterior %p\n", p);
+    puts("Ctrl-C desabilitado. Use Ctrl-\\ para terminar");
+    for (EVER);
+}
+
+void intHandler(int sinal) {
+    printf("Você pressionou Ctrl-C (%d) \n", sinal);
+}
+
+void quitHandler(int sinal) {
+    printf("Terminando o processo...\n");
+    exit(0);
+}
+
+gcc -Wall -o t ctrlc.c
+./t
+
+Saída 1:
+Endereco do manipulador anterior (nil)
+Endereco do manipulador anterior (nil)
+Ctrl-C desabilitado. Use Ctrl-\ para terminar
+^CVocê pressionou Ctrl-C (2) 
+^CVocê pressionou Ctrl-C (2) 
+^\Terminando o processo...
+
+Saída 2:
+Endereco do manipulador anterior 0x562bf5bfc0a0
+Endereco do manipulador anterior 0x562bf5bfc0a0
+Ctrl-C desabilitado. Use Ctrl-\ para terminar
+^C
+
+Com a chamada da função signal, o tratador do sinal SIGINT e do sinal SIGQUIT,
+são substituídos pelas funções intHandler e quitHandler respectivamente, isso significa
+que as funções são chamadas em vez do tratamento padrão e, por isso, o console não interrompeu
+nem fechou o processo. Depois de comentar as linhas, o comando ctrl-c interrompeu o processo,
+conforme esperado por não ser substituído. 
+
+2) Tente fazer um programa para interceptar o 
+sinal SIGKILL. Você conseguiu? Explique.
+
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+
+int main(void) {
+    signal(SIGKILL, SIG_IGN);
+    raise(SIGKILL);
+    return 0;
+}
+
+gcc -Wall -o t ex2.c
+./t
+
+Saída:
+Killed
+
+O sinal SIGKILL, por definição, não pode ser interceptado. Por isso, mesmo que
+a função signal com parâmetro SIG_IGN não gere erro, ela também não é executada pelo sistema.
+No fim das contas, o programa é encerrado com a função raise como se a linha anterior não existisse.
+
+3) Execute e explique o funcionamento de filhocidio.c
+
+filhocídio.c:
+
+#include <stdio.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+
+void childhandler(int signo);
+int delay;
+
+int main(int argc, char *argv[]) {
+    pid_t pid;
+
+    signal(SIGCHLD, childhandler);
+    if ((pid = fork()) < 0) {
+        fprintf(stderr, "Erro ao criar filho\n");
+        exit(-1);
+    }
+    if (pid == 0) /* child */
+        execve(argv[2], 0, 0); /* ou sleep(3);*/
+    else { /* parent */
+        sscanf(argv[1], "%d", &delay); /* read delay from command line */
+        sleep(delay);
+        printf("Program %s exceeded limit of %d seconds!\n", argv[2], delay);
+        kill(pid, SIGKILL);
+        sleep(1);          /* necessary for SIGCHLD to arrive */
+    }
+    return 0;
+}
+
+void childhandler(int signo) { /* Executed if child dies before parent */
+    int status;
+    pid_t pid = wait(&status);
+    printf("Child %d terminated within %d seconds com estado %d.\n", pid, delay, status);
+    exit(0);
+}
+
+sleep5.c:
+
+#include <stdio.h>
+#include <unistd.h>
+
+int main (void) {
+    fprintf(stdout, "indo dormir...\n");
+    sleep(5);
+    fprintf(stdout, "Acordei!\n");
+    return 0;
+}
+
+sleep15.c
+
+#include <stdio.h>
+#include <unistd.h>
+
+int main (void) {
+    fprintf(stdout, "indo dormir...\n");
+    sleep(15);
+    fprintf(stdout, "Acordei!\n");
+    return 0;
+}
+
+gcc -Wall -o filhocidio filhocidio.c
+gcc -Wall -o sleep5 sleep5.c
+gcc -Wall -o sleep15 sleep15.c
+
+Saída:
+
+indo dormir...
+Acordei!
+Child 5069 terminated within 10 seconds com estado 0.
+
+indo dormir...
+Program ./sleep15 exceeded limit of 10 seconds!
+Child 5126 terminated within 10 seconds com estado 9.
+
+O programa filhocidio.c, em essência, define um limite máximo de tempo que
+seu filho pode durar para terminar de executar. Se o filho superar esse limite,
+ele mata o filho. Para fazer isso, o executável gerado precisa de 2 parâmetros,
+o limite de tempo que um filho tem para executar e o executável em si.
+O programa substitui o tratador de SIGCHLD pela função childhandler, que
+avisa se um filho conseguiu terminar a tempo e fecha o programa. O código
+cria um processo para o executar o programa passado e o processo pai começa a
+esperar pelo filho. Se ele não recebe o final antes do tempo do sleep, ele
+avisa que o tempo acabou e mata o filho, e mostra que o filho foi assassinado pelo
+processo pai através do estado 9, depois de receber o sinal SIGCHLD.
+
+4) Usando SIGSTOP e SIGCONT faça um 
+programa que crie 2 processos filho e alterne a 
+execução dos filhos. Após  10 trocas de 
+contexto, o processo pai mata os processos 
+filho. 
+OBS: Os processos filho são formados por loops 
+infinitos.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+
+void sigcontHandler();
+
+int main(void) {
+    int contextChanges = 10;
+
+    signal(SIGCONT, sigcontHandler);
+
+    pid_t child2;
+    pid_t child1 = fork();
+    if (child1 < 0) exit(-1); 
+
+    if (child1 == 0) {
+        while (1 < 2) { }
+    } else {
+        child2 = fork();
+        if (child2 < 0) exit(-1);
+
+        if (child2 == 0) {
+            while (1 < 2) { }
+        } else {
+            for (int i = 0; i < contextChanges; i++) {
+                int childTurn = i % 2 + 1;
+                kill(
+                    childTurn == 1 ? child1 : child2,
+                    SIGCONT
+                );
+                kill(
+                  childTurn == 1 ? child2 : child1,
+                  SIGSTOP
+                );
+                sleep(1);
+            }
+
+            kill(child1, SIGKILL);
+            kill(child2, SIGKILL);
+        }
+    }
+
+    return 0;
+}
+
+void sigcontHandler() {
+    printf("Activating process %d\n", getpid());
+}
+
+gcc -Wall -o t ex4.c
+./t
+
+Saída:
+Activating process 8076
+Activating process 8077
+Activating process 8076
+Activating process 8077
+Activating process 8076
+Activating process 8077
+Activating process 8076
+Activating process 8077
+Activating process 8076
+Activating process 8077
+
+O programa começa substituindo o handler do sinal SIGCONT para mostrar no
+terminal o processo em execução. Depois disso, são criados os dois processos filhos
+executando os loops. O pai, por sua vez, em um loop de 10 passos, define qual o filho
+deve executar seu processo a partir do iterador do loop, e manda um sinal SIGCONT para
+o processo que deveria começar a acontecer e SIGSTOP para o outro. Com isso, o sinal é
+recebido e é impresso na tela o pid do processo corrente. O pai dá 1 segundo para o filho
+processar e faz a próxima iteração do loop. Depois que o loop completa, o pai mata os dois
+filhos com o sinal SIGKILL.

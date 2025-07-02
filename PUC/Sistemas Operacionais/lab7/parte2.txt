@@ -1,0 +1,288 @@
+4. Escreva dois programas prog1.c e prog2.c que trocam 
+dados através de um mesmo arquivo mapeado para 
+memória (de cada um).
+
+prog1.c:#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
+#include <sys/mman.h>
+
+#define FILE_NAME "example.bin"
+
+int main(void) {
+    int *p;
+    int fd;
+
+    fd = open(FILE_NAME, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    if (fd == -1) {
+        perror("open");
+        exit(1);
+    }
+
+    if (ftruncate(fd, sizeof(int)) == -1) {
+        perror("ftruncate");
+        close(fd);
+        exit(1);
+    }
+
+    p = mmap(0, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (p == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
+
+    *p = 42;
+    printf("Current value: %d\n", *p);
+
+    if (close(fd) == -1) {
+        perror("close");
+        exit(1);
+    }
+
+    if (munmap(p, sizeof(int)) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    return 0;
+}
+
+prog2.c:
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
+#include <sys/mman.h>
+
+#define FILE_NAME "example.bin"
+
+int main(void) {
+    int *p;
+    int fd;
+
+    fd = open(FILE_NAME, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    if (fd == -1) {
+        perror("open");
+        exit(1);
+    }
+
+    if (ftruncate(fd, sizeof(int)) == -1) {
+        perror("ftruncate");
+        close(fd);
+        exit(1);
+    }
+
+    p = mmap(0, sizeof(int), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (p == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
+
+    printf("Received value: %d\n", *p);
+    *p = 24;
+    printf("Current value: %d\n", *p);
+
+    if (close(fd) == -1) {
+        perror("close");
+        exit(1);
+    }
+
+    if (munmap(p, sizeof(int)) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    return 0;
+}
+
+gcc -Wall -o p1 prog1.c
+gcc -Wall -o p2 prog2.c
+./p1
+./p2
+
+Saída:
+p1:
+Current value: 24
+
+p2:
+Received value: 42
+Current value: 24
+
+O código funciona de forma muito semelhante a map-exemplo.
+A diferença é que o arquivo só armazena um único int, e o uso
+da função ftruncate logo depois de abrir o arquivo para garantir
+que o arquivo armazene exatamente um int, se tiver mais ou menos
+bytes. Depois disso, o espaço de memória é acessado normalmente,
+em p1 associando 42 ao valor e lendo em p2, depois modificando o
+valor para 24.
+
+5. Escreva um programa que faz um mapeamento de 
+arquivo para memória e depois escreve novos caracteres 
+no final do arquivo. O que voce precisa fazer para evitar 
+um SegFault?
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
+#include <sys/mman.h>
+
+int main(int argc, char *argv[]) {
+    struct stat sb;
+    char *p;
+    int fd;
+
+    char *newString = "This is a new string to be added.";
+    int newStringLength = strlen(newString);
+
+    if (argc < 2) {
+        fprintf (stderr, "usage: %s <file>\n", argv[0]);
+        exit(1);
+    }
+    fd = open(argv[1], O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    if (fd == -1) {
+        perror ("open");
+        exit(1);
+    }
+    if (fstat(fd, &sb)== -1) {
+        perror ("fstat");
+        exit(1);
+    }
+    if (!S_ISREG(sb.st_mode)) {
+        fprintf (stderr, "%s is not a file\n", argv[1]);
+        exit(1);
+    }
+
+    if (ftruncate(fd, sb.st_size + newStringLength) == -1) {
+        perror("ftruncate");
+        exit(1);
+    }
+
+    p = mmap(0, sb.st_size + newStringLength, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (p == MAP_FAILED) {
+        perror ("mmap");
+        exit(1);
+    }
+    
+    strcpy(p + sb.st_size, newString);
+
+    if (close(fd) == -1) {
+        perror("close");
+        exit(1);
+    }
+
+    if (munmap(p, sb.st_size + newStringLength) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    return 0;
+}
+
+gcc -Wall -o ex5 ex5.c
+./ex5 test.txt
+
+Saída (no arquivo test.txt)
+This is a new string to be added.
+
+Esse código também usa a base de map-exemplo.c, mas, nesse caso
+são feitas algumas modificações a mais. Primeiro a nova string a
+ser adicionada no arquivo é definida e é chamado strlen para
+contabilizar a quantidade de caracteres que vão ser inseridos no
+arquivo. Como no exemplo anterior, é necessário chamar a função
+ftruncate para modificar o tamanho do arquivo para o tamanho original
+mais o tamanho da string a ser inserida, para aumentar o espaço usado
+memória e evitar uma exceção segmentation fault. Depois disso, a
+string é simplesmente copiada para o fim do arquivo com strcpy. E o
+unmap é chamado usando o novo tamanho do arquivo.
+
+• O Linux também suporta uma função: 
+void *mremap(void *addr, size_t old_sz, size_t
+new_sz, unsigned long flags) // addr precisa
+estar alinhado com o início da página
+6. Re-escreva o seu programa do item anterior usando 
+mremap()
+
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
+#include <sys/mman.h>
+
+int main(int argc, char *argv[]) {
+    struct stat sb;
+    char *p;
+    int fd;
+
+    char *newString = "This is a new string to be added.";
+    int newStringLength = strlen(newString);
+
+    if (argc < 2) {
+        fprintf (stderr, "usage: %s <file>\n", argv[0]);
+        exit(1);
+    }
+    fd = open(argv[1], O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+    if (fd == -1) {
+        perror("open");
+        exit(1);
+    }
+    if (fstat(fd, &sb)== -1) {
+        perror("fstat");
+        exit(1);
+    }
+    if (!S_ISREG (sb.st_mode)) {
+        fprintf(stderr, "%s is not a file\n", argv[1]);
+        exit(1);
+    }
+
+    if (ftruncate(fd, sb.st_size + newStringLength) == -1) {
+        perror("ftruncate");
+        exit(1);
+    }
+
+    p = mmap(0, sb.st_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (p == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
+
+    mremap(p, sb.st_size, sb.st_size + newStringLength, MREMAP_MAYMOVE);
+    if (p == MAP_FAILED) {
+        perror("mremap");
+        exit(1);
+    }
+
+    strcpy(p + sb.st_size, newString);
+
+    if (close(fd) == -1) {
+        perror("close");
+        exit(1);
+    }
+
+    if (munmap(p, sb.st_size + newStringLength) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    return 0;
+}
+
+gcc -Wall -o ex6 ex6.c
+./ex6 test.txt
+
+Saída:
+This is a new string to be added.
+
+A principal diferença entre o código do exercício anterior
+e esse é que, em vez de mapear inicialmente a memória com
+espaço para a nova string, agora está sendo usado o mremap,
+expandindo o mapeamento de memória para incluir espaço para
+a string. O restante permanece idêntico.
