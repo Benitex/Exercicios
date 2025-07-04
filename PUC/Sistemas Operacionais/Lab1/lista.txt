@@ -1,0 +1,221 @@
+1) Faça um programa para criar dois processos, o pai escreve seu pid e espera o 
+filho terminar e o filho escreve o seu pid e termina.
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+int main(void) {
+    int child = fork();
+
+    printf("%d\n", child);
+    if (child != 0) {
+        waitpid(-1, NULL, 0);
+    }
+
+    return 0;
+}
+
+gcc -Wall -o t ex1.c
+./t
+
+Saída:
+8760
+0
+
+O programa executou conforme o esperado. Primeiro o pid do filho foi impresso na tela,
+que no caso era 8760, depois o do pai. Como o pai não tinha outro pai, foi impresso 0.
+
+2) Agora, usando a mesma estrutura de processos pai e filho, declare uma 
+variável visível ao pai e ao filho, no pai inicialize a variável com 1 e imprima seu 
+valor antes do fork(). No filho, altere o valor da variável para 5 e imprima o seu 
+valor antes do exit(). Agora, no pai, imprima novamente o valor da variável após o 
+filho ter alterado a variável - após a waitpid(). Justifique os resultados obtidos.
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+int main(void) {
+    int x = 1;
+    printf("Initial value %d\n", x);
+
+    int child = fork();
+
+    if (child != 0) {
+        waitpid(-1, NULL, 0);
+        printf("Parent value %d\n", x);
+    } else {
+        x = 5;
+        printf("Child value %d\n", x);
+    }
+
+    exit(0);
+
+    return 0;
+}
+
+gcc -Wall -o t ex2.c
+./t
+
+Saída:
+Initial value 1
+Child value 5
+Parent value 1
+
+O primeiro print mostra 1, como esperado. O segundo print (já no processo filho),
+mostra o valor 5 para x, porque a variável foi alterada nesse processo. O último
+print, de volta no processo pai, mostra o valor de 1 para x. Isso acontece porque
+a alteração da variável do processo filho não altera as variáveis do processo pai.
+
+3) Use o programa anterior para ler e ordenar um vetor de 10 posições. O filho 
+ordena o vetor e o pai exibe os dados do vetor antes do fork() e depois do 
+waitpid(). Eles usarão o mesmo vetor na memória? Justifique.
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+#define VECTOR_SIZE 10
+
+int compare(const void* a, const void* b) {
+    return *(int*)a - *(int*)b;
+}
+
+int main(void) {
+    int *x = (int *) malloc(sizeof(int) * VECTOR_SIZE);
+
+    printf("Type 10 integers:\n");
+    for (int i = 0; i < VECTOR_SIZE; i++) {
+        scanf("%d", &x[i]);
+    }
+
+    printf("\nInitial values:\n");
+    for (int i = 0; i < VECTOR_SIZE; i++) {
+        printf("%d ", x[i]);
+    }
+    printf("\n");
+
+    int child = fork();
+
+    if (child != 0) {
+        waitpid(-1, NULL, 0);
+
+        printf("Parent values:\n");
+        for (int i = 0; i < VECTOR_SIZE; i++) {
+            printf("%d ", x[i]);
+        }
+        printf("\n");
+    } else {
+        qsort(x, VECTOR_SIZE, sizeof(int), compare);
+    }
+
+    free(x);
+    exit(0);
+
+    return 0;
+}
+
+gcc -Wall -o t ex3.c
+./t
+
+Saída:
+Type 10 integers:
+1
+2
+3
+5
+4
+6
+7
+8
+9
+10
+
+Initial values:
+1 2 3 5 4 6 7 8 9 10 
+Parent values:
+1 2 3 5 4 6 7 8 9 10
+
+A partir da execução do programa é possível constatar que o processo filho não
+usa o mesmo endereço de memória do vetor do processo pai. Em vez disso, o
+processo filho cria uma cópia do vetor e faz as modificações no endereço
+criado e não no endereço original. Dessa forma, o vetor não é modificado.
+
+4) Modifique o programa anterior para que o filho execute um programa elaborado 
+por você, que mande imprimir uma mensagem qualquer no vídeo, por exemplo, 
+“alo mundo”. Em seguida altere o programa do item 4 para o filho executar o 
+programa echo da shell.
+
+ex4.c (versão 1):
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+int main(void) {
+    int child = fork();
+
+    if (child != 0) {
+        waitpid(-1, NULL, 0);
+
+    } else {
+        char *argv[] = {NULL};
+        execve("./i", argv, 0);
+    }
+
+    return 0;
+}
+
+i.c:
+
+#include <stdio.h>
+
+int main(int argc, char const *argv[]) {
+    printf("I am the child!\n");
+    return 0;
+}
+
+ex4.c (versão 2):
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
+int main(void) {
+    int child = fork();
+
+    if (child != 0) {
+        waitpid(-1, NULL, 0);
+    } else {
+        char *argv[] = {"echo", "Test", NULL};
+        execv("/bin/echo", argv);
+    }
+
+    return 0;
+}
+
+gcc -Wall -o t ex4.c
+gcc -Wall -o i i.c
+./t
+
+Saída 1:
+I am the child!
+
+Saída 2:
+Test
+
+Na primeira parte do exercício, criei um arquivo "i.c" com o printf, que é chamado
+durante a pela chamada da função execve no processo filho em "ex4.c". Funcionando conforme o esperado.
+Na segunda parte, utilizei a função execv, com o caminho "/bin/echo" para poder acessar o comando echo da shell.
+Além disso, passei como argumentos o próprio comando echo, a palavra "Test" e NULL para identificar o fim do vetor.

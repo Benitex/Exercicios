@@ -1,0 +1,61 @@
+Benito André Pepe - 2311720
+
+Para executar o código, basta compilar com gcc -Wall -o t main.c,
+e executar usando o nome do executável, a sigla do algoritmo e a
+quantidade de rodadas do escalonamento round robin. Opcionalmente,
+pode ser usado um quarto argumento para gerar os arquivos dos
+acessos dos processos, com a quantidade de acessos em cada um.
+
+Em uma comparação com 50 rodadas, esse foi o resultado dos algoritmos:
+                            NRU     SC      LRU     WS
+Page faults                 162     155     154     154
+Páginas movidas para SWAP   101     98      98      98
+
+Em uma comparação com 100 rodadas e os mesmos acessos, esses são os resultados:
+                            NRU     SC      LRU     WS
+Page faults                 336     338     331     331
+Páginas movidas para SWAP   249     256     251     251
+
+Usando outros acessos, com 50 rodadas:
+                            NRU     SC      LRU     WS
+Page faults                 157     158     153     153
+Páginas movidas para SWAP   82      91      88      88
+
+Para 100 rodadas:
+                            NRU     SC      LRU     WS
+Page faults                 338     335     328     328
+Páginas movidas para SWAP   227     227     225     225
+
+A primeira observação interessante sobre os resultados é que
+a quantidade de page faults e páginas movidas para o SWAP tanto
+em LRU quanto working set são iguais. Isso acontece porque o
+algoritmo de working set é baseado na ideia de que um programa
+tem a tendência de acessar as mesmas páginas em um curto espaço
+de tempo. Isso funciona bem para programas tradicionais, mas não
+para acessos totalmente aleatórios como é o caso dos arquivos gerados
+pelo programa. Como o critério para páginas fora do working set é
+de acordo com a mais antiga, o algoritmo acaba funcionando exatamente
+da mesma forma que LRU.
+
+Além disso, esses dois algoritmos tiveram um desempenho melhor
+em todos os casos de quantidade de page faults, mas tiveram um
+desempenho levemente inferior na quantidade de páginas que precisaram
+ser movidas para SWAP no segundo caso e no terceiro, em comparação
+com o algoritmo NRU.
+
+Os algoritmos de NRU e second chance tiveram uma leve variação de
+desempenho entre os casos de teste, com uma diferença pequena entre
+eles na quantidade de page faults e um pouco maior na quantidade de
+páginas movidas para SWAP. Depois de aumentar a quantidade de rodadas
+nos dois casos um algoritmo superou o outro.
+
+Outro ponto interessante é que o NRU identifica páginas recentemente
+escritas e tenta evitar usá-las, o que é um diferencial que os outros
+algoritmos não consideram, o que também acaba gerando um impacto nas
+operações com a SWAP. 
+
+Além disso, a tabela não inclui dados de desempenho em tempo de CPU,
+mas os algoritmos LRU e WS têm um desempenho pior nesse quesito,
+necessitando de muito mais operações que os outros dois, principalmente
+conforme o problema escala para um sistema operacional de verdade em
+vez de uma simulação como é o caso desse trabalho.

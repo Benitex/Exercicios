@@ -1,0 +1,264 @@
+1. Faça um programa que usa myallocate para 
+alocar e desalocar memória dinâmiamente.
+
+#include <stdio.h>
+#include <unistd.h>
+
+void *memorypool;
+
+void *myallocate(int n) {
+    return sbrk(n);
+}
+
+void initmemorypool(void) {
+    memorypool = sbrk(0);
+}
+
+void resetmemorypool(void) {
+    brk(memorypool);
+}
+
+int main(void) {
+    initmemorypool();
+
+    int *number = (int *) myallocate(sizeof(int));
+    *number = 42;
+    printf("Allocated number: %d\n", *number);
+    resetmemorypool();
+
+    return 0;
+}
+
+gcc -Wall -o ex1 ex1.c
+./ex1
+
+Saída:
+Allocated number: 42
+
+O programa usa as chamadas das funções definidas nos slides
+para "alocar" memória, chamando initmemorypool(), para identificar
+e armazenar o início da página usando sbrk(0), depois disso, aloca
+bytes para armazenar um inteiro, associa o valor 42 a ele e imprime.
+Por fim, chama a função resetmemorypool, que move o limite da memória
+para o endereço inicial chamado definido em initmemorypool,
+liberando a memória.
+
+2. Execute map-exemplo.c passando o nome de um 
+arquivo como parámetro. Qual foi a novidade?
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
+#include <sys/mman.h>
+
+int main(int argc, char *argv[]) {
+    struct stat sb;
+    off_t len;
+    char *p;
+    int fd;
+
+    if (argc < 2) {
+        fprintf (stderr, "usage: %s <file>\n", argv[0]);
+        exit(1);
+    }
+    fd = open (argv[1], O_RDONLY);
+    if (fd == -1) {
+        perror ("open");
+        exit(1);
+    }
+    if (fstat(fd, &sb)== -1) {
+        perror ("fstat");
+        exit(1);
+    }
+    if (!S_ISREG (sb.st_mode)) {
+        fprintf (stderr, "%s is not a file\n", argv[1]);
+        exit(1);
+    }
+
+    p = mmap (0, sb.st_size, PROT_READ, MAP_SHARED, fd, 0);
+    if (p == MAP_FAILED) {
+        perror ("mmap");
+        exit(1);
+    }
+
+    if (close (fd) == -1) {
+        perror ("close");
+        exit(1);
+    }
+
+    for (len = 0; len < sb.st_size; len++) putchar(p[len]);
+
+    if (munmap(p, sb.st_size) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    return 0;
+}
+
+gcc -Wall -o map map-exemplo.c
+./map map-exemplo.c
+
+Saída:
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
+#include <sys/mman.h>
+
+int main(int argc, char *argv[]) {
+    struct stat sb;
+    off_t len;
+    char *p;
+    int fd;
+
+    if (argc < 2) {
+        fprintf (stderr, "usage: %s <file>\n", argv[0]);
+        exit(1);
+    }
+    fd = open (argv[1], O_RDONLY);
+    if (fd == -1) {
+        perror ("open");
+        exit(1);
+    }
+    if (fstat(fd, &sb)== -1) {
+        perror ("fstat");
+        exit(1);
+    }
+    if (!S_ISREG (sb.st_mode)) {
+        fprintf (stderr, "%s is not a file\n", argv[1]);
+        exit(1);
+    }
+
+    p = mmap (0, sb.st_size, PROT_READ, MAP_SHARED, fd, 0);
+    if (p == MAP_FAILED) {
+        perror ("mmap");
+        exit(1);
+    }
+
+    if (close (fd) == -1) {
+        perror ("close");
+        exit(1);
+    }
+
+    for (len = 0; len < sb.st_size; len++) putchar(p[len]);
+
+    if (munmap(p, sb.st_size) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    return 0;
+}
+
+O resultado da saída foi o conteúdo do arquivo. O que
+aconteceu foi que o programa abriu o arquivo, mapeou o
+conteúdo para memória usando mmap e imprimiu os conteúdo
+na memória, sem precisar ler o arquivo linha a linha.
+
+3. Modifique map-exemplo.c para: 
+a. Verificar quantas páginas de memória o seu 
+arquivo precisou 
+b. Medir o quão mais rápido foi a escrita do 
+arquivo mapeado quando comparado com a 
+E/S em disco. Dica: use gettimeofday() 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h> 
+#include <sys/stat.h> 
+#include <fcntl.h> 
+#include <unistd.h> 
+#include <sys/mman.h>
+#include <sys/time.h>
+
+int main(int argc, char *argv[]) {
+    struct stat sb;
+    char *p;
+    int fd;
+
+    struct timeval start, end;
+
+    if (argc < 2) {
+        fprintf(stderr, "usage: %s <file>\n", argv[0]);
+        exit(1);
+    }
+
+    gettimeofday(&start, NULL);
+
+    fd = open(argv[1], O_RDONLY);
+    if (fd == -1) {
+        perror("open");
+        exit(1);
+    }
+    if (fstat(fd, &sb)== -1) {
+        perror("fstat");
+        exit(1);
+    }
+    if (!S_ISREG (sb.st_mode)) {
+        fprintf (stderr, "%s is not a file\n", argv[1]);
+        exit(1);
+    }
+
+    p = mmap(0, sb.st_size, PROT_READ, MAP_SHARED, fd, 0);
+    if (p == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
+
+    if (close(fd) == -1) {
+        perror("close");
+        exit(1);
+    }
+
+    int pageSize = getpagesize();
+    printf("Used %ld pages of size %d \n", sb.st_size / pageSize + 1, pageSize);
+
+    gettimeofday(&end, NULL);
+    printf("Read time with mmap: %ld microseconds\n", (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec));
+
+    gettimeofday(&start, NULL);
+
+    fd = open(argv[1], O_RDONLY);
+    char *buffer = malloc(sb.st_size);
+    read(fd, buffer, sb.st_size);
+
+    gettimeofday(&end, NULL);
+
+    printf("Read time with read: %ld microseconds\n", (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_usec - start.tv_usec));
+
+    free(buffer);
+    if (close(fd) == -1) {
+        perror("close");
+        exit(1);
+    }
+
+    // for (len = 0; len < sb.st_size; len++) putchar(p[len]);
+
+    if (munmap(p, sb.st_size) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    return 0;
+}
+
+gcc -Wall -o ex3 ex3.c
+./ex3 Lab-9-Memory.pdf
+
+Saída:
+Used 87 pages of size 4096 
+Read time with mmap: 187 microseconds
+Read time with read: 633 microseconds
+
+Para calcular quantas páginas de memória o arquivo lido usa,
+é necessário dividir o tamanho do arquivo, em bytes, pelo tamanho
+de uma página e somar 1 (mínimo). O resultado foram 87 páginas para
+o arquivo dos slides da aula. A comparação da leitura do mesmo
+arquivo usando mmap e read mostrou que mmap pode ser significativamente
+mais rápido que read. A função gettimeofday foi chamada antes e depois
+da leitura com mmap para decobrir o momento inicial e final e calcular
+a diferença. O mesmo foi feito para read, abrindo o arquivo novamente
+e alocando espaço em um buffer para armazenar os caracteres.

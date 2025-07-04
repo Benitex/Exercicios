@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define MAXFILA 8
+
+void *produtor();
+void *consumidor();
+
+int buffer[MAXFILA];
+int indiceDoProdutor = 0;
+int quantidadeDeItens = 0;
+
+pthread_cond_t podeProduzir = PTHREAD_COND_INITIALIZER;
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+int main(void) {
+    pthread_t produtorThread;
+    pthread_create(&produtorThread, NULL, produtor, NULL);
+    
+    pthread_t consumidorThread;
+    pthread_create(&consumidorThread, NULL, consumidor, NULL);
+
+    pthread_join(produtorThread, NULL);
+    pthread_join(consumidorThread, NULL);
+
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&podeProduzir);
+    return 0;
+}
+
+void *produtor() {
+    for (int i = 1; i <= 64; i++) {
+        sleep(1);
+        pthread_mutex_lock(&mutex);
+
+        while (quantidadeDeItens == MAXFILA) {
+            pthread_cond_wait(&podeProduzir, &mutex);
+        }
+
+        buffer[indiceDoProdutor] = rand() % 64 + 1;
+        printf("Produção %d: %d\n", i, buffer[indiceDoProdutor]);
+        quantidadeDeItens++;
+
+        indiceDoProdutor++;
+        if (indiceDoProdutor == MAXFILA) {
+            indiceDoProdutor = 0;
+        }
+
+        pthread_mutex_unlock(&mutex);
+    }
+
+    pthread_exit(NULL);
+}
+
+void* consumidor() {
+    for (int i = 0; i < 64; i++) {
+        sleep(2);
+        pthread_mutex_lock(&mutex);
+
+        printf("Consumo %d: %d\n", i + 1, buffer[i % MAXFILA]);
+        quantidadeDeItens--;
+        if (quantidadeDeItens <= MAXFILA - 1) {
+            pthread_cond_signal(&podeProduzir);
+        }
+
+        pthread_mutex_unlock(&mutex);
+    }
+
+    pthread_exit(NULL);
+}

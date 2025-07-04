@@ -1,0 +1,658 @@
+1) Execute o programa Corrida de Sapo algumas vezes e 
+analise os resultados sobre a ordem de chegada dos 
+sapos. Obs: compile com a opção –lpthread
+
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define NUM_THREADS      5 
+#define PULO_MAXIMO      100 
+#define DESCANSO_MAXIMO  1 
+#define DISTANCIA_PARA_CORRER 100 
+
+void *Correr(void  *sapo);
+
+static int classificacao = 1;
+static pthread_mutex_t lock;
+static char * resp[200];
+
+static int cont = 0;
+
+int main() {
+    classificacao =1;
+    pthread_t threads[NUM_THREADS];
+    int t;
+    printf("Corrida iniciada ... \n");
+    
+    for(t=0;t < NUM_THREADS;t++) pthread_create(&threads[t], NULL, Correr, (void *) t);
+    for(t=0;t < NUM_THREADS; t++) pthread_join(threads[t], NULL);
+    
+    printf("\n Acabou!!\n");
+    pthread_exit(NULL);
+}
+
+void *Correr(void  *sapo) {
+    int pulos = 0;
+    int distanciaJaCorrida = 0;
+
+    while (distanciaJaCorrida <= DISTANCIA_PARA_CORRER) { 
+        int pulo = rand() % PULO_MAXIMO; 
+        distanciaJaCorrida += pulo; 
+        pulos++; 
+        printf("Sapo %d pulou\n", (int) sapo); 
+        int descanso = rand() % DESCANSO_MAXIMO; 
+        sleep(descanso); 
+    } 
+    printf("Sapo %d  chegou na posicaoo %d com %d pulos\n", (int) sapo, classificacao, pulos);
+    cont++;
+    classificacao++;
+    pthread_exit(NULL);
+}
+
+gcc -Wall -o s corrida_de_sapo.c -lpthread
+./s
+
+Saída:
+
+Corrida iniciada ... 
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 2 pulou
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 3 pulou
+Sapo 2 pulou
+Sapo 0  chegou na posicaoo 1 com 2 pulos
+Sapo 4 pulou
+Sapo 3 pulou
+Sapo 1  chegou na posicaoo 2 com 2 pulos
+Sapo 3 pulou
+Sapo 2  chegou na posicaoo 2 com 2 pulos
+Sapo 4 pulou
+Sapo 3  chegou na posicaoo 3 com 3 pulos
+Sapo 4  chegou na posicaoo 4 com 2 pulos
+
+ Acabou!!
+
+Corrida iniciada ... 
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 2 pulou
+Sapo 0 pulou
+Sapo 3 pulou
+Sapo 4 pulou
+Sapo 3 pulou
+Sapo 1 pulou
+Sapo 3  chegou na posicaoo 1 com 2 pulos
+Sapo 1  chegou na posicaoo 2 com 2 pulos
+Sapo 0  chegou na posicaoo 1 com 2 pulos
+Sapo 2 pulou
+Sapo 4 pulou
+Sapo 2  chegou na posicaoo 4 com 2 pulos
+Sapo 4  chegou na posicaoo 4 com 2 pulos
+
+ Acabou!!
+
+O programa não funcionou corretamente em todas as tentativas,
+nesses exemplos de saída, múltiplos sapos ficaram com a
+mesma posição e em alguns casos sapos ficaram associados a
+posições incorretas. Isso aconteceu porque não foi usado mutex.
+Como os processos compartilham as variáveis globais elas podem ser
+acessadas e modificadas em sincronia, acabam acontecendo resultados
+inesperados como esses.
+
+2) Usando mutex, modifique o programa Corrida de Sampo 
+para que o problema identificado anteriormente não 
+ocorra.
+
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define NUM_THREADS      5 
+#define PULO_MAXIMO      100 
+#define DESCANSO_MAXIMO  1 
+#define DISTANCIA_PARA_CORRER 100 
+
+void *Correr(void  *sapo);
+
+static int classificacao = 1;
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+static char * resp[200];
+
+static int cont = 0;
+
+int main() {
+    classificacao =1;
+    pthread_t threads[NUM_THREADS];
+    int t;
+    printf("Corrida iniciada ... \n");
+
+    for(t=0;t < NUM_THREADS;t++) pthread_create(&threads[t], NULL, Correr, (void *) t);
+    for(t=0;t < NUM_THREADS; t++) pthread_join(threads[t], NULL);
+
+    printf("\n Acabou!!\n");
+    pthread_exit(NULL);
+    pthread_mutex_destroy(&lock);
+}
+
+void *Correr(void  *sapo) {
+    int pulos = 0;
+    int distanciaJaCorrida = 0;
+
+    while (distanciaJaCorrida <= DISTANCIA_PARA_CORRER) {
+        int pulo = rand() % PULO_MAXIMO;
+        distanciaJaCorrida += pulo;
+        pulos++;
+        printf("Sapo %d pulou\n", (int) sapo);
+        int descanso = rand() % DESCANSO_MAXIMO;
+        sleep(descanso);
+    }
+
+    pthread_mutex_lock(&lock);
+    printf("Sapo %d  chegou na posicaoo %d com %d pulos\n", (int) sapo, classificacao, pulos);
+    cont++;
+    classificacao++;
+    pthread_mutex_unlock(&lock);
+
+    pthread_exit(NULL);
+}
+
+gcc -Wall -o ex2 ex2.c -lpthread
+./ex2
+
+Saída:
+Corrida iniciada ... 
+Sapo 0 pulou
+Sapo 1 pulou
+Sapo 2 pulou
+Sapo 3 pulou
+Sapo 4 pulou
+Sapo 2 pulou
+Sapo 1 pulou
+Sapo 2 pulou
+Sapo 4 pulou
+Sapo 3 pulou
+Sapo 3  chegou na posicaoo 1 com 2 pulos
+Sapo 2 pulou
+Sapo 2  chegou na posicaoo 2 com 4 pulos
+Sapo 0 pulou
+Sapo 0 pulou
+Sapo 4 pulou
+Sapo 1  chegou na posicaoo 3 com 2 pulos
+Sapo 0  chegou na posicaoo 4 com 3 pulos
+Sapo 4  chegou na posicaoo 5 com 3 pulos
+
+ Acabou!!
+
+Para corrigir o problema, bastou inicializar a variável global
+lock com a macro PTHREAD_MUTEX_INITIALIZER, destruir o mutex no
+final da main com pthread_mutex_destroy(&lock) e, o mais importante,
+modificar a função Correr, adicionando um pthread_mutex_lock antes de
+acessar e modificar as variáveis globais cont e classificacao. Assim,
+as duas variáveis ficam protegidas de modificações simultêneas
+durante a execução das threads.
+
+3) Usando threads, escreva um programa C que implemente o 
+problema do produtor/consumidor. O produtor deve produzir 
+dados (números inteiros pseudo-aleatórios) a cada 1 segundo 
+colocando-os em uma fila (buffer, implementação circular). O 
+consumidor deve retirar dados da fila a cada 2 segundos. O
+tamanho máximo da fila deve ser de 8 elementos (MAXFILA) e 
+tanto o produtor como o consumidor devem produzir/consumir 
+64 elementos (números inteiros de 1 a 64, por exemplo) 
+evitando condições de corrida. Variáveis compartilhadas entre 
+threads são simplesmente variáveis globais.
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define MAXFILA 8
+
+void *produtor();
+void *consumidor();
+
+int buffer[MAXFILA];
+int indiceDoProdutor = 0;
+int quantidadeDeItens = 0;
+
+pthread_cond_t podeProduzir = PTHREAD_COND_INITIALIZER;
+pthread_cond_t podeConsumir = PTHREAD_COND_INITIALIZER;
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+int main(void) {
+    pthread_t produtorThread;
+    pthread_create(&produtorThread, NULL, produtor, NULL);
+    
+    pthread_t consumidorThread;
+    pthread_create(&consumidorThread, NULL, consumidor, NULL);
+
+    pthread_join(produtorThread, NULL);
+    pthread_join(consumidorThread, NULL);
+
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&podeProduzir);
+    pthread_cond_destroy(&podeConsumir);
+    return 0;
+}
+
+void *produtor() {
+    for (int i = 1; i <= 64; i++) {
+        sleep(1);
+        pthread_mutex_lock(&mutex);
+
+        while (quantidadeDeItens == MAXFILA) {
+            pthread_cond_wait(&podeProduzir, &mutex);
+        }
+
+        buffer[indiceDoProdutor] = rand() % 64 + 1;
+        printf("Produção %d: %d\n", i, buffer[indiceDoProdutor]);
+        quantidadeDeItens++;
+        if (quantidadeDeItens == 1) {
+            pthread_cond_signal(&podeConsumir);
+        }
+
+        indiceDoProdutor++;
+        if (indiceDoProdutor == MAXFILA) {
+            indiceDoProdutor = 0;
+        }
+
+        pthread_mutex_unlock(&mutex);
+    }
+
+    pthread_exit(NULL);
+}
+
+void* consumidor() {
+    for (int i = 0; i < 64; i++) {
+        sleep(2);
+        pthread_mutex_lock(&mutex);
+
+        printf("Consumo %d: %d\n", i + 1, buffer[i % MAXFILA]);
+        quantidadeDeItens--;
+        if (quantidadeDeItens <= MAXFILA - 1) {
+            pthread_cond_signal(&podeProduzir);
+        }
+
+        pthread_mutex_unlock(&mutex);
+    }
+
+    pthread_exit(NULL);
+}
+
+gcc -Wall -o ex3 ex3.c -lpthread
+./ex3
+
+Saída:
+Produção 1: 40
+Produção 2: 7
+Consumo 1: 40
+Produção 3: 42
+Consumo 2: 7
+Produção 4: 52
+Produção 5: 18
+Consumo 3: 42
+Produção 6: 64
+Produção 7: 11
+Consumo 4: 52
+Produção 8: 45
+Produção 9: 42
+Consumo 5: 18
+Produção 10: 14
+Produção 11: 59
+Consumo 6: 64
+Produção 12: 44
+Produção 13: 51
+Consumo 7: 11
+Produção 14: 60
+Produção 15: 36
+Consumo 8: 45
+Produção 16: 7
+Consumo 9: 42
+Produção 17: 61
+Consumo 10: 14
+Produção 18: 3
+Consumo 11: 59
+Produção 19: 21
+Consumo 12: 44
+Produção 20: 57
+Consumo 13: 51
+Produção 21: 28
+Consumo 14: 60
+Produção 22: 41
+Consumo 15: 36
+Produção 23: 40
+Consumo 16: 7
+Produção 24: 14
+Consumo 17: 61
+Produção 25: 55
+Consumo 18: 3
+Produção 26: 27
+Consumo 19: 21
+Produção 27: 47
+Consumo 20: 57
+Produção 28: 36
+Consumo 21: 28
+Produção 29: 52
+Consumo 22: 41
+Produção 30: 32
+Consumo 23: 40
+Produção 31: 10
+Consumo 24: 14
+Produção 32: 27
+Consumo 25: 55
+Produção 33: 39
+Consumo 26: 27
+Produção 34: 51
+Consumo 27: 47
+Produção 35: 14
+Consumo 28: 36
+Produção 36: 56
+Consumo 29: 52
+Produção 37: 50
+Consumo 30: 32
+Produção 38: 25
+Consumo 31: 10
+Produção 39: 36
+Consumo 32: 27
+Produção 40: 27
+Consumo 33: 39
+Produção 41: 38
+Consumo 34: 51
+Produção 42: 30
+Consumo 35: 14
+Produção 43: 6
+Consumo 36: 56
+Produção 44: 24
+Consumo 37: 50
+Produção 45: 25
+Consumo 38: 25
+Produção 46: 42
+Consumo 39: 36
+Produção 47: 31
+Consumo 40: 27
+Produção 48: 21
+Consumo 41: 38
+Produção 49: 44
+Consumo 42: 30
+Produção 50: 51
+Consumo 43: 6
+Produção 51: 14
+Consumo 44: 24
+Produção 52: 7
+Consumo 45: 25
+Produção 53: 28
+Consumo 46: 42
+Produção 54: 53
+Consumo 47: 31
+Produção 55: 21
+Consumo 48: 21
+Produção 56: 18
+Consumo 49: 44
+Produção 57: 15
+Consumo 50: 51
+Produção 58: 3
+Consumo 51: 14
+Produção 59: 53
+Consumo 52: 7
+Produção 60: 2
+Consumo 53: 28
+Produção 61: 34
+Consumo 54: 53
+Produção 62: 62
+Consumo 55: 21
+Produção 63: 29
+Consumo 56: 18
+Produção 64: 8
+Consumo 57: 15
+Consumo 58: 3
+Consumo 59: 53
+Consumo 60: 2
+Consumo 61: 34
+Consumo 62: 62
+Consumo 63: 29
+Consumo 64: 8
+
+O programa cria duas threads, uma para o produtor e outra para
+o consumidor. Usa uma variável global para o buffer, uma para definir
+o índice do produtor e uma para contar a quantidade de itens no buffer.
+A função do produtor começa com uma condição de pausa para caso já tenha
+produzido o máximo possível. Se não, coloca mais um número no buffer no
+seu índice de produção e aumenta ele em 1 (voltando para o início se
+necessário). A função consumidor lê o índice do buffer com o resto do
+índice pela quantidade de elementos máxima, e reduz a quantidade de items
+no buffer, para que o produtor possa voltar a produzir. Em seguida, também
+avisa que a thread pode continuar.
+
+4) Modifique o programa anterior, para que haja 2 (ou mais) 
+threads consumidor e 2 (ou mais) threads produtor. O que muda 
+em relação ao uso do mutex e da variável de condição?
+
+#include <stdio.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define MAXFILA 8
+#define NUMERO_DE_THREADS 2
+
+void *produtor();
+void *consumidor();
+
+int buffer[MAXFILA];
+int indiceDoProdutor = 0;
+int indiceDoConsumidor = 0;
+int quantidadeDeItens = 0;
+
+pthread_cond_t podeProduzir = PTHREAD_COND_INITIALIZER;
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+int main(void) {
+    pthread_t produtorThread[NUMERO_DE_THREADS];
+    pthread_t consumidorThread[NUMERO_DE_THREADS];
+
+    for (int i = 0; i < NUMERO_DE_THREADS; i++) {
+        pthread_create(&produtorThread[i], NULL, produtor, NULL);
+        pthread_create(&consumidorThread[i], NULL, consumidor, NULL);
+    }
+
+    for (int i = 0; i < NUMERO_DE_THREADS; i++) {
+        pthread_join(produtorThread[i], NULL);
+        pthread_join(consumidorThread[i], NULL);
+    }
+
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&podeProduzir);
+    return 0;
+}
+
+void *produtor() {
+    for (int i = 1; i <= 64 / NUMERO_DE_THREADS; i++) {
+        sleep(1);
+        pthread_mutex_lock(&mutex);
+
+        while (quantidadeDeItens == MAXFILA) {
+            pthread_cond_wait(&podeProduzir, &mutex);
+        }
+
+        buffer[indiceDoProdutor] = rand() % 64 + 1;
+        printf("Produção: %d\n", buffer[indiceDoProdutor]);
+        quantidadeDeItens++;
+
+        indiceDoProdutor++;
+        if (indiceDoProdutor == MAXFILA) {
+            indiceDoProdutor = 0;
+        }
+
+        pthread_mutex_unlock(&mutex);
+    }
+
+    pthread_exit(NULL);
+}
+
+void* consumidor() {
+    for (int i = 0; i < 64 / NUMERO_DE_THREADS; i++) {
+        sleep(2);
+        pthread_mutex_lock(&mutex);
+
+        int indice = indiceDoConsumidor % MAXFILA;
+        printf("Consumo %d: %d\n", indiceDoConsumidor, buffer[indice]);
+        indiceDoConsumidor++;
+        quantidadeDeItens--;
+        if (quantidadeDeItens <= MAXFILA - 1) {
+            pthread_cond_signal(&podeProduzir);
+        }
+
+        pthread_mutex_unlock(&mutex);
+    }
+
+    pthread_exit(NULL);
+}
+
+gcc -Wall -o ex4 ex4.c -lpthread
+./ex4
+
+Saída:
+
+Produção: 40
+Produção: 7
+Consumo 0: 40
+Consumo 1: 7
+Produção: 42
+Produção: 52
+Produção: 18
+Produção: 64
+Consumo 2: 42
+Consumo 3: 52
+Produção: 11
+Produção: 45
+Produção: 42
+Produção: 14
+Consumo 4: 18
+Consumo 5: 64
+Produção: 59
+Produção: 44
+Produção: 51
+Produção: 60
+Consumo 6: 11
+Consumo 7: 45
+Produção: 36
+Produção: 7
+Consumo 8: 42
+Produção: 61
+Consumo 9: 14
+Produção: 3
+Consumo 10: 59
+Consumo 11: 44
+Produção: 21
+Produção: 57
+Consumo 12: 51
+Consumo 13: 60
+Produção: 28
+Produção: 41
+Consumo 14: 36
+Consumo 15: 7
+Produção: 40
+Produção: 14
+Consumo 16: 61
+Produção: 55
+Consumo 17: 3
+Produção: 27
+Consumo 18: 21
+Produção: 47
+Consumo 19: 57
+Produção: 36
+Consumo 20: 28
+Consumo 21: 41
+Produção: 52
+Produção: 32
+Consumo 22: 40
+Produção: 10
+Consumo 23: 14
+Produção: 27
+Consumo 24: 55
+Produção: 39
+Consumo 25: 27
+Produção: 51
+Consumo 26: 47
+Consumo 27: 36
+Produção: 14
+Produção: 56
+Consumo 28: 52
+Consumo 29: 32
+Produção: 50
+Produção: 25
+Consumo 30: 10
+Consumo 31: 27
+Produção: 36
+Produção: 27
+Consumo 32: 39
+Consumo 33: 51
+Produção: 38
+Produção: 30
+Consumo 34: 14
+Produção: 6
+Consumo 35: 56
+Produção: 24
+Consumo 36: 50
+Consumo 37: 25
+Produção: 25
+Produção: 42
+Consumo 38: 36
+Consumo 39: 27
+Produção: 31
+Produção: 21
+Consumo 40: 38
+Consumo 41: 30
+Produção: 44
+Produção: 51
+Consumo 42: 6
+Consumo 43: 24
+Produção: 14
+Produção: 7
+Consumo 44: 25
+Consumo 45: 42
+Produção: 28
+Produção: 53
+Consumo 46: 31
+Produção: 21
+Consumo 47: 21
+Produção: 18
+Consumo 48: 44
+Consumo 49: 51
+Produção: 15
+Produção: 3
+Consumo 50: 14
+Consumo 51: 7
+Produção: 53
+Produção: 2
+Consumo 52: 28
+Consumo 53: 53
+Produção: 34
+Produção: 62
+Consumo 54: 21
+Consumo 55: 18
+Produção: 29
+Produção: 8
+Consumo 56: 15
+Consumo 57: 3
+Consumo 58: 53
+Consumo 59: 2
+Consumo 60: 34
+Consumo 61: 62
+Consumo 62: 29
+Consumo 63: 8
+
+Não é necessário fazer nenhuma modificação relacionada
+ao uso de mutex, porque as variáveis globais continuam
+precisando ser protegidas, também não foi necessário
+modificar ou adicionar novas variáveis de condição. A
+única modificação relevante que foi necessária (além de
+criar as threads) foi disponibilizar globalmente o índice
+do consumidor para que o outro processo pudesse continuar
+de onde o anterior parou e diminuir a quantidade de iterações
+dos loops para dividir as operações entre as threads.
