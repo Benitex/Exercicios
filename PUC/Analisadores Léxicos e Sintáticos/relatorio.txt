@@ -1,0 +1,129 @@
+Benito André Pepe - 2311720
+
+Versão final da gramática:
+
+PROGRAM → DEVICES CMDS
+DEVICES → DEVICE DEVICES | DEVICE
+DEVICE → dispositivo : {namedevice}
+DEVICE → dispositivo : {namedevice, OBSERVATIONS}
+OBSERVATIONS → observation | observation, OBSERVATIONS
+CMDS → CMD. CMDS | CMD.
+CMD → ATTRIB | OBSACT | ACT
+ATTRIB → set observation = VAR
+VAR → num bool
+OBSACT → se OBS entao ACT
+OBSACT → se OBS entao ACT senao ACT
+OBS → observation
+OBS → observation oplogic VAR
+OBS → observation && OBS
+OBS → observation oplogic VAR && OBS
+ACT → ACTION namedevice
+ACTION → ligar | desligar
+ACT → ALERT) namedevice
+ACT → ALERT, observation) namedevice
+ACT → ALERT) para todos: NAMEDEVICES
+ACT → ALERT, observation) para todos: NAMEDEVICES
+ALERT → enviar alerta (msg
+NAMEDEVICES → namedevice, namedevice | namedevice, NAMEDEVICES
+
+As modificações feitas foram:
+
+* Adicionei a possibilidade de criar várias observações para um dispositivo na mesma linha
+separando por vírgulas (regra OBSERVATIONS)
+* Adicionei a possibilidade de fazer comentários de uma linha usando --
+(não faz parte da gramática formal)
+* Adicionei a regra OBS → observation para criar condicionais com variáveis booleanas
+ex: if (isTrue) print()
+* Para adicionar a função de enviar alerta para vários dispositivos, criei o não terminal
+NAMEDEVICES, e novas regras ACT para as duas variações de enviar alerta (com e sem observação)
+* Fatorei a regra ACT, criando a regra ALERT com a parte que se repete em todas (menos nas de
+ligar e desligar).
+
+Além disso, no parser em si algumas regras tem o nome diferente, mas deixei o
+nome original aqui para ficar mais reconhecível em relação ao original.
+observation virou sensor_name, que é uma regra que identifica strings com e sem
+números, ATTRIB virou attribute, OBS virou condition e OBSACT conditional.
+Como o padrão do sly é deixar terminais em letras maiúsculas e não terminais
+em letras minúsculas, o padrão ficou invertido da gramática.
+
+Além disso, dei preferência ao padrão da gramática definida no tópico 1.1
+em detrimento dos exemplos definidos no tópico 1.2. Vários desses exemplos
+não seguiam a gramática definida e tinham construções sintáticas diferentes.
+Alguns exemplos são alert sem parênteses, falta de ponto final no fim do comando,
+condicionais sem comando e com condições usando nomes de dispositivos em vez de
+observações e definições de dispositivo sem : antes do {. Considerei que esses
+seriam erros e não características da gramática.
+
+Como executar o código:
+
+O código do analisador foi desenvolvido em python, usando a biblioteca sly.
+É necessário instalar o python e a biblioteca para executar. Além disso,
+o código é gerado na linguagem dart e pode ser facilmente executado no
+ambiente online oficial https://dartpad.dev/, ou instalando a linguagem
+com o Chocolatey, conforme é explicado na documentação oficial:
+https://dart.dev/tutorials/server/get-started
+Para executar o arquivo dart, pode ser usada alguma interface de IDE ou o comando
+dart run file.dart
+
+Implementação:
+
+O programa é estruturado em quatro arquivos: lexer.py, parser.py, obsact_to_dart_compiler.py, main.py.
+Além disso, foi definido o arquivo core.dart que contém a implementação das funções
+definidas na seção 1.3 do pdf do trabalho.
+
+lexer.py
+A classe ObsActLexer faz a análise léxica da linguagem, nela são definidos todos os
+não terminais usados no parser, suando strings e expressões regulares. O set literals
+define não terminais de um único caractere. As funções INT, BOOL e STRING identificam
+esses tipos e convertem para seus respectivos valores.
+Aqui também é definida a regra para comentários com --.
+
+parser.py
+A classe ObsActParser é responsável por definir as regras da gramática usando o annotation
+@_("regra") e criar uma árvore sintática a partir das regras definidas, através do retorno
+das funções. No fim das contas uma chamada parser.parse returna um dict com uma chave devices
+com uma lista de nomes de dispositivos e sensores e uma chave commands com os comandos definidos,
+cada um tem sua estrutura baseada em tuplas, sendo que o primeiro índice identifica o tipo do comando
+e os índices posteriores trazem informações importantes para conversão do transpilador.
+
+obsact_to_dart_transpiler.py
+A classe ObsActToDartTranspiler é o que realmente cria o arquivo .dart da linguagem
+convertida. Ela tem um método export_file que lê um caminho para um arquivo de código fonte,
+obsact converte o conteúdo para dart e escreve em um caminho para outro arquivo.
+O método transpile retorna uma string contendo o conteúdo da conversão. Ele inclui o
+core definido em core.dart e a estrutura básica do programa, depois recebe a árvore
+sintática do parser e começa a ler e converter cada sensor para uma variável dinâmica.
+Ele também armazena os nomes dos dispositivos em uma lista e os nomes e tipos dos sensores
+em um dict. Essas duas estruturas de dados são usadas ao longo da conversão dos comandos
+para fazer uma análise semantica básica e reportar erros. Depois de definir as variáveis,
+o método passa para parte de converter comandos, que é feita pelo método __get_code_for_command.
+Esse método lê o primeiro índice da tupla de um comando para identificar o seu tipo e escreve
+o código em dart usando as informações dos outros índices.
+O método __get_code_for_conditions formata as condições para o formato de dart e faz
+algumas análises semanticas para identificar erros de tipo.
+
+main.py
+Contém a execução dos arquivos de teste em um array de tuplas com os caminhos para
+os arquivos. Esse arquivo simplesmente exporta os arquivos do primeiro indice das
+tuplas para o caminho do segundo usando o método export_file do transpiler.
+
+Testes:
+
+Foram feitos os seguintes cenários de teste (alguns representando mais de um caso de teste):
+
+* Definição de dispositivo sem sensores e função de desligar.
+* Definição de dispositivo com um sensor, atribuindo um valor inteiro ao sensor.
+* Envio de alerta sem sensor para um dispositivo.
+* Envio de alerta com sensor para um dispositivo.
+* Criação de dois dispositivos com envio de alerta para ambos.
+* Criação de três dispositivos com envio de alerta para todos. (representado 3 ou mais)
+* Condicional de comparação de int.
+* Condicional de comparação um sensor booleano.
+* Condicional com duas comparações de valores inteiros com &&.
+* Condicional com sensor com valor booleano e uma comparação de inteiros (nas duas ordens).
+* Condicional com três comparações de inteiros e sensores.
+* Condicional com comparação com dois sensores booleanos (representando 2 ou mais).
+* Condicional com comparação entre um operador e um valor booleano.
+* Condicional com comparação entre um valor inteiro e um booleano.
+
+* Todos os casos de erros dos exemplos originais, descritos na seção acima.
