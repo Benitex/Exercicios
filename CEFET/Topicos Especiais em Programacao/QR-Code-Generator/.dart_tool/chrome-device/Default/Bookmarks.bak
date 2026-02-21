@@ -1,0 +1,90 @@
+{
+   "checksum": "cea993a919ba06ac926fc08f34b71afe",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13296917515364942",
+            "date_last_used": "0",
+            "guid": "081519de-f003-4a46-a1dd-eb1c0da5c860",
+            "id": "8",
+            "name": "WhatsApp",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://web.whatsapp.com/"
+         }, {
+            "date_added": "13255193837459469",
+            "date_last_used": "0",
+            "guid": "f68dc74b-0b5e-49ba-8174-0a6c8d808f4b",
+            "id": "9",
+            "name": "Reddit",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.reddit.com/"
+         }, {
+            "date_added": "13050366506475875",
+            "date_last_used": "0",
+            "guid": "f606e1c1-267f-4d69-aea5-9c996352945a",
+            "id": "10",
+            "name": "Yahoo Mail",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://mail.yahoo.com/d/folders/1?.intl=br&.lang=pt-BR&.partner=none&.src=fp"
+         }, {
+            "date_added": "13232563778630945",
+            "date_last_used": "0",
+            "guid": "2899e86e-e8e4-425c-984f-f85a8d3914f5",
+            "id": "11",
+            "name": "OneDrive",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://onedrive.live.com/?id=root&cid=21D8AEFF613B650E"
+         } ],
+         "date_added": "13348724669355534",
+         "date_last_used": "0",
+         "date_modified": "13296917515364942",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Barra de favoritos",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [ {
+            "date_added": "13253587500955213",
+            "date_last_used": "0",
+            "guid": "b8cbf70d-ad3b-4292-b696-706fb33aff8b",
+            "id": "7",
+            "name": "Zip code switch",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.google.com.br/search?client=ms-android-samsung&ei=vXuiW73TDsi7wATKn4m4Dg&ins=true&q=zip+code+dover+delaware&oq=zip+code+dover+dela&gs_l=mobile-gws-wiz-serp.1.0.0i19j0i22i30i19l3j33i22i29i30.56796.58018..59350...0.0..1.972.2972.2-1j0j1j1j2......0....1.C-41VW68zXs"
+         } ],
+         "date_added": "13348724669355536",
+         "date_last_used": "0",
+         "date_modified": "13253587500955213",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Outros favoritos",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13348724669355551",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Favoritos do celular",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CkEKHgiIgQISCBE/Q82MAQAAKg4QABgBIAYoBjAAOABAABIAIAEqGFo2RVowNnBYWUlzdk5ZUmRpQVYvSUE9PaAGDBKoAQgKEqMBChxZUUhlcE0vVElNaGtlbWdSMEllbTF1SG40cjQ9EiQzMzcxNTMzZi0wN2U1LTQ1NDgtOWM4Ny04ZGY4OTY0MjQ1ZjUYACACKAIwgL+f6swxOPjt9ar4L0C2gZ/qzDFKHFY1VmlMRDNpSi84RGFwUzlSVU9zQ0VyM3Q5cz1aHyId93lBK0dtcTNxNVlsMTlVb0hUVVI5aVhCNjNtdz1lQ2SloRKJAQgBEoQBChx5eEovNmZ2a2VjcjdrcDVFUXpCNHRXTHBkYkU9EiQ4MThlZmNmMS05ZmYyLTU3NTktOTg1ZS0xNDUxNWIxYzIwMTIYACAAKAAwlfO6l7EwOJ2B86r4L0CdgfOq+C9KHGFSQ1dMZ2hGOWI1SW5xS0lEdnVKL2p2UWtGYz1aAGUAAAAAEqgBCAgSowEKHEtjWkJHTHVUb0gzbnhzdU1pTWV2UUJKd2RnWT0SJDA4MTUxOWRlLWYwMDMtNGE0Ni1hMWRkLWViMWMwZGE1Yzg2MBgAIAIoAjD/vp/qzDE4kN3U6oswQLWBn+rMMUocQlJZTm5GV0ZrdjFXL2V6S0lVUTJzWWtoYUtvPVofIh2bWXRZV1pTT2x5WVRNUFQ3cHdVR1hmNXdSNnE0PWWnilvoEqgBCAkSowEKHEVta1VOOXFzSEVoUncrRzNrQlZBdzhOSEZNWT0SJDQ1OWQ2MTBhLWJkOTYtNGQ0Yi1iYmJjLTI0YTEzYjBmNmIxNRgAIAIoAjD+vp/qzDE44ur1qvgvQLWBn+rMMUocbkkzNUYvTmZ2YThMb3k5TVdpemxlMEtxdUhJPVofIh2+TzJ6L3luMzhWT2VGbHpYVUxYZ2JpRlc2VjljPWXgLxNbEqcBCAcSogEKHGFCMmxncVZuc0xKYkl4N3JiTzVnUkEwRDFScz0SJDVmODdhM2VhLTc0YjMtNDRkZS05NjU2LTZiNTFmMjM3OTZiMBgAIAAoADDA46y16i44yYzzqvgvQMmM86r4L0ocdUtJNVlPNmdWOXBCK0NENTJKaFI5eVV1Y1EwPVoeIhxvRGU3eEtpU0cxTVpMZkg4OU9aSDBITGVzTkE9ZRAw/+QSqAEICxKjAQocaDV6KzZDV2tSVnBjek1ydktSRXcrTEh6R2dNPRIkNDhjZTRmYjAtYTE1OS00NWRjLWJjMTItZmNmMGE3NWRmOWJkGAAgACgAMMCy7OqLMDjgqvOq+C9A4KrzqvgvShxtMTVnTXdPVmhiS0g2TkZDb2Urc3hTanhUcjA9Wh8iHftndWFSZ2RhRXBQWmJEOVJRZThhSGthVXAvczg9ZZtbpScSiQEIAhKEAQocWWNTVG9udkVTUHdxQ3M0TDJjclZodjY4TDk4PRIkMzhiYzg3NzQtNGRmZS01YTU3LTk5MjEtZDEzOWU3YzRhNTY2GAAgACgAMJXzupexMDisgfOq+C9ArIHzqvgvShxvUFZraHdCUmJWNjVLQ1dSMitJT05IV29PdTg9WgBlAAAAABKJAQgDEoQBChxuamdEdTg4ZUNydlhwODZwRDdmSEdjcUZwODg9EiQ5ODZkZTJmMC0zNjQwLTVhMGUtYTM1NS1lNGQxMmRlOTJiM2MYACAAKAAwlfO6l7EwOPqB86r4L0D6gfOq+C9KHHl6TkIwMWNuNTRBN2NSVTB1VCsvUGdtVHRVbz1aAGUAAAAAMAA4AA==",
+   "version": 1
+}

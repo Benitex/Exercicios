@@ -1,3 +1,6 @@
 [submodule "PUC/IA-t4-desafio-final-alexandre-benito-ricardo"]
 	path = PUC/IA-t4-desafio-final-alexandre-benito-ricardo
 	url = https://github.com/Professor-Augusto-Baffa/t4-desafio-final-alexandre-benito-ricardo.git
+[submodule "CEFET/Maraca Map - Projeto Final"]
+	path = CEFET/Maraca Map - Projeto Final
+	url = https://github.com/Benitex/Maraca-Map.git
